@@ -87,6 +87,14 @@ object FSTEClientes: TFSTEClientes
           FieldName = 'Refer'
           Width = 164
           Visible = True
+        end
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'DtCompra'
+          Title.Alignment = taRightJustify
+          Title.Caption = 'Ult Compra'
+          Visible = True
         end>
     end
     object PanManut: TPanel
@@ -570,7 +578,7 @@ object FSTEClientes: TFSTEClientes
       TabOrder = 4
     end
     object cbOrdem: TComboBox
-      Left = 279
+      Left = 284
       Top = 16
       Width = 157
       Height = 24
@@ -580,8 +588,10 @@ object FSTEClientes: TFSTEClientes
       Items.Strings = (
         'Sequencial'
         'Telefone'
-        'Alfabetica'
-        'Endereco')
+        'Nome'
+        'Endereco'
+        'Nome/Endere'#231'o'
+        'Ultima compra')
     end
     object edLocaliz: TEdit
       Left = 447

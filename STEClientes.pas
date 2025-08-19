@@ -152,26 +152,16 @@ begin
 end;
 
 procedure TFSTEClientes.cbOrdemChange(Sender: TObject);
-var kSeq: Integer;
-    kFone,kNome: String;
 begin
   with FSTEPrincipal do
   begin
-    kSeq := ClientesSeq.AsInteger;
-    kFone := ClientesChave.AsString;
-    kNome := ClientesNome.AsString;
     case cbOrdem.ItemIndex of
       1:Clientes.IndexName := 'Fone';
       2:Clientes.IndexName := 'Alfabetica';
-      3:Clientes.IndexName := 'Adress';
+      3:Clientes.IndexName := 'Address';
+      4:Clientes.IndexName := 'AlfaEnder';
+      5:Clientes.IndexName := 'UltCompra';
       else Clientes.IndexName := '';
-    end;
-    Clientes.First;
-    case cbOrdem.ItemIndex of
-      1:Clientes.FindNearest([kFone,kSeq]);
-      2:Clientes.FindNearest([kNome,kFone]);
-      3:Clientes.FindNearest([kNome,kFone]);
-      else Clientes.FindNearest([kSeq]);
     end;
     edLocaliz.Text := '';
     if cbOrdem.ItemIndex = 0 then
@@ -179,7 +169,7 @@ begin
     else
       edLocaliz.Enabled := True;
     LabLocaliz.Enabled := edLocaliz.Enabled;
-
+    Clientes.First;
   end;
 
 end;
@@ -229,10 +219,29 @@ begin
 end;
 
 procedure TFSTEClientes.edLocalizChange(Sender: TObject);
+var xData: TDateTime;
+    lAcessa: Boolean;
 begin
-  if (edLocaliz.Text = '') or (cbOrdem.ItemIndex = 0) then
+  if edLocaliz.Text = '' then
+  begin
+    FSTEPrincipal.Clientes.First;
     Exit;
-  FSTEPrincipal.Clientes.FindNearest([Trim(EdLocaliz.Text),'']);
+  end;
+  if cbOrdem.ItemIndex = 5 then    // Por data
+  begin
+    Try
+      xData := StrToDate(edLocaliz.Text);
+      lAcessa := True;
+    Except
+      xData := Date;
+      lAcessa := False;
+    End;
+    if lAcessa then
+      FSTEPrincipal.Clientes.FindNearest([xData,'']);
+    Exit;
+  end;
+  // Demais indices
+  FSTEPrincipal.Clientes.FindNearest([Trim(edLocaliz.Text),'']);
 
 end;
 
@@ -298,7 +307,7 @@ begin
     FSTEClientes.Width := 800;
   if FSTEClientes.Height < 440 then
     FSTEClientes.Height := 440;
-  GridClientes := DefineGrid(GridClientes,[0.10, 0.15, 0.33, 0.15, 0.33], 2, 4);
+  GridClientes := DefineGrid(GridClientes,[0.10, 0.15, 0.33, 0.15, 0.33, 0.10], 2, 4);
 
 end;
 
