@@ -8,6 +8,7 @@ uses
   Data.DB, Datasnap.DBClient, Vcl.Buttons, Vcl.Mask, Vcl.DBCtrls, Vcl.Samples.Gauges,
   Vcl.ComCtrls, Vcl.Grids, Vcl.DBGrids, Datasnap.Provider, MidasLib, System.UITypes;
   Function CarregaPedidos(pmtPeds:String; pmtLcts:String; pmtDiaAtual:Boolean; pmtExibe:Boolean=True): Boolean;
+  Procedure ObtemCamposArqTexto(pmtLinha:String; pmtResult:TStringList; pmtMinimo:Integer);
 
 type
   TFSTEPrincipal = class(TForm)
@@ -247,18 +248,21 @@ type
     procedure dbLkEntregaKeyPress(Sender: TObject; var Key: Char);
     procedure dbLkEntregaExit(Sender: TObject);
     procedure dbFoneDblClick(Sender: TObject);
+    procedure dbObs1Exit(Sender: TObject);
+    procedure Image2MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
   private
     { Private declarations }
   public
     { Public declarations }
     ultCliente,ultProduto,ultPedido: Integer;
-    idUsuario,idLograd,idNro,idCompl,idBairro,idCidade,idUF: String;
+    idUsuario,idLograd,idNro,idCompl,idBairro,idCidade,idUF,idInterno: String;
     idFone,idWhats: String;
-    lSalvaForm,lCargaXML,lDesenv,lPrItemSN,lInfCPF: Boolean;
+    lSalvaForm,lCargaXML,lDesenv,lPrItemSN,lInfCPF,lSemNome,lSemEnder: Boolean;
     lManutClientes,lConsTurno,lMdEntrega,lValEntrega: Boolean;
     mesesConsulta: Integer;
     pathSalvaForm,pathDados: String;
-    hrIniNoite,mpPadrao: Integer;
+    hrIniNoite,mpPadrao,nConsClie: Integer;
     dtAtual: String;
     tbClie,tbOldClie,tbProd,tbPeds,tbLcts: String;
     tbAllPeds,tbAllLcts: String;
@@ -266,8 +270,8 @@ type
     LogoInit,LogoImpres: String;
     tmpProds: String;
     idPrinter: String;
-    tmMax,margEsq,margDir,margTop,margBot,copias: Integer;
-    lPreview,lDialog,lPrevCons: Boolean;
+    tmMax,margEsq,margDir,margTop,margBot,copias,copInterno,tempEspera: Integer;
+    lPreview,lDialog,lPrevCons,lImpInterno: Boolean;
     pixelHor,altExtra: Integer;
     keyUsuar: String;
     ddCheck: Integer;
@@ -281,30 +285,32 @@ var
   lTeclaDown: Boolean;
   fTime: Boolean;
   nroPed: Integer;
-  xInfo: array[0..19] of String;
+  //xInfo: array[0..19] of String;
+  qtdLctos: Integer;
+  lUtilizar: Boolean;
+
 
 implementation
 
 {$R *.dfm}
 
-uses uGenericas, STEProdutos, STEClientes, STEImpressao, STEConsTurno;
+uses uGenericas, STEProdutos, STEClientes, STEImpressao, STEConsTurno,
+  STEConsCliente, STEConfigurar;
 
-Procedure ObtemCamposArqTexto(pmtLinha:String);
+Procedure ObtemCamposArqTexto(pmtLinha:String; pmtResult:TStringList; pmtMinimo:Integer);
 var xLinha: String;
     nP,nOcorr: Integer;
 begin
-  for nOcorr := 0 to 19 do
-    xInfo[nOcorr] := '';
   xLinha := pmtLinha + '|';
-  nOcorr := 0;
   nP := Pos('|',xLinha);
   while nP > 0 do
   begin
-    xInfo[nOcorr] := Copy(xLinha,1,nP-1);
+    pmtResult.Add(Copy(xLinha,1,nP-1));
     xLinha := Copy(xLinha,np+1,Length(xLinha)-nP);
     nP := Pos('|',xLinha);
-    nOcorr := nOcorr + 1;
   end;
+  while pmtResult.Count < pmtMinimo do
+    pmtResult.Add('0');
 
 end;
 
@@ -346,139 +352,6 @@ begin
 end;
 
 
-Procedure Configuracao;
-var wIniFile: TIniFile;
-    sysIniFile: String;
-    Hr,Mi,Se,Ms: Word;
-begin
-  sysIniFile := ChangeFileExt(ParamStr(0), '.ini');
-  wIniFile := TIniFile.Create(sysIniFile);
-  FSTEPrincipal.dtAtual := DataString(Date,6);
-  if not FileExists(sysIniFile) then
-  begin
-    wIniFile.WriteString('Usuario', 'Usuario',        'Lanches & Lanches');
-    wIniFile.WriteString('Usuario', 'Logradouro',     'R.Exemplo');
-    wIniFile.WriteString('Usuario', 'Numero',         '1234');
-    wIniFile.WriteString('Usuario', 'Complemento',    'Cjto 1');
-    wIniFile.WriteString('Usuario', 'Bairro',         'Centro');
-    wIniFile.WriteString('Usuario', 'Cidade',         'Nome da cidade');
-    wIniFile.WriteString('Usuario', 'UF',             'UF');
-    wIniFile.WriteString('Usuario', 'Fone',           '(xx)99234-5678');
-    wIniFile.WriteString('Usuario', 'Whats',          '(xx)9234-5678');
-
-    wIniFile.WriteString ('Config', 'ChaveUsuario',   'Aa');
-    wIniFile.WriteInteger('Config', 'CheckDias',      15);
-    wIniFile.WriteBool   ('Config', 'SalvaTelas',     False);
-    wIniFile.WriteString ('Config', 'PathSalvaTelas', 'C:\NAO_EXISTE_MESMO');
-    wIniFile.WriteString ('Config', 'HrInicioNoite',  '17');
-    wIniFile.WriteString ('Config', 'LogoInicial',    '');
-    wIniFile.WriteString ('Config', 'LogoImpressao',  '');
-    wIniFile.WriteBool   ('Config', 'Desenv',         False);
-     wIniFile.WriteInteger('Config','PixelHorizontal',4);
-    wIniFile.WriteBool   ('Config', 'PrimeiroItem',   False);
-    wIniFile.WriteInteger('Config', 'MeioPagtoPadrao',3);
-    wIniFile.WriteBool   ('Config', 'ConsultaPedidos', True);
-    wIniFile.WriteInteger('Config', 'MesesConsulta',  12);
-    wIniFile.WriteBool   ('Config', 'CPFCliente',     False);
-    wIniFile.WriteBool   ('Config', 'Entrega',        False);
-    wIniFile.WriteBool   ('Config', 'ValidaEntrega',  False);
-
-    wIniFile.WriteString ('Pedidos','Impressora',     'Elgin');
-    wIniFile.writeInteger('Pedidos','TamanhoMax',     300);
-    wIniFile.WriteInteger('Pedidos','MargEsquerda',   5);
-    wIniFile.WriteInteger('Pedidos','MargDireita',    5);
-    wIniFile.WriteInteger('Pedidos','MargTopo',       5);
-    wIniFile.WriteInteger('Pedidos','MargRodape',     5);
-    wIniFile.WriteInteger('Pedidos','Copias',         1);
-    wIniFile.WriteBool   ('Pedidos','Preview',        False);
-    wIniFile.WriteBool   ('Pedidos','Dialogo',        False);
-    wIniFile.WriteInteger('Pedidos','AlturaExtra',    64);
-    wIniFile.WriteBool   ('Pedidos','PreviewConsulta',False);
-
-    wIniFile.WriteString('Dados',   'PathDados',      '');
-    wIniFile.WriteString('Dados',   'Clientes',       'Clientes.DAT');
-    wIniFile.WriteString('Dados',   'OldClientes',    'OldClientes.DAT');
-    wIniFile.WriteString('Dados',   'Produtos',       'Produtos.DAT');
-    wIniFile.WriteBool  ('Dados',   'CargaXML',       False);
-  end;
-  with FSTEPrincipal do
-  begin
-    idUsuario := wIniFile.ReadString('Usuario', 'Usuario',     'Lanches & Lanches');
-    idLograd  := wIniFile.ReadString('Usuario', 'Logradouro',  'R.Exemplo');
-    idNro     := wIniFile.ReadString('Usuario', 'Numero',      '1234');
-    idCompl   := wIniFile.ReadString('Usuario', 'Complemento', 'Cjto 1');
-    idBairro  := wIniFile.ReadString('Usuario', 'Bairro',      'Centro');
-    idCidade  := wIniFile.ReadString('Usuario', 'Cidade',      'Nome da cidade');
-    idUF      := wIniFile.ReadString('Usuario', 'UF',          'UF');
-    idFone    := wIniFile.ReadString('Usuario', 'Fone',        '(xx)99234-5678');
-    idWhats   := wIniFile.ReadString('Usuario', 'Whats',       '(xx)9234-5678');
-
-    keyUsuar      := wIniFile.ReadString ('Config', 'ChaveUsuario',   'Aa');
-    ddCheck       := wIniFile.ReadInteger('Config', 'CheckDias',      15);
-    lSalvaForm    := wIniFile.ReadBool   ('Config', 'SalvaTelas',     False);
-    pathSalvaForm := wIniFile.ReadString ('Config', 'PathSalvaTelas','C:\NAO_EXISTE_MESMO');
-    hrIniNoite    := wIniFile.ReadInteger('Config', 'HrInicioNoite',  17);
-    LogoInit      := wIniFile.ReadString ('Config', 'LogoInicial',    'C:\SpeedTE\Dados\LogoInicio.BMP');
-    LogoImpres    := wIniFile.ReadString ('Config', 'LogoImpressao',  'C:\SpeedTE\Dados\LogoImpressao.BMP');
-    lDesenv       := wIniFile.ReadBool   ('Config', 'Desenv',         False);
-    pixelHor      := wIniFile.ReadInteger('Config', 'PixelHorizontal',4);
-    lPrItemSN     := wIniFile.ReadBool   ('Config', 'PrimeiroItem',   False);
-    mpPadrao      := wIniFile.ReadInteger('Config', 'MeioPagtoPadrao',3);
-    lConsTurno    := wIniFile.ReadBool   ('Config', 'ConsultaPedidos', True);
-    mesesConsulta := wIniFile.ReadInteger('Config', 'MesesConsulta',  12);
-    lInfCPF       := wIniFile.ReadBool   ('Config', 'CPFCliente',     False);
-    lMdEntrega    := wIniFile.ReadBool   ('Config', 'Entrega',        False);
-    lValEntrega   := wIniFile.ReadBool   ('Config', 'ValidaEntrega',  False);
-    if not lMdEntrega then
-      lValEntrega := False;
-
-    idPrinter     := wIniFile.ReadString ('Pedidos', 'Impressora',     'Elgin');
-    tmMax         := wIniFile.ReadInteger('Pedidos', 'TamanhoMax',     300);
-    margEsq       := wIniFile.ReadInteger('Pedidos', 'MargEsquerda',   5);
-    margDir       := wIniFile.ReadInteger('Pedidos', 'MargDireita',    5);
-    margTop       := wIniFile.ReadInteger('Pedidos', 'MargTopo',       5);
-    margBot       := wIniFile.ReadInteger('Pedidos', 'MargRodape',     5);
-    copias        := wIniFile.ReadInteger('Pedidos', 'Copias',         1);
-    lPreview      := wIniFile.ReadBool   ('Pedidos', 'Preview',        False);
-    lDialog       := wIniFile.ReadBool   ('Pedidos', 'Dialogo',        False);
-    altExtra      := wIniFile.ReadInteger('Pedidos', 'AlturaExtra',    64);
-    lPrevCons     := wIniFile.ReadBool   ('Pedidos','PreviewConsulta', False);
-    if (margEsq + margDir) > 10 then
-    begin
-      margEsq := 6;
-      margDir := 4;
-    end;
-    pathDados := wIniFile.ReadString('Dados',   'PathDados',    'C:\SpeedTE\Dados');
-    pathDados := IncludeTrailingPathDelimiter(pathDados);
-    tbClie    := pathDados + wIniFile.ReadString('Dados','Clientes','Clientes.DAT');
-    tbOldClie := pathDados + wIniFile.ReadString('Dados','OldClientes','OldClientes.DAT');
-    tbProd    := pathDados + wIniFile.ReadString('Dados','Produtos','Produtos.DAT');
-    lCargaXML := wIniFile.ReadBool('Dados','CargaXML',False);
-
-    tmpProds  := pathDados + 'Tmp_Prods.XML';
-    DecodeTime(Time,Hr,Mi,Se,Ms);
-    if ((Hr * 60) + Mi) < (hrIniNoite * 60) then
-    begin
-      tbPeds := pathDados + 'Ped_D' + FSTEPrincipal.dtAtual + '.DAT';
-      tbLcts := pathDados + 'PedDet_D' + FSTEPrincipal.dtAtual + '.DAT';
-      FSTEPrincipal.rgTurno.ItemIndex := 0;
-    end
-    else begin
-      tbPeds := pathDados + 'Ped_N' + FSTEPrincipal.dtAtual + '.DAT';
-      tbLcts := pathDados + 'PedDet_N' + FSTEPrincipal.dtAtual + '.DAT';
-      FSTEPrincipal.rgTurno.ItemIndex := 1;
-    end;
-
-    cadClientes := ChangeFileExt(tbClie,'.XML');
-    cadProdutos := ChangeFileExt(tbProd,'.XML');
-
-    wIniFile.Free;
-
-  end;
-
-end;
-
-
 Function CriaDataSets: Integer;
 begin
   with FSTEPrincipal do
@@ -515,7 +388,9 @@ begin
     Clientes.IndexDefs.Add('','Seq',[ixPrimary,ixUnique]);
     Clientes.IndexDefs.Add('Fone','Chave;Seq',[]);
     Clientes.IndexDefs.Add('Alfabetica','Nome;Chave',[]);
-    Clientes.IndexDefs.Add('Adress','Endereco;Chave',[]);
+    Clientes.IndexDefs.Add('Address','Endereco;Chave',[]);
+    Clientes.IndexDefs.Add('AlfaEnder','Nome;Endereco',[]);
+    Clientes.IndexDefs.Add('UltCompra','DtCompra;Nome',[ixDescending]);
     Clientes.CreateDataSet;
     Try
       Clientes.Active := True;
@@ -695,6 +570,7 @@ end;
 Function CarregaPedidos(pmtPeds:String; pmtLcts:String; pmtDiaAtual:Boolean; pmtExibe:Boolean=True): Boolean;
 var wMsg: String;
     lstWork: TStringList;
+    xInfo: TStringList;
     i: Integer;
 begin
   Result := False;
@@ -726,7 +602,8 @@ begin
     FSTEPrincipal.Pedidos.EmptyDataSet;
     for i := 0 to lstWork.Count-1 do
     begin
-      ObtemCamposArqTexto(lstWork[i]);     // Retorno em xInfo
+      xInfo:= TStringList.Create;
+      ObtemCamposArqTexto(lstWork[i], xInfo, 14);     // Retorno em xInfo
       FSTEPrincipal.Pedidos.Append;
       FSTEPrincipal.PedidosNro.AsInteger := StrToIntDef(xInfo[0],1);
       FSTEPrincipal.PedidosFone.AsString := xInfo[1];
@@ -747,6 +624,7 @@ begin
       Except
         FSTEPrincipal.Pedidos.Cancel;
       End;
+      xInfo.Free;
       if pmtExibe then
         FSTEPrincipal.Gauge1.Progress := FSTEPrincipal.Gauge1.Progress + 1;
     end;
@@ -767,7 +645,8 @@ begin
     FSTEPrincipal.PedLctos.EmptyDataSet;
     for i := 0 to lstWork.count-1 do
     begin
-      ObtemCamposArqTexto(lstWork[i]);     // Retorno em xInfo
+      xInfo := TStringList.Create;
+      ObtemCamposArqTexto(lstWork[i],xInfo, 10);     // Retorno em xInfo
       FSTEPrincipal.PedLctos.Append;
       FSTEPrincipal.PedLctosPedNro.AsInteger := StrToIntDef(xInfo[0],0);
       FSTEPrincipal.PedLctosLcto.AsInteger := StrToIntDef(xInfo[1],0);
@@ -782,6 +661,7 @@ begin
       Except
         FSTEPrincipal.PedLctos.Cancel;
       End;
+      xInfo.Free;
       if pmtExibe then
         FSTEPrincipal.Gauge1.Progress := FSTEPrincipal.Gauge1.Progress + 1;
     end;
@@ -1006,6 +886,9 @@ end;
 Function SalvaDados(pmtInfo:Integer; pmtFecha:Boolean): Boolean;
 var lstWork: TStringList;
     xLinha: String;
+    wDataLimite: TDate;
+    nMeses: Integer;
+    lSalva: Boolean;
 begin
   // pmtInfo: 1-Clientes  2-Produtos  4-Pedidos e lanctos
   Result := False;
@@ -1015,108 +898,124 @@ begin
     lstWork := TStringList.Create;
     if pmtInfo in [1,3,5,7] then
     begin     // Clientes
+      nMeses := mesesConsulta * -1;
+      wDataLimite := IncMonth(Date, nMeses);
       gbCargaSalva.Caption := 'Salvar: Clientes';
       Gauge1.Progress := 0;
-      Gauge1.MaxValue := FSTEPrincipal.Clientes.RecordCount;
+      Gauge1.MaxValue := Clientes.RecordCount;
       Application.ProcessMessages;
-      FSTEPrincipal.Clientes.SaveToFile(FSTEPrincipal.cadClientes,dfXMLUTF8);
-      FSTEPrincipal.Clientes.IndexName := '';
-      FSTEPrincipal.Clientes.First;
-      while not FSTEPrincipal.Clientes.Eof do
+      Clientes.SaveToFile(FSTEPrincipal.cadClientes,dfXMLUTF8);
+      Clientes.IndexName := '';
+      Clientes.First;
+      while not Clientes.Eof do
       begin
-        xLinha := stringCompleta(FSTEPrincipal.ClientesChave.AsString,'D',' ',15) +
-                  stringCompleta(FSTEPrincipal.ClientesNome.AsString,'D',' ',30) +
-                  stringCompleta(FSTEPrincipal.ClientesEndereco.AsString,'D',' ',40) +
-                  stringCompleta(FSTEPrincipal.ClientesBairro.AsString,'D',' ',20) +
-                  stringCompleta(FSTEPrincipal.ClientesRefer.AsString,'D',' ',40) +
-                  DateToStr(FSTEPrincipal.ClientesDtCompra.AsDateTime) +
-                  stringCompleta(FSTEPrincipal.ClientesCPF_CNPJ.AsString,'E',' ',14);
-        lstWork.Add(xLinha);
-        FSTEPrincipal.Clientes.Next;
+        lSalva := False;
+        if (ClientesChave.AsString <> '') and
+           (ClientesNome.AsString <> '') and
+           (ClientesEndereco.AsString <> '') and
+           (ClientesDtCompra.AsDateTime >= wDataLimite) then
+          lSalva := True
+        else begin
+          if ((ClientesNome.AsString = '') and lSemNome) and
+             ((ClientesEndereco.AsString = '') and lSemEnder) then
+            lSalva := True;
+        end;
+        if lSalva then
+        begin
+          xLinha := stringCompleta(ClientesChave.AsString,'D',' ',15) +
+                    stringCompleta(ClientesNome.AsString,'D',' ',30) +
+                    stringCompleta(ClientesEndereco.AsString,'D',' ',40) +
+                    stringCompleta(ClientesBairro.AsString,'D',' ',20) +
+                    stringCompleta(ClientesRefer.AsString,'D',' ',40) +
+                    DateToStr(ClientesDtCompra.AsDateTime) +
+                    stringCompleta(ClientesCPF_CNPJ.AsString,'E',' ',14);
+          lstWork.Add(xLinha);
+        end;
+        Clientes.Next;
         Gauge1.Progress := Gauge1.Progress + 1;
       end;
-      lstWork.SaveToFile(FSTEPrincipal.tbClie);
+      lstWork.SaveToFile(tbClie);
       if pmtFecha then
-        FSTEPrincipal.Clientes.Active := False;
+        Clientes.Active := False;
     end;
     if pmtInfo in [2,3,6,7] then
     begin     // Produtos
       gbCargaSalva.Caption := 'Salvar: Produtos';
       Gauge1.Progress := 0;
-      Gauge1.MaxValue := FSTEPrincipal.Produtos.RecordCount;
+      Gauge1.MaxValue := Produtos.RecordCount;
       Application.ProcessMessages;
-      FSTEPrincipal.Produtos.SaveToFile(FSTEPrincipal.cadProdutos,dfXMLUTF8);
+      Produtos.SaveToFile(FSTEPrincipal.cadProdutos,dfXMLUTF8);
       lstWork.Clear;
-      FSTEPrincipal.Produtos.IndexName := '';
-      FSTEPrincipal.Produtos.First;
-      while not FSTEPrincipal.Produtos.Eof do
+      Produtos.IndexName := '';
+      Produtos.First;
+      while not Produtos.Eof do
       begin
-        xLinha := stringCompleta(FSTEPrincipal.ProdutosDescr.AsString,'D',' ',40) +
-                  FSTEPrincipal.ProdutosTipo.AsString +
-                  FSTEPrincipal.ProdutosValor.AsString;
+        xLinha := stringCompleta(ProdutosDescr.AsString,'D',' ',40) +
+                  ProdutosTipo.AsString +
+                  ProdutosValor.AsString;
         lstWork.Add(xLinha);
-        FSTEPrincipal.Produtos.Next;
+        Produtos.Next;
         Gauge1.Progress := Gauge1.Progress + 1;
       end;
-      lstWork.SaveToFile(FSTEPrincipal.tbProd);
+      lstWork.SaveToFile(tbProd);
       if pmtFecha then
-        FSTEPrincipal.Produtos.Active := False;
+        Produtos.Active := False;
     end;
     if pmtInfo in [4,5,6,7] then
     begin    // Pedidos & Lançamentos
       gbCargaSalva.Caption := 'Salvar: Pedidos';
       Gauge1.Progress := 0;
-      Gauge1.MaxValue := FSTEPrincipal.Pedidos.RecordCount;
+      Gauge1.MaxValue := Pedidos.RecordCount;
       Application.ProcessMessages;
       lstWork.Clear;
-      FSTEPrincipal.Pedidos.First;
-      while not FSTEPrincipal.Pedidos.Eof do
+      Pedidos.First;
+      while not Pedidos.Eof do
       begin
-        xLinha := FSTEPrincipal.PedidosNro.AsString   + '|' +
-                  FSTEPrincipal.PedidosFone.AsString  + '|' +
-                  FSTEPrincipal.PedidosNome.AsString  + '|' +
-                  FSTEPrincipal.PedidosEndereco.AsString + '|' +
-                  FSTEPrincipal.PedidosBairro.AsString  + '|' +
-                  FSTEPrincipal.PedidosRefer.AsString + '|' +
-                  FSTEPrincipal.PedidosTotal.AsString + '|' +
-                  FSTEPrincipal.PedidosVlrTele.AsString + '|' +
-                  FSTEPrincipal.PedidosMeioPgto.AsString + '|' +
-                  FSTEPrincipal.PedidosVlrPago.AsString + '|' +
-                  FSTEPrincipal.PedidosTurno.AsString + '|' +
-                  FSTEPrincipal.PedidosData.AsString + '|' +
-                  FSTEPrincipal.PedidosCPF_CNPJ.AsString + '|' +
-                  FSTEPrincipal.PedidosEntrega.AsString + '|';
+        xLinha := PedidosNro.AsString   + '|' +
+                  PedidosFone.AsString  + '|' +
+                  PedidosNome.AsString  + '|' +
+                  PedidosEndereco.AsString + '|' +
+                  PedidosBairro.AsString  + '|' +
+                  PedidosRefer.AsString + '|' +
+                  PedidosTotal.AsString + '|' +
+                  PedidosVlrTele.AsString + '|' +
+                  PedidosMeioPgto.AsString + '|' +
+                  PedidosVlrPago.AsString + '|' +
+                  PedidosTurno.AsString + '|' +
+                  PedidosData.AsString + '|' +
+                  PedidosCPF_CNPJ.AsString + '|' +
+                  PedidosEntrega.AsString + '|';
         lstWork.Add(xLinha);
-        FSTEPrincipal.Pedidos.Next;
+        Pedidos.Next;
         Gauge1.Progress := Gauge1.Progress + 1;
       end;
-      lstWork.SaveToFile(FSTEPrincipal.tbPeds);
+      lstWork.SaveToFile(tbPeds);
       if pmtFecha then
-        FSTEPrincipal.Pedidos.Active := False;
+        Pedidos.Active := False;
       //Lancamentos
       gbCargaSalva.Caption := 'Salvar: Lançamentos';
       Gauge1.Progress := 0;
-      Gauge1.MaxValue := FSTEPrincipal.PedLctos.RecordCount;
+      Gauge1.MaxValue := PedLctos.RecordCount;
       Application.ProcessMessages;
       lstWork.Clear;
-      FSTEPrincipal.PedLctos.First;
-      while not FSTEPrincipal.PedLctos.eof do
+      PedLctos.First;
+      while not PedLctos.eof do
       begin
-        xLinha := FSTEPrincipal.PedLctosPedNro.AsString + '|' +
-                  FSTEPrincipal.PedLctosLcto.AsString + '|' +
-                  FSTEPrincipal.PedLctosQuant.AsString + '|' +
-                  FSTEPrincipal.PedLctosProduto.AsString + '|' +
-                  FSTEPrincipal.PedLctosObs1.AsString + '|' +
-                  FSTEPrincipal.PedLctosObs2.AsString + '|' +
-                  FSTEPrincipal.PedLctosValor.AsString + '|' +
-                  FSTEPrincipal.PedLctosTotal.AsString + '|';
+        xLinha := PedLctosPedNro.AsString + '|' +
+                  PedLctosLcto.AsString + '|' +
+                  PedLctosQuant.AsString + '|' +
+                  PedLctosProduto.AsString + '|' +
+                  PedLctosObs1.AsString + '|' +
+                  PedLctosObs2.AsString + '|' +
+                  PedLctosValor.AsString + '|' +
+                  PedLctosTotal.AsString + '|';
         lstWork.Add(xLinha);
-        FSTEPrincipal.PedLctos.Next;
+        PedLctos.Next;
         Gauge1.Progress := Gauge1.Progress + 1;
       end;
-      lstWork.SaveToFile(FSTEPrincipal.tbLcts);
+      lstWork.SaveToFile(tbLcts);
       if pmtFecha then
-        FSTEPrincipal.PedLctos.Active := False;
+        PedLctos.Active := False;
     end;
     //
     lstWork.Free;
@@ -1225,6 +1124,7 @@ begin
       ClientesRefer.AsString := PedWrkRefer.AsString;
     if ClientesCPF_CNPJ.AsString <> PedWrkCPF_CNPJ.AsString then
       ClientesCPF_CNPJ.AsString := PedWrkCPF_CNPJ.AsString;
+    ClientesDtCompra.AsDateTime := DateOf(Date);
     Clientes.Post;
 
   end;
@@ -1277,14 +1177,19 @@ begin
   PedWrk.Append;
   PedWrkNro.AsInteger := nroPed;
   PedWrkFone.AsString := '';
-  PedWrkMeioPgto.AsInteger := mpPadrao;      //1-Dinheiro 3-CCred 4-CDeb 17-PIX 99-Outros  (.INI)
+  case mpPadrao of               // Index
+    0:PedWrkMeioPgto.AsInteger := 1;     // Reais
+    1:PedWrkMeioPgto.AsInteger := 3;     // C.Crédito
+    2:PedWrkMeioPgto.AsInteger := 4;     // C.Débito
+    3:PedWrkMeioPgto.AsInteger := 17;    // PIX
+    4:PedWrkMeioPgto.AsInteger := 99;    // Outros
+  end;
   PedWrkEntrega.AsInteger := 0;              //0-Tele 1-Retira 2-Cons.local
   if rgTurno.ItemIndex = 0 then
     PedWrkTurno.AsString := 'D'
   else
     PedWrkTurno.AsString := 'N';
   PedWrkData.AsDateTime := DateOf(Date);
-
   LctWrk.Active := True;
   LctWrk.EmptyDataSet;
   RETexto.Lines.Clear;
@@ -1294,6 +1199,7 @@ begin
 
   CarregaProdsCombo;
   FSTEPrincipal.FormResize(nil);
+  qtdLctos := 0;
   dbFone.SetFocus;
 
 end;
@@ -1324,15 +1230,16 @@ end;
 
 procedure TFSTEPrincipal.btCancelaClick(Sender: TObject);
 begin
-  PanPedido.Visible := False;
-  PedWrk.EmptyDataSet;
-  LctWrk.EmptyDataSet;
-
   btAbrirPedido.Enabled := True;
   btProdutos.Enabled := True;
   btClientes.Enabled := True;
   btConsultar.Enabled := True;
+
+  PedWrk.EmptyDataSet;
+  LctWrk.EmptyDataSet;
+
   btAbrirPedido.SetFocus;
+  PanPedido.Visible := False;
 
 end;
 
@@ -1346,7 +1253,7 @@ begin
   if FSTEPrincipal.lManutClientes then
   begin
     SalvaDados(1,False);
-    //gbCargaSalva.Visible := False; xxx
+    //gbCargaSalva.Visible := False;
   end;
 
 end;
@@ -1363,6 +1270,7 @@ begin
     Exit;
   end;
   //
+
   if PedWrkZC_Total.AsCurrency > 0 then
   begin
     Pedidos.Append;
@@ -1416,6 +1324,8 @@ begin
     end;
     AtualizaCliente;
     ImprimePedido(FSTEPrincipal.lPreview, FSTEPrincipal.copias);
+    if FSTEPrincipal.lImpInterno then
+      ImprimeInterno(FSTEPrincipal.lPreview, FSTEPrincipal.copInterno);
     SalvaDados(4,False);
   end;
   btCancelaClick(nil);
@@ -1506,9 +1416,13 @@ end;
 
 procedure TFSTEPrincipal.btFinalizarClick(Sender: TObject);
 begin
-  if Pedidos.State = dsEdit then
-    Pedidos.Cancel;
-  FSTEPrincipal.Close;
+  if lUtilizar then
+  begin
+    if Pedidos.State = dsEdit then
+      Pedidos.Cancel;
+    FSTEPrincipal.Close;
+  end
+  else Application.Terminate;
 
 end;
 
@@ -1545,7 +1459,6 @@ begin
     wMsg := wMsg + 'Fechado' + #13;
   //
   SalvaDados(4,True);
-  //
   ConsultaPedidos;
   //
   Pedidos.Active := False;
@@ -1634,8 +1547,15 @@ begin
 end;
 
 procedure TFSTEPrincipal.dbFoneDblClick(Sender: TObject);
+var xFone: String;
 begin
-//  ShowMessage('DblClick');
+  if PesquisaClientes(xFone) then
+  begin
+    PedWrkFone.AsString := xFone;
+    //dbFone.Text := xFone;
+    dbFoneExit(nil);
+  end
+  else dbFone.Text := '';
 
 end;
 
@@ -1652,6 +1572,7 @@ begin
     dbProdCombo.SetFocus;
     PanNovoLcto.Visible := False;
     btCancelaClick(nil);
+    qtdLctos := 1;
     Exit;
   end;
 
@@ -1680,13 +1601,11 @@ end;
 
 procedure TFSTEPrincipal.dbFoneKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-  {
   if Key = vK_F2 then
   begin
-    ShowMessage('F2');
+    dbFoneDblClick(nil);
     Exit;
   end;
-  }
   if Key = Vk_Return then
      SelectNext((Sender as TwinControl),True,True);
 
@@ -1765,6 +1684,13 @@ procedure TFSTEPrincipal.dbObs1Change(Sender: TObject);
 begin
   if Length(Trim(dbObs1.Text)) = 50 then
      SelectNext((Sender as TwinControl),True,True);
+
+end;
+
+procedure TFSTEPrincipal.dbObs1Exit(Sender: TObject);
+begin
+  if dbObs1.Text = '' then
+    dbUnit.SetFocus;
 
 end;
 
@@ -1961,6 +1887,13 @@ begin
   if not fTime then
     Exit;
   fTime := False;
+//
+  btAbrirPedido.Enabled := False;
+  btConsultar.Enabled := False;
+  btProdutos.Enabled := False;
+  btClientes.Enabled := False;
+  btFinalizar.Enabled := False;
+//
   Configuracao;
   gbCargaSalva.Visible := True;
   LabIdent.Caption := FSTEPrincipal.idUsuario;
@@ -1975,14 +1908,14 @@ begin
   Form_Define(FSTEPrincipal);
   PanPedido.Visible := False;
 
+  lUtilizar := True;
   if not DefineVerificaValidade(keyUsuar) then
-    Halt(0);
-
-  if not CarregaDados then
-  begin
-    MessageDlg('Falha na carga de dados',mtError,[mbOk],0);
-    Application.Terminate;
-  end;
+    lUtilizar := False        // Halt(0);
+  else if not CarregaDados then
+       begin
+         MessageDlg('Falha na carga de dados',mtError,[mbOk],0);
+         lUtilizar := False;
+       end;
 
   gbLanctos.Align := alLeft;
   gbTotaliz.Align := alClient;
@@ -1993,8 +1926,20 @@ begin
   LabAbort.Visible := FSTEPrincipal.lDesenv;
   dbMeioPagto.Visible := FSTEPrincipal.lDesenv;
   btConsultar.Visible := FSTEPrincipal.lConsTurno;
-  btProdutos.Caption := 'Produtos' + #13 + '(' + IntToStr(FSTEPrincipal.Produtos.RecordCount) + ')';
-  btClientes.Caption := 'Clientes' + #13 + '(' + IntToStr(FSTEPrincipal.Clientes.RecordCount) + ')';
+  if lUtilizar then
+  begin
+    btProdutos.Caption := 'Produtos' + #13 + '(' + IntToStr(FSTEPrincipal.Produtos.RecordCount) + ')';
+    btClientes.Caption := 'Clientes' + #13 + '(' + IntToStr(FSTEPrincipal.Clientes.RecordCount) + ')';
+  end
+  else begin
+    btProdutos.Caption := 'Produtos' + #13 + '(..)';
+    btClientes.Caption := 'Clientes' + #13 + '(..)';
+  end;
+  btAbrirPedido.Enabled := lUtilizar;   // True;
+  btConsultar.Enabled := lUtilizar;     // True;
+  btProdutos.Enabled := lUtilizar;      // True;
+  btClientes.Enabled := lUtilizar;      // True;
+  btFinalizar.Enabled := True;
 
 end;
 
@@ -2029,7 +1974,10 @@ end;
 
 procedure TFSTEPrincipal.gbClienteExit(Sender: TObject);
 begin
-  SolicitaInclusao(lPrItemSN);
+  if qtdLctos = 0 then
+    SolicitaInclusao(lPrItemSN)
+  else
+    SolicitaInclusao(False);
 
 end;
 
@@ -2045,6 +1993,24 @@ begin
 
 end;
 
+procedure TFSTEPrincipal.Image2MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  if Button = mbRight then
+    ConfigSistema;
+  Configuracao;
+  LabIdent.Caption := FSTEPrincipal.idUsuario;
+  Timer1Timer(nil);
+  Timer1.Enabled := True;
+  FGen.lSalvaForm := FSTEPrincipal.lSalvaForm;
+  FGen.pathSalvaForm := FSTEPrincipal.pathSalvaForm;
+  if FileExists(LogoInit) then
+    Image1.Picture.LoadFromFile(LogoInit);
+  if FileExists(LogoImpres) then
+    Image2.Picture.LoadFromFile(LogoImpres);
+
+end;
+
 procedure TFSTEPrincipal.LabAbortClick(Sender: TObject);
 begin
   Application.Terminate;
@@ -2055,12 +2021,12 @@ procedure TFSTEPrincipal.PedidosCalcFields(DataSet: TDataSet);
 begin
   PedidosZC_Total.AsCurrency := PedidosTotal.AsCurrency + PedidosVlrTele.AsCurrency;
   case PedidosMeioPgto.AsInteger of
-    0:PedidosZC_MPgto.AsString := '* R$ *';
-    1:PedidosZC_MPgto.AsString := 'Dinheiro';
-    3:PedidosZC_MPgto.AsString := 'C.Crédito';
-    4:PedidosZC_MPgto.AsString := 'C.Débito';
+    0:PedidosZC_MPgto.AsString := '';        // '* R$ *';
+    1:PedidosZC_MPgto.AsString := 'R$';      // Dinheiro';
+    3:PedidosZC_MPgto.AsString := 'CCr';     // C.Crédito';
+    4:PedidosZC_MPgto.AsString := 'CDb';     // C.Débito';
     17:PedidosZC_MPgto.AsString := 'PIX';
-    else PedidosZC_MPgto.AsString := 'Outros';
+    else PedidosZC_MPgto.AsString := 'Out';  // Outros';
   end;
   PedidosZC_FoneNome.AsString := Trim(PedidosFone.AsString) + ' ' + Trim(PedidosNome.AsString);
   case PedidosEntrega.AsInteger of

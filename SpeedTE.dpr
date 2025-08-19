@@ -9,7 +9,9 @@ uses
   STEImpressao in 'STEImpressao.pas' {FSTEImpressao},
   FortesReportCtle in '..\uFortesReport\FortesReportCtle.pas' {FFRCtle},
   uSysPrinters in '..\UsoGeral\uSysPrinters.pas' {FuSysPrinters},
-  STEConsTurno in 'STEConsTurno.pas' {FSTEConsTurno};
+  STEConsTurno in 'STEConsTurno.pas' {FSTEConsTurno},
+  STEConsCliente in 'STEConsCliente.pas' {FSTEConsCliente},
+  STEConfigurar in 'STEConfigurar.pas' {FSTEConfigurar};
 
 {$R *.res}
 
@@ -24,6 +26,8 @@ begin
   Application.CreateForm(TFFRCtle, FFRCtle);
   Application.CreateForm(TFuSysPrinters, FuSysPrinters);
   Application.CreateForm(TFSTEConsTurno, FSTEConsTurno);
+  Application.CreateForm(TFSTEConsCliente, FSTEConsCliente);
+  Application.CreateForm(TFSTEConfigurar, FSTEConfigurar);
   Application.Run;
 
 end.

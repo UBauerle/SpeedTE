@@ -1,7 +1,7 @@
 object FSTEPrincipal: TFSTEPrincipal
   Left = -203
   Top = -15
-  Caption = 'x '
+  Caption = 'Speed TE 1.0'
   ClientHeight = 601
   ClientWidth = 1224
   Color = clBtnFace
@@ -31,13 +31,13 @@ object FSTEPrincipal: TFSTEPrincipal
     ExplicitHeight = 400
   end
   object Image2: TImage
-    Left = 1038
+    Left = 1036
     Top = 48
     Width = 105
     Height = 105
     Anchors = [akTop, akRight]
     Stretch = True
-    ExplicitLeft = 894
+    OnMouseDown = Image2MouseDown
   end
   object PanTopo: TPanel
     Left = 0
@@ -261,7 +261,7 @@ object FSTEPrincipal: TFSTEPrincipal
       OnClick = btProdutosClick
     end
     object btClientes: TBitBtn
-      Left = 928
+      Left = 917
       Top = 6
       Width = 121
       Height = 43
@@ -328,7 +328,7 @@ object FSTEPrincipal: TFSTEPrincipal
       OnClick = btClientesClick
     end
     object btAbrirPedido: TBitBtn
-      Left = 12
+      Left = 13
       Top = 6
       Width = 157
       Height = 43
@@ -505,8 +505,8 @@ object FSTEPrincipal: TFSTEPrincipal
     end
   end
   object PanPedido: TPanel
-    Left = 0
-    Top = 60
+    Left = 28
+    Top = 68
     Width = 1177
     Height = 437
     Color = clGradientInactiveCaption
@@ -624,7 +624,7 @@ object FSTEPrincipal: TFSTEPrincipal
         ParentFont = False
       end
       object dbFone: TDBEdit
-        Left = 11
+        Left = 12
         Top = 46
         Width = 106
         Height = 24
@@ -916,6 +916,7 @@ object FSTEPrincipal: TFSTEPrincipal
         ParentFont = False
         TabOrder = 2
         OnChange = dbObs1Change
+        OnExit = dbObs1Exit
         OnKeyDown = dbObs1KeyDown
         OnKeyPress = dbObs1KeyPress
       end
@@ -1878,7 +1879,7 @@ object FSTEPrincipal: TFSTEPrincipal
     object PedidosZC_MPgto: TStringField
       FieldKind = fkCalculated
       FieldName = 'ZC_MPgto'
-      Size = 12
+      Size = 3
       Calculated = True
     end
     object PedidosZC_FoneNome: TStringField
@@ -1918,12 +1919,13 @@ object FSTEPrincipal: TFSTEPrincipal
       Size = 30
     end
     object PedLctosObs1: TStringField
+      DisplayWidth = 45
       FieldName = 'Obs1'
-      Size = 50
+      Size = 45
     end
     object PedLctosObs2: TStringField
       FieldName = 'Obs2'
-      Size = 50
+      Size = 45
     end
     object PedLctosValor: TCurrencyField
       FieldName = 'Valor'
@@ -2047,11 +2049,11 @@ object FSTEPrincipal: TFSTEPrincipal
     end
     object LctWrkObs1: TStringField
       FieldName = 'Obs1'
-      Size = 50
+      Size = 45
     end
     object LctWrkObs2: TStringField
       FieldName = 'Obs2'
-      Size = 50
+      Size = 45
     end
     object LctWrkValor: TCurrencyField
       FieldName = 'Valor'
