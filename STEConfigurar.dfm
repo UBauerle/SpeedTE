@@ -1,7 +1,7 @@
 object FSTEConfigurar: TFSTEConfigurar
   Left = 0
   Top = 0
-  Caption = 'FSTEConfigurar'
+  Caption = 'Configura'#231#227'o do sistema'
   ClientHeight = 413
   ClientWidth = 873
   Color = clBtnFace
@@ -352,8 +352,8 @@ object FSTEConfigurar: TFSTEConfigurar
           ParentFont = False
         end
         object Label18: TLabel
-          Left = 160
-          Top = 200
+          Left = 284
+          Top = 202
           Width = 44
           Height = 16
           Alignment = taRightJustify
@@ -368,7 +368,7 @@ object FSTEConfigurar: TFSTEConfigurar
           ParentFont = False
         end
         object Label17: TLabel
-          Left = 60
+          Left = 64
           Top = 170
           Width = 86
           Height = 16
@@ -421,6 +421,22 @@ object FSTEConfigurar: TFSTEConfigurar
           Width = 30
           Height = 16
           Caption = 'Path:'
+        end
+        object Label35: TLabel
+          Left = 201
+          Top = 232
+          Width = 127
+          Height = 16
+          Alignment = taRightJustify
+          Caption = 'Texto "Incluir Lancto":'
+          Color = clBtnFace
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentColor = False
+          ParentFont = False
         end
         object cbTelas: TCheckBox
           Left = 21
@@ -481,8 +497,8 @@ object FSTEConfigurar: TFSTEConfigurar
           Text = 'edLogoPrint'
         end
         object cbMeses: TComboBox
-          Left = 214
-          Top = 196
+          Left = 330
+          Top = 198
           Width = 47
           Height = 24
           Font.Charset = DEFAULT_CHARSET
@@ -491,7 +507,7 @@ object FSTEConfigurar: TFSTEConfigurar
           Font.Name = 'MS Sans Serif'
           Font.Style = []
           ParentFont = False
-          TabOrder = 8
+          TabOrder = 12
           Text = 'cbMeses'
           Items.Strings = (
             '6'
@@ -505,7 +521,7 @@ object FSTEConfigurar: TFSTEConfigurar
         end
         object cbConsPed: TCheckBox
           Left = 20
-          Top = 200
+          Top = 202
           Width = 134
           Height = 17
           Caption = 'Consulta pedidos'
@@ -602,7 +618,7 @@ object FSTEConfigurar: TFSTEConfigurar
           Font.Style = []
           ParentColor = False
           ParentFont = False
-          TabOrder = 9
+          TabOrder = 8
         end
         object cbCPF: TCheckBox
           Left = 20
@@ -618,7 +634,7 @@ object FSTEConfigurar: TFSTEConfigurar
           Font.Style = []
           ParentColor = False
           ParentFont = False
-          TabOrder = 10
+          TabOrder = 9
         end
         object cbEntrega: TCheckBox
           Left = 20
@@ -634,7 +650,7 @@ object FSTEConfigurar: TFSTEConfigurar
           Font.Style = []
           ParentColor = False
           ParentFont = False
-          TabOrder = 11
+          TabOrder = 10
         end
         object cbValida: TCheckBox
           Left = 20
@@ -650,7 +666,7 @@ object FSTEConfigurar: TFSTEConfigurar
           Font.Style = []
           ParentColor = False
           ParentFont = False
-          TabOrder = 12
+          TabOrder = 11
         end
         object gbCtle: TGroupBox
           Left = 540
@@ -658,7 +674,7 @@ object FSTEConfigurar: TFSTEConfigurar
           Width = 129
           Height = 127
           Caption = 'Controle'
-          TabOrder = 13
+          TabOrder = 14
           OnMouseDown = gbCtleMouseDown
           object Label10: TLabel
             Left = 16
@@ -737,6 +753,20 @@ object FSTEConfigurar: TFSTEConfigurar
             ParentFont = False
             TabOrder = 2
           end
+        end
+        object edTxtIncluir: TEdit
+          Left = 330
+          Top = 228
+          Width = 167
+          Height = 24
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 13
+          Text = 'edTxtIncluir'
         end
       end
     end
@@ -1059,22 +1089,13 @@ object FSTEConfigurar: TFSTEConfigurar
           Height = 24
           TabOrder = 5
           Text = 'cbInic'
-        end
-        object cbSemNome: TCheckBox
-          Left = 180
-          Top = 204
-          Width = 229
-          Height = 17
-          Caption = 'Salvar clientes sem nome'
-          TabOrder = 6
-        end
-        object cbSemEnd: TCheckBox
-          Left = 180
-          Top = 232
-          Width = 209
-          Height = 17
-          Caption = 'Salvar clientes sem endere'#231'o'
-          TabOrder = 7
+          Items.Strings = (
+            'Sequencial'
+            'Telefone'
+            'Nome'
+            'Endere'#231'o'
+            'Nome/Endere'#231'o'
+            'Ultima compra')
         end
       end
     end

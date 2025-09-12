@@ -239,7 +239,7 @@ begin
     case FSTEPrincipal.PedWrkEntrega.AsInteger of
       0:RLEntrega.Caption := 'Tele-entrega';
       1:RLEntrega.Caption := 'Retira';
-      2:RLEntrega.Caption := 'Cons.local';
+      2:RLEntrega.Caption := 'Consumo local';
       else RLEntrega.Caption := '';
     end;
     //
@@ -335,7 +335,7 @@ begin
     case FSTEPrincipal.PedWrkEntrega.AsInteger of
       0:RLEntregaInt.Caption := 'Tele-entrega';
       1:RLEntregaInt.Caption := 'Retira';
-      2:RLEntregaInt.Caption := 'Cons.local';
+      2:RLEntregaInt.Caption := 'Consumo local';
       else RLEntregaInt.Caption := '';
     end;
     //
@@ -435,7 +435,7 @@ begin
     if pmtTipo = 'Turno' then
     begin
      RLFechData.Caption := DateToStr(pmtData) + ' ';
-     if pmtTurno = '0' then
+     if pmtTurno = 'D' then
         RLFechData.Caption := RLFechData.Caption + 'DIA'
       else
         RLFechData.Caption := RLFechData.Caption + 'NOITE';

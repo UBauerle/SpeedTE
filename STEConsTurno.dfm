@@ -904,7 +904,7 @@ object FSTEConsTurno: TFSTEConsTurno
     object Label1: TLabel
       Left = 1
       Top = 1
-      Width = 149
+      Width = 177
       Height = 20
       Align = alTop
       Alignment = taCenter
@@ -918,6 +918,7 @@ object FSTEConsTurno: TFSTEConsTurno
       ParentColor = False
       ParentFont = False
       Transparent = False
+      ExplicitWidth = 149
     end
     object GridTurnos: TDBGrid
       Left = 1

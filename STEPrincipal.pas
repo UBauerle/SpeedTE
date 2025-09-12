@@ -148,7 +148,7 @@ type
     MemLcto: TMemo;
     LabAltExc: TLabel;
     PanNovoLcto: TPanel;
-    Label14: TLabel;
+    LabIncluirLcto: TLabel;
     btSim: TBitBtn;
     btNao: TBitBtn;
     btAcrescenta: TBitBtn;
@@ -258,7 +258,7 @@ type
     ultCliente,ultProduto,ultPedido: Integer;
     idUsuario,idLograd,idNro,idCompl,idBairro,idCidade,idUF,idInterno: String;
     idFone,idWhats: String;
-    lSalvaForm,lCargaXML,lDesenv,lPrItemSN,lInfCPF,lSemNome,lSemEnder: Boolean;
+    lSalvaForm,lCargaXML,lDesenv,lPrItemSN,lInfCPF: Boolean;
     lManutClientes,lConsTurno,lMdEntrega,lValEntrega: Boolean;
     mesesConsulta: Integer;
     pathSalvaForm,pathDados: String;
@@ -275,6 +275,7 @@ type
     pixelHor,altExtra: Integer;
     keyUsuar: String;
     ddCheck: Integer;
+    txtIncluir: String;
 
   end;
 
@@ -357,8 +358,7 @@ begin
   with FSTEPrincipal do
   begin
     Result := 0;
-    wMsg := '';
-    //
+    // Meios de pagamento
     DSMeiosPgto.Active := False;
     DSMeiosPgto.FieldDefs.Clear;
     DSMeiosPgto.FieldDefs.Add('CodMP',   ftSmallint);
@@ -373,7 +373,37 @@ begin
       wMsg := wMsg + '"DSMeiosPgto"' + #13;
       Result := Result + 1;
     End;
-    //
+    // Tipos de produtos
+    DSTipos.Active := False;
+    DSTipos.FieldDefs.Clear;
+    DSTipos.FieldDefs.Add('CodTp',   ftSmallint);
+    DSTipos.FieldDefs.Add('DescrTp', ftString, 15);
+    DSTipos.IndexDefs.Clear;
+    DSTipos.IndexDefs.Add('','CodTp',[ixPrimary,ixUnique]);
+    DSTipos.CreateDataSet;
+    Try
+      DSTipos.Active := True;
+      DSTipos.Active := False;
+    Except
+      wMsg := wMsg + '"DSTipos"' + #13;
+      Result := Result + 1;
+    End;
+    // Tipos de entrega
+    DSEntrega.Active := False;
+    DSEntrega.FieldDefs.Clear;
+    DSEntrega.FieldDefs.Add('Cod',   ftSmallint);
+    DSEntrega.FieldDefs.Add('Descr', ftString, 15);
+    DSEntrega.IndexDefs.Clear;
+    DSEntrega.IndexDefs.Add('','Cod',[ixPrimary,ixUnique]);
+    DSEntrega.CreateDataSet;
+    Try
+      DSEntrega.Active := True;
+      DSEntrega.Active := False;
+    Except
+      wMsg := wMsg + '"DSEntrega"' + #13;
+      Result := Result + 1;
+    End;
+    // Clientes
     Clientes.Active := False;
     Clientes.FieldDefs.Clear;
     Clientes.FieldDefs.Add('Seq',      ftInteger);
@@ -399,22 +429,7 @@ begin
       wMsg := wMsg + '"Clientes"' + #13;
       Result := Result + 1;
     End;
-    // .... Tipos de produtos
-    DSTipos.Active := False;
-    DSTipos.FieldDefs.Clear;
-    DSTipos.FieldDefs.Add('CodTp',   ftSmallint);
-    DSTipos.FieldDefs.Add('DescrTp', ftString, 15);
-    DSTipos.IndexDefs.Clear;
-    DSTipos.IndexDefs.Add('','CodTp',[ixPrimary,ixUnique]);
-    DSTipos.CreateDataSet;
-    Try
-      DSTipos.Active := True;
-      DSTipos.Active := False;
-    Except
-      wMsg := wMsg + '"DSTipos"' + #13;
-      Result := Result + 1;
-    End;
-    // .... Produtos
+    // Produtos
     Produtos.Active := False;
     Produtos.FieldDefs.Clear;
     Produtos.FieldDefs.Add('Seq',      ftInteger);
@@ -431,8 +446,7 @@ begin
       wMsg := wMsg + '"Produtos"' + #13;
       Result := Result + 1;
     End;
-    //
-    // .... Pedidos do dia
+    // Pedidos do dia
     Pedidos.Active := False;
     Pedidos.FieldDefs.Clear;
     Pedidos.FieldDefs.Add('Nro',      ftInteger);
@@ -458,8 +472,7 @@ begin
       wMsg := wMsg + '"Pedidos"' + #13;
       Result := Result + 1;
     End;
-    //
-    // .... Lançamentos dos pedidos do dia
+    // Lançamentos dos pedidos do dia
     PedLctos.Active := False;
     PedLctos.FieldDefs.Clear;
     PedLctos.FieldDefs.Add('PedNro',   ftInteger);
@@ -479,8 +492,7 @@ begin
       wMsg := wMsg + '"PedLctos"' + #13;
       Result := Result + 1;
     End;
-    //
-    // .... Pedido corrente
+    // Pedido corrente
     PedWrk.Active := False;
     PedWrk.FieldDefs.Clear;
     PedWrk.FieldDefs.Add('Nro',      ftInteger);
@@ -505,8 +517,7 @@ begin
       wMsg := wMsg + '"PedWrk"' + #13;
       Result := Result + 1;
     End;
-    //
-    // .... Lançamentos do pedido corrente
+    // Lançamentos do pedido corrente
     LctWrk.Active := False;
     LctWrk.FieldDefs.Clear;
     LctWrk.FieldDefs.Add('PedNro',   ftInteger);
@@ -527,23 +538,8 @@ begin
       Result := Result + 1;
     End;
     //
-    DSEntrega.Active := False;
-    DSEntrega.FieldDefs.Clear;
-    DSEntrega.FieldDefs.Add('Cod',   ftSmallint);
-    DSEntrega.FieldDefs.Add('Descr', ftString, 15);
-    DSEntrega.IndexDefs.Clear;
-    DSEntrega.IndexDefs.Add('','Cod',[ixPrimary,ixUnique]);
-    DSEntrega.CreateDataSet;
-    Try
-      DSEntrega.Active := True;
-      DSEntrega.Active := False;
-    Except
-      wMsg := wMsg + '"DSEntrega"' + #13;
-      Result := Result + 1;
-    End;
-    //
-    if wMsg <> '' then
-      wMsg := 'Falha na criação de' + #13 + wMsg + #13;
+//    if wMsg <> '' then
+//      wMsg := 'Falha na criação de' + #13 + wMsg + #13;
 
   end;
 
@@ -560,29 +556,214 @@ begin
   kNumerica := StrToIntDef(pmtChave,0);
   if (kNumerica = 0) or
      (Length(Trim(pmtChave)) < 8) then
-     Exit;
+    Exit;
+  if (pmtNome = '') and (pmtEnder = '') then
+    Exit;
   //
   Result := True;
 
 end;
 
 
+Function CarregaClientes: Boolean;
+var lstWork: TStringList;
+    i,gravs,descons,brancos: Integer;
+    xLine,xKey,xNome,xEnder,xBair,xRefer,xCPF: String;
+    wData: TDate;
+begin
+  Result := False;
+  with FSTEPrincipal do
+  begin
+    if lCargaXML and                           // Carregar do XML e
+       FileExists(cadClientes) then            // Existe o arquivo XML de clientes
+    begin
+       Clientes.LoadFromFile(cadClientes);     // Carrega do XML
+       Clientes.FileName := cadClientes;
+       if Clientes.RecordCount > 0 then
+       begin
+         Result := True;
+         Exit;
+       end;
+    end;
+    // Carga arquivo .DAT
+    if not FileExists(tbClie) then
+      if not FileExists(tbOldClie) then
+      begin
+        wMsg := wMsg + tbClie + #13 + tbOldClie + ' não encontrados' + #13;
+        Exit;
+      end;
+    //
+    lstWork := TStringList.Create;
+    if FileExists(tbClie) then
+      lstWork.LoadFromFile(tbClie)       // Carrega de clientes "atuais"
+    else
+      lstWork.LoadFromFile(tbOldClie);   // Carrega de clientes "iniciais"
+    //
+    if FileExists(cadClientes) then
+      DeleteFile(cadClientes);
+    //
+    gbCargaSalva.Visible := True;
+    gbCargaSalva.Caption := 'Carga: Clientes';
+    Gauge1.Progress := 0;
+    Gauge1.MaxValue := lstWork.Count;
+    Application.ProcessMessages;
+    Clientes.Active := True;
+    ultCliente := 0;
+    gravs := 0;
+    descons := 0;
+    brancos := 0;
+    for i := 0 to lstWork.Count-1 do
+    begin
+      xLine := Trim(lstWork[i]);
+      if xLine <> '' then
+      begin
+        wData  := DateOf(Date);
+        xCPF   := '';
+        if Length(xLine) < 116 then
+        begin        // Carrega pelo layout original
+          xKey   := Trim(Copy(xLine,1,15));
+          xNome  := Trim(Copy(xLine,16,20));
+          xEnder := Trim(Copy(xLine,36,30));
+          xBair  := Trim(Copy(xLine,66,20));
+          xRefer := Trim(Copy(xLine,86,30));
+        end
+        else begin   // Carrega pelo novo layout
+          xKey   := Trim(Copy(xLine,1,15));
+          xNome  := Trim(Copy(xLine,16,30));
+          xEnder := Trim(Copy(xLine,46,40));
+          xBair  := Trim(Copy(xLine,86,20));
+          xRefer := Trim(Copy(xLine,106,40));
+          if Length(xLine) > 145 then
+          begin
+            wData := StrToDate(Copy(xLine,146,10));
+            if Length(xLine) > 155 then
+              xCPF := Copy(xLine,156,14)
+            else
+              xCPF := '';
+          end;
+        end;
+        if ValidaRegistro(xKey,xNome,xEnder) then
+        begin
+          ultCliente := ultCliente + 1;
+          Clientes.Append;
+          ClientesSeq.AsInteger := ultCliente;
+          ClientesChave.AsString := xKey;
+          ClientesNome.AsString := xNome;
+          ClientesEndereco.AsString := xEnder;
+          ClientesBairro.AsString := xBair;
+          ClientesRefer.AsString := xRefer;
+          ClientesDtCompra.AsDateTime := wData;
+          ClientesCPF_CNPJ.AsString := xCPF;
+          Try
+            Clientes.Post;
+            gravs := gravs + 1;
+          Except
+           Clientes.Cancel;
+           descons := descons + 1;
+          End;
+        end
+        else descons := descons + 1;
+      end
+      else brancos := brancos + 1;
+      Gauge1.Progress := Gauge1.Progress + 1;
+    end;
+    Clientes.SaveToFile(cadClientes,dfXMLUTF8);
+    Clientes.FileName := cadClientes;
+    MessageDlg('Lidos: ' + IntToStr(lstWork.Count) + #13 +
+               'Gravados: ' + IntToStr(gravs) + #13 +
+               'Desconsiderados: ' + IntToStr(descons) + #13 +
+               'Brancos: ' + IntToStr(brancos),mtInformation,[mbOk],0);
+    lstWork.Free;
+  end;
+  Result := True;
+
+end;
+
+
+Function CarregaProdutos: Boolean;
+var lstWork: TStringList;
+    i: Integer;
+    xLine,xNome,xTipo,xValor: String;
+begin
+  Result := False;
+  with FSTEPrincipal do
+  begin
+    if lCargaXML and
+       FileExists(cadProdutos) then
+    begin
+      Produtos.LoadFromFile(cadProdutos);
+      Produtos.FileName := cadProdutos;
+      Result := True;
+      Exit;
+    end;
+    //
+    if not FileExists(tbProd) then
+    begin
+      wMsg := wMsg + tbProd + ' não encontrado' + #13;
+       Exit;
+    end;
+    if FileExists(FSTEPrincipal.cadProdutos) then
+      DeleteFile(FSTEPrincipal.cadProdutos);
+    //
+    lstWork := TStringList.Create;
+    lstWork.LoadFromFile(tbProd);
+    gbCargaSalva.Caption := 'Carga: Produtos';
+    Gauge1.Progress := 0;
+    Gauge1.MaxValue := lstWork.Count;
+    Application.ProcessMessages;
+    Produtos.Active := True;
+    ultProduto := 0;
+    for i := 0 to lstWork.Count-1 do
+    begin
+      ultProduto := ultProduto + 1;
+      Produtos.Append;
+      ProdutosSeq.AsInteger := ultProduto;
+      xLine := lstWork[i];
+      if Length(xLine) < 40 then    // Carrega pelo layout original
+      begin
+        xNome := Copy(xLine,1,30);
+        xTipo := '0';
+        xValor := Copy(xLine,31,Length(xLine)-30);
+      end
+      else begin
+        xNome := Copy(xLine,1,40);
+        xTipo := Copy(xLine,41,1);
+        xValor := Copy(xLine,42,Length(xLine)-41);
+      end;
+      ProdutosDescr.AsString := xNome;
+      ProdutosTipo.AsInteger := StrToIntDef(xTipo,0);
+      ProdutosValor.AsCurrency := StrToFloat(xValor);
+      Try
+        Produtos.Post;
+      Except
+        Produtos.Cancel;
+      End;
+      Gauge1.Progress := Gauge1.Progress + 1;
+    end;
+    Produtos.SaveToFile(cadProdutos,dfXMLUTF8);
+    Produtos.FileName := cadProdutos;
+    lstWork.Free;
+  end;
+  Result := True;
+
+end;
+
 Function CarregaPedidos(pmtPeds:String; pmtLcts:String; pmtDiaAtual:Boolean; pmtExibe:Boolean=True): Boolean;
-var wMsg: String;
+var wMsgLocal: String;
     lstWork: TStringList;
     xInfo: TStringList;
     i: Integer;
 begin
   Result := False;
-  wMsg := '';
+  wMsgLocal := '';
   if not FileExists(pmtPeds) then
-    wMsg := wMsg + pmtPeds + #13;
+    wMsgLocal := wMsgLocal + pmtPeds + ' não encontrado' + #13;
   if not FileExists(pmtLcts) then
-    wMsg := wMsg + pmtLcts + #13;
-  if wMsg <> '' then
+    wMsgLocal := wMsgLocal + pmtLcts + ' não encontrado' + #13;
+  if wMsgLocal <> '' then
     if not pmtDiaAtual then
       begin
-        MessageDlg('Arquivo(s) não encontrado(s)' + #13 + wMsg,mtError,[mbOk],0);
+        wMsg := wMsg + wMsgLocal;
         Exit;
       end;
   //
@@ -672,15 +853,14 @@ end;
 
 
 Function CarregaDados: Boolean;
-var lstWork,lstAuxil: TStringList;
-    i: Integer;
-    xValor,xTipo,xLine: String;
-    xKey,xNome,xEnder,xBair,xRefer,xCPF: String;
-    wData: TDateTime;
-const xErro: String = #13 + 'Aplicação não pode ser iniciada' + #13;
-      codMP: array [0..4] of integer = (1,3,4,17,99);
+var i: Integer;
+//var lstWork,lstAuxil: TStringList;
+//    i: Integer;
+//    xValor,xTipo,xLine: String;
+//    wData: TDateTime;
+const codMP: array [0..4] of integer = (1,3,4,17,99);              // Meios de pagamento
       descrMP: array [0..4] of String = ('Dinheiro','C.Crédito','C.Débito','PIX','Outros');
-      descrTp: array[0..7] of String = ('Indefinido',
+      descrTp: array[0..7] of String = ('Indefinido',              // Tipos de produtos
                                         'Lanches',
                                         'Refeições',
                                         'Refrigerantes',
@@ -688,29 +868,33 @@ const xErro: String = #13 + 'Aplicação não pode ser iniciada' + #13;
                                         'Sucos',
                                         'Cervejas',
                                         'Beb c/alcool');
-      descrEntr: array[0..2] of String = ('Tele-entrega','Retira','Cons.local');
+      descrEntr: array[0..2] of String = ('Tele-entrega','Retira','Consumo local');  // Forma de entrega
+      xErro: String = #13 + 'Aplicação não pode ser iniciada' + #13;
 
 begin
   Result := False;
+  wMsg := '';
   if CriaDataSets > 0 then
   begin
     MessageDlg(wMsg + xErro,mtError,[mbOk],0);
     Exit;
   end;
   //
-  wMsg := '';
-  if not FileExists(FSTEPrincipal.tbClie) then
-    wMsg := wMsg + '[ ' + FSTEPrincipal.tbClie + ' ] Inexistente' + #13;
-  if not FileExists(FSTEPrincipal.tbProd) then
-    wMsg := wMsg + '[ ' + FSTEPrincipal.tbProd + ' ] Inexistente' + #13;
-  if wMsg <> '' then
-    begin
-      MessageDlg(wMsg + xErro,mtError,[mbOk],0);
-      Exit;
-    end;
-  //
   with FSTEPrincipal do
   begin
+    if not CarregaClientes then
+      wMsg := wMsg + 'Carga clientes' + #13;
+    if not CarregaProdutos then
+      wMsg := wMsg + 'Carga Produtos' + #13;
+    if not CarregaPedidos(tbPeds,tbLcts,True,True) then
+      wMsg := wMsg + 'Carga Pedidos && Lançamentos' + #13;
+
+    if wMsg <> '' then
+    begin
+      MessageDlg('Falha na carga dos pedidos do dia' + #13 + wMsg,mtError,[mbOk],0);
+      Exit;
+    end;
+    //
     DSMeiosPgto.Active := True;
     for i:= 0 to Length(descrMP)-1 do
     begin
@@ -738,144 +922,20 @@ begin
       DSEntrega.Post;
     end;
     //
-    gbCargaSalva.Visible := True;
-    Application.ProcessMessages;
-    // Clientes
-    if FSTEPrincipal.lCargaXML and FileExists(FSTEPrincipal.cadClientes) then
-      FSTEPrincipal.Clientes.LoadFromFile(FSTEPrincipal.cadClientes)
-    else begin
-      lstAuxil := TStringList.Create;
-      if FileExists(FSTEPrincipal.tbOldClie) then
-        lstAuxil.LoadFromFile(FSTEPrincipal.tbOldClie);
-      // OldClie=clientes excluidos no processo de carga
-      //
-      if FileExists(FSTEPrincipal.cadClientes) then
-        DeleteFile(FSTEPrincipal.cadClientes);
-      lstWork := TStringList.Create;
-      lstWork.LoadFromFile(FSTEPrincipal.tbClie);
-      gbCargaSalva.Caption := 'Carga: Clientes';
-      Gauge1.Progress := 0;
-      Gauge1.MaxValue := lstWork.Count;
-      Application.ProcessMessages;
-      FSTEPrincipal.Clientes.Active := True;
-      FSTEPrincipal.ultCliente := 0;
-      for i := 0 to lstWork.Count-1 do
-      begin
-        xLine := Trim(lstWork[i]);
-        if xLine <> '' then
-        begin
-          if Length(xLine) < 116 then
-          begin        // Carrega pelo layout original
-            xKey := Trim(Copy(xLine,1,15));
-            xNome := Trim(Copy(xLine,16,20));
-            xEnder := Trim(Copy(xLine,36,30));
-            xBair := Trim(Copy(xLine,66,20));
-            xRefer := Trim(Copy(xLine,86,30));
-            wData := DateOf(Date);
-            xCPF := '';
-          end
-          else begin   // Carrega pelo novo layout
-            xKey := Trim(Copy(xLine,1,15));
-            xNome := Trim(Copy(xLine,16,30));
-            xEnder := Trim(Copy(xLine,46,40));
-            xBair := Trim(Copy(xLine,86,20));
-            xRefer := Trim(Copy(xLine,106,40));
-            if Length(xLine) > 145 then
-            begin
-              wData := StrToDate(Copy(xLine,146,10));
-              if Length(xLine) > 155 then
-                xCPF := Copy(xLine,156,14)
-              else
-                xCPF := '';
-            end
-            else begin
-              wData := DateOf(Date);
-              xCPF := '';
-            end
-
-          end;
-          if ValidaRegistro(xKey,xNome,xEnder) then
-          begin
-            FSTEPrincipal.ultCliente := FSTEPrincipal.ultCliente + 1;
-            FSTEPrincipal.Clientes.Append;
-            FSTEPrincipal.ClientesSeq.AsInteger       := FSTEPrincipal.ultCliente;
-            FSTEPrincipal.ClientesChave.AsString      := xKey;
-            FSTEPrincipal.ClientesNome.AsString       := xNome;
-            FSTEPrincipal.ClientesEndereco.AsString   := xEnder;
-            FSTEPrincipal.ClientesBairro.AsString     := xBair;
-            FSTEPrincipal.ClientesRefer.AsString      := xRefer;
-            FSTEPrincipal.ClientesDtCompra.AsDateTime := wData;
-            FSTEPrincipal.ClientesCPF_CNPJ.AsString   := xCPF;
-            Try
-              FSTEPrincipal.Clientes.Post;
-            Except
-              FSTEPrincipal.Clientes.Cancel;
-            End;
-            Gauge1.Progress := Gauge1.Progress + 1;
-          end
-          else
-            lstAuxil.Add(lstWork[i]);   //Acrescenta clientes excluídos, não válidos
-        end;
-      end;
-      FSTEPrincipal.Clientes.SaveToFile(FSTEPrincipal.cadClientes,dfXMLUTF8);
-      FSTEPrincipal.Clientes.FileName := FSTEPrincipal.cadClientes;
-
-      lstWork.Free;
-      lstAuxil.SaveToFile(FSTEPrincipal.tbOldClie);
-      lstAuxil.Free;
-    end;
-    // Produtos
-    if FSTEPrincipal.lCargaXML and FileExists(FSTEPrincipal.cadProdutos) then
-      FSTEPrincipal.Produtos.LoadFromFile(FSTEPrincipal.cadProdutos)
-    else begin
-      if FileExists(FSTEPrincipal.cadProdutos) then
-        DeleteFile(FSTEPrincipal.cadProdutos);
-      lstWork := TStringList.Create;
-      lstWork.LoadFromFile(FSTEPrincipal.tbProd);
-      gbCargaSalva.Caption := 'Carga: Produtos';
-      Gauge1.Progress := 0;
-      Gauge1.MaxValue := lstWork.Count;
-      Application.ProcessMessages;
-      FSTEPrincipal.Produtos.Active := True;
-      FSTEPrincipal.ultProduto := 0;
-      for i := 0 to lstWork.Count-1 do
-      begin
-        FSTEPrincipal.ultProduto := FSTEPrincipal.ultProduto + 1;
-        FSTEPrincipal.Produtos.Append;
-        FSTEPrincipal.ProdutosSeq.AsInteger := FSTEPrincipal.ultProduto;
-        xLine := lstWork[i];
-        if Length(xLine) < 40 then  // Carrega pelo layout original
-        begin
-          xNome := Copy(xLine,1,30);
-          xTipo := '0';
-          xValor := Copy(xLine,31,Length(xLine)-30);
-        end
-        else begin
-          xNome := Copy(xLine,1,40);
-          xTipo := Copy(xLine,41,1);
-          xValor := Copy(xLine,42,Length(xLine)-41);
-        end;
-        FSTEPrincipal.ProdutosDescr.AsString := xNome;
-        FSTEPrincipal.ProdutosTipo.AsInteger := StrToIntDef(xTipo,0);
-        FSTEPrincipal.ProdutosValor.AsCurrency := StrToFloat(xValor);
-        Try
-          FSTEPrincipal.Produtos.Post;
-        Except
-          FSTEPrincipal.Produtos.Cancel;
-        End;
-        Gauge1.Progress := Gauge1.Progress + 1;
-      end;
-      lstWork.Free;
-    end;
+    Clientes.Active := True;
+    Clientes.IndexName := '';
+    Clientes.Last;
+    ultCliente := ClientesSeq.AsInteger;
+    //
+    Produtos.Active := True;
     //
     // Pedidos e lançamentos do dia
-    if not CarregaPedidos(FSTEPrincipal.tbPeds,FSTEPrincipal.tbLcts,True,True) then
+    if not CarregaPedidos(tbPeds,tbLcts,True,True) then
       MessageDlg('Falha na carga dos pedidos do dia',mtError,[mbOk],0)
     else begin
-      FSTEPrincipal.Pedidos.Active := True;
-      FSTEPrincipal.PedLctos.Active := True;
+      Pedidos.Active := True;
+      PedLctos.Active := True;
     end;
-
     gbCargaSalva.visible := False;
   end;
   Result := True;
@@ -896,7 +956,10 @@ begin
   begin
     gbCargaSalva.Visible := True;
     lstWork := TStringList.Create;
-    if pmtInfo in [1,3,5,7] then
+    if (pmtInfo = 1) or
+       (pmtInfo = 3) or
+       (pmtInfo = 5) or
+       (pmtInfo = 7) then
     begin     // Clientes
       nMeses := mesesConsulta * -1;
       wDataLimite := IncMonth(Date, nMeses);
@@ -909,17 +972,14 @@ begin
       Clientes.First;
       while not Clientes.Eof do
       begin
-        lSalva := False;
-        if (ClientesChave.AsString <> '') and
-           (ClientesNome.AsString <> '') and
-           (ClientesEndereco.AsString <> '') and
-           (ClientesDtCompra.AsDateTime >= wDataLimite) then
-          lSalva := True
-        else begin
-          if ((ClientesNome.AsString = '') and lSemNome) and
-             ((ClientesEndereco.AsString = '') and lSemEnder) then
-            lSalva := True;
-        end;
+        lSalva := True;
+        if ClientesChave.AsString = '' then
+          lSalva := False
+        else if (ClientesNome.AsString = '') and
+                (ClientesEndereco.AsString = '') then
+               lSalva := False
+              else if ClientesDtCompra.AsDateTime < wDataLimite then
+                lSalva := False;
         if lSalva then
         begin
           xLinha := stringCompleta(ClientesChave.AsString,'D',' ',15) +
@@ -938,7 +998,10 @@ begin
       if pmtFecha then
         Clientes.Active := False;
     end;
-    if pmtInfo in [2,3,6,7] then
+    if (pmtInfo = 2) or
+       (pmtInfo = 3) or
+       (pmtInfo = 6) or
+       (pmtInfo = 7) then
     begin     // Produtos
       gbCargaSalva.Caption := 'Salvar: Produtos';
       Gauge1.Progress := 0;
@@ -961,7 +1024,10 @@ begin
       if pmtFecha then
         Produtos.Active := False;
     end;
-    if pmtInfo in [4,5,6,7] then
+    if (pmtInfo = 4) or
+       (pmtInfo = 5) or
+       (pmtInfo = 6) or
+       (pmtInfo = 7) then
     begin    // Pedidos & Lançamentos
       gbCargaSalva.Caption := 'Salvar: Pedidos';
       Gauge1.Progress := 0;
@@ -1897,6 +1963,7 @@ begin
   Configuracao;
   gbCargaSalva.Visible := True;
   LabIdent.Caption := FSTEPrincipal.idUsuario;
+  LabIncluirLcto.Caption := FSTEPrincipal.txtIncluir;
   Timer1Timer(nil);
   Timer1.Enabled := True;
   FGen.lSalvaForm := FSTEPrincipal.lSalvaForm;

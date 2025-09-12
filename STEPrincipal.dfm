@@ -20,15 +20,13 @@ object FSTEPrincipal: TFSTEPrincipal
     601)
   TextHeight = 16
   object Image1: TImage
-    Left = 208
+    Left = 212
     Top = 49
-    Width = 816
+    Width = 484
     Height = 484
     Anchors = [akLeft, akTop, akRight, akBottom]
     Stretch = True
     Transparent = True
-    ExplicitWidth = 672
-    ExplicitHeight = 400
   end
   object Image2: TImage
     Left = 1036
@@ -37,6 +35,7 @@ object FSTEPrincipal: TFSTEPrincipal
     Height = 105
     Anchors = [akTop, akRight]
     Stretch = True
+    Transparent = True
     OnMouseDown = Image2MouseDown
   end
   object PanTopo: TPanel
@@ -1580,7 +1579,7 @@ object FSTEPrincipal: TFSTEPrincipal
       ParentBackground = False
       TabOrder = 3
       Visible = False
-      object Label14: TLabel
+      object LabIncluirLcto: TLabel
         Left = 1
         Top = 1
         Width = 283
