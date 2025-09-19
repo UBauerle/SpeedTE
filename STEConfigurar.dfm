@@ -19,7 +19,7 @@ object FSTEConfigurar: TFSTEConfigurar
     Top = 0
     Width = 873
     Height = 357
-    ActivePage = TSConfiguracao
+    ActivePage = TSPedido
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -786,6 +786,7 @@ object FSTEConfigurar: TFSTEConfigurar
         Font.Style = []
         ParentFont = False
         TabOrder = 0
+        ExplicitTop = -2
         object Label19: TLabel
           Left = 106
           Top = 16
@@ -983,6 +984,89 @@ object FSTEConfigurar: TFSTEConfigurar
           Height = 24
           TabOrder = 14
           Text = 'edIntervalo'
+        end
+        object GroupBox1: TGroupBox
+          Left = 351
+          Top = 174
+          Width = 502
+          Height = 135
+          Caption = 'Layout de impress'#227'o'
+          TabOrder = 15
+          object Label36: TLabel
+            Left = 12
+            Top = 20
+            Width = 387
+            Height = 16
+            Caption = 'Posi'#231#227'o do nome do cliente e endere'#231'o  e altura de linha detalhe'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'MS Sans Serif'
+            Font.Style = [fsUnderline]
+            ParentFont = False
+          end
+          object Label37: TLabel
+            Left = 12
+            Top = 52
+            Width = 47
+            Height = 16
+            Alignment = taRightJustify
+            Caption = 'Pedido:'
+          end
+          object Label38: TLabel
+            Left = 16
+            Top = 92
+            Width = 43
+            Height = 16
+            Alignment = taRightJustify
+            Caption = 'Interno:'
+          end
+          object cbLOPedido: TComboBox
+            Left = 65
+            Top = 48
+            Width = 145
+            Height = 24
+            TabOrder = 0
+            Text = 'cbLOPedido'
+            Items.Strings = (
+              'Topo'
+              'Rodape')
+          end
+          object cbLOInterno: TComboBox
+            Left = 65
+            Top = 88
+            Width = 145
+            Height = 24
+            TabOrder = 3
+            Text = 'cbLOInterno'
+            Items.Strings = (
+              'Topo'
+              'Rodape')
+          end
+          object cbAltFixaPed: TCheckBox
+            Left = 220
+            Top = 52
+            Width = 88
+            Height = 17
+            Caption = 'Altura fixa '
+            TabOrder = 1
+          end
+          object cbAltFixaInt: TCheckBox
+            Left = 220
+            Top = 92
+            Width = 88
+            Height = 17
+            Caption = 'Altura fixa '
+            TabOrder = 4
+          end
+          object cbVlrUnit: TCheckBox
+            Left = 314
+            Top = 52
+            Width = 159
+            Height = 17
+            Caption = 'Imprimir valor unit'#225'rio'
+            TabOrder = 2
+          end
         end
       end
     end

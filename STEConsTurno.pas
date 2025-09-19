@@ -338,7 +338,10 @@ begin
     Exit;
   end;
   Copia_Pedido_Wrk;
-  ImprimePedido(FSTEPrincipal.lPrevCons);
+  if FSTEPrincipal.loPedido = 0 then
+    ImprimePedido(FSTEPrincipal.lPrevCons)
+  else
+    ImprimePedidoRP(FSTEPrincipal.lPrevCons);
   Sleep(FSTEPrincipal.tempEspera);
 
 end;
@@ -352,7 +355,10 @@ begin
     Exit;
   end;
   Copia_Pedido_Wrk;
-  ImprimeInterno(FSTEPrincipal.lPrevCons);
+  if FSTEPrincipal.loInterno = 0 then
+    ImprimeInterno(FSTEPrincipal.lPrevCons)      // Cliente/Endereço TOPO
+  else
+    ImprimeInternoRP(FSTEPrincipal.lPrevCons);   // Cliente/Endereço RODAPE
   Sleep(FSTEPrincipal.tempEspera);
 
 end;
@@ -390,12 +396,12 @@ begin
   begin
     wDataIni := EncodeDate(2020,1,1);
     wDataFim := Date + 1;
-    xTpFecham := 'PerTotal';
+    xTpFecham := 'Total';
   end
   else begin
     wDataIni := dtPicIni.Date;
     wDataFim := dtPicFim.Date;
-    xTpFecham := 'Per';
+    xTpFecham := 'Periodo';
   end;
   xSelArquivos := 'Ped_??????';
   if selTurno = 'DN' then

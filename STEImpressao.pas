@@ -6,26 +6,27 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, RLReport, RLPrinters;
   Procedure ImprimePedido(pmtPreview:Boolean; pmtVias:Integer=1);
+  Procedure ImprimePedidoRP(pmtPreview:Boolean; pmtVias:Integer=1);
   Procedure ImprimeInterno(pmtPreview:Boolean; pmtVias:Integer=1);
+  Procedure ImprimeInternoRP(pmtPreview:Boolean; pmtVias:Integer=1);
   Procedure ImprimeFechamento(pmtData:TDateTime;
                               pmtDtFim:TDateTime;
                               pmtTurno:String;
                               pmtDin,pmtCCred,pmtCDeb,pmtPix,pmtOutros:Currency;
                               pmtQtdDia:Integer;pmtVlrDia,pmtTeleDia,pmtTotalDia:Currency;
                               pmtQtdNoite:Integer;pmtVlrNoite,pmtTeleNoite,pmtTotalNoite:Currency;
-                              pmtTipo: String);  //        pmtTipo:String='Turno');
+                              pmtTipo: String);  //        pmtTipo:String='Turno' ou 'Periodo);
+
 type
   TFSTEImpressao = class(TForm)
     RLPedido: TRLReport;
     RLCabec: TRLBand;
     RLDetCabec: TRLBand;
-    RLPedCab1: TRLLabel;
     RLPedCab2: TRLLabel;
+    RLPedCab1: TRLLabel;
     RLPedCab3: TRLLabel;
     RLPedCab4: TRLLabel;
-    RLPedCab5: TRLLabel;
     RLDetPedido: TRLBand;
-    RLPedDd5: TRLDBText;
     RLPedDd4: TRLDBText;
     RLPedDd3: TRLDBText;
     RLPedDd1: TRLDBText;
@@ -47,7 +48,6 @@ type
     RLTroco: TRLLabel;
     RLMeioPagto: TRLLabel;
     RLFooter: TRLBand;
-    RLDtTurnoNro: TRLLabel;
     RLPedObs2: TRLDBText;
     RLFechamento: TRLReport;
     RLFechCabec: TRLBand;
@@ -106,11 +106,9 @@ type
     RLReferInt: TRLLabel;
     RLEntregaInt: TRLLabel;
     RLDetCabInt: TRLBand;
-    RLIntCab1: TRLLabel;
     RLIntCab2: TRLLabel;
-    RLIntCab3: TRLLabel;
+    RLIntCab1: TRLLabel;
     RLDetInterno: TRLBand;
-    RLIntDd3: TRLDBText;
     RLIntDd1: TRLDBText;
     RLIntDd2: TRLDBText;
     RLIntObs1: TRLDBText;
@@ -118,9 +116,7 @@ type
     RLSumarInt: TRLBand;
     RLFootInt: TRLBand;
     RLLabel60: TRLLabel;
-    RLIdInterno: TRLLabel;
     RLFoneInt: TRLLabel;
-    RLNroInterno: TRLLabel;
     RLSystemInfo2: TRLSystemInfo;
     RLSystemInfo3: TRLSystemInfo;
     RLPanTurnos: TRLPanel;
@@ -139,8 +135,77 @@ type
     RLLabel6: TRLLabel;
     RLLabQtdDia: TRLLabel;
     RLLabQtdNoite: TRLLabel;
+    RLInternoRP: TRLReport;
+    RLCabInternoRP: TRLBand;
+    RLIdInternoRP: TRLLabel;
+    RLNroInternoRP: TRLLabel;
+    RLDetCabIntRP: TRLBand;
+    RLIntCab2RP: TRLLabel;
+    RLIntCab1RP: TRLLabel;
+    RLDetInternoRD: TRLBand;
+    RLIntDd1RP: TRLDBText;
+    RLIntDd2RP: TRLDBText;
+    RLIntObs1RP: TRLDBText;
+    RLIntObs2RP: TRLDBText;
+    RLSumarIntRP: TRLBand;
+    RLSystemInfo4: TRLSystemInfo;
+    RLFootIntRP: TRLBand;
+    RLLabel28: TRLLabel;
+    RLNomeIntRP: TRLLabel;
+    RLEnderIntRP: TRLLabel;
+    RLBairroIntRP: TRLLabel;
+    RLReferIntRP: TRLLabel;
+    RLEntregaIntRP: TRLLabel;
+    RLFoneIntRP: TRLLabel;
+    RLPanIdInterno: TRLPanel;
+    RLIdInterno: TRLLabel;
+    RLNroInterno: TRLLabel;
+    RLDtTurnoNro: TRLLabel;
+    RLPedidoRP: TRLReport;
+    RLCabecRP: TRLBand;
+    RLDetCabecRP: TRLBand;
+    RLPedCab2RP: TRLLabel;
+    RLPedCab1RP: TRLLabel;
+    RLPedCab3RP: TRLLabel;
+    RLPedCab4RP: TRLLabel;
+    RLDetPedidoRP: TRLBand;
+    RLPedDd4RP: TRLDBText;
+    RLPedDd3RP: TRLDBText;
+    RLPedDd1RP: TRLDBText;
+    RLPedDd2RP: TRLDBText;
+    RLPedObs1RP: TRLDBText;
+    RLPedObs2RP: TRLDBText;
+    RLSumarioRP: TRLBand;
+    RLVlrPagoRP: TRLLabel;
+    RLTrocoRP: TRLLabel;
+    RLMeioPagtoRP: TRLLabel;
+    RLValorRP: TRLLabel;
+    RLTeleRP: TRLLabel;
+    RLTotalRP: TRLLabel;
+    RLSystemInfo5: TRLSystemInfo;
+    RLDtTurnoNroRP: TRLLabel;
+    RLFooterRP: TRLBand;
+    RLLabel42: TRLLabel;
+    RLEntregaRp: TRLLabel;
+    RLFoneCLieRP: TRLLabel;
+    RLImgFoneClieRP: TRLLabel;
+    RLReferRP: TRLLabel;
+    RLBairroRP: TRLLabel;
+    RLEnderecoRP: TRLLabel;
+    RLNomeRP: TRLLabel;
+    RLLogoRP: TRLImage;
+    RLUsuarioRP: TRLLabel;
+    RLEnder1RP: TRLLabel;
+    RLEnder2RP: TRLLabel;
+    RLImgWhatsRP: TRLImage;
+    RLWAPPRP: TRLLabel;
+    RLImgFoneRP: TRLImage;
+    RLFONERP: TRLLabel;
+    RLDraw1: TRLDraw;
     procedure RLDetPedidoBeforePrint(Sender: TObject; var PrintIt: Boolean);
     procedure RLDetInternoBeforePrint(Sender: TObject; var PrintIt: Boolean);
+    procedure RLDetInternoRDBeforePrint(Sender: TObject; var PrintIt: Boolean);
+    procedure RLDetPedidoRPBeforePrint(Sender: TObject; var PrintIt: Boolean);
   private
     { Private declarations }
   public
@@ -173,28 +238,27 @@ begin
     RLPedido.Margins.LeftMargin := FSTEPrincipal.margEsq;
     RLPedido.Margins.RightMargin := FSTEPrincipal.margDir;
     wLargLst := RLCabec.Width;
-
-    RLPedCab1.Width := Trunc(wLargLst * 0.065);
-    RLPedCab3.Width := Trunc(wLargLst * 0.065);
-    RLPedCab4.Width := Trunc(wLargLst * 0.179);
-    RLPedCab5.Width := Trunc(wLargLst * 0.196);
-    RLPedCab2.Width := wLargLst - (RLPedCab1.Width + RLPedCab3.Width  + RLPedCab4.Width + RLPedCab5.Width);
-    RLPedCab1.Left := 0;
-    RLPedCab2.Left := RLPedCab1.Left + RLPedCab1.Width;
-    RLPedCab3.Left := RLPedCab2.Left + RLPedCab2.Width;
-    RLPedCab4.Left := RLPedCab3.Left + RLPedCab3.Width;
-    RLPedCab5.Left := RLPedCab4.Left + RLPedCab4.Width;
-    //
-    RLPedDd1.Left := RLPedCab1.Left;
+    // Define largura das colunas
+    RLPedCab1.Width := Trunc(wLargLst * 0.081);       // Quantidade
+    RLPedCab3.Width := Trunc(wLargLst * 0.170);        // Valor unitário
+    RLPedCab4.Width := Trunc(wLargLst * 0.195);       // Valor total
+    RLPedCab2.Width := wLargLst - (RLPedCab1.Width + RLPedCab3.Width  + RLPedCab4.Width); // Produto
+    // Define posições
+    RLPedCab1.Left := 0;                                   // Quantidade
+    RLPedCab2.Left := RLPedCab1.Left + RLPedCab1.Width;    // Descricao do produto
+    RLPedCab3.Left := RLPedCab2.Left + RLPedCab2.Width;    // Vlr unitário
+    RLPedCab4.Left := RLPedCab3.Left + RLPedCab3.Width;    // Vlr total
+    RLPedCab3.Visible := FSTEPrincipal.lValorUnit;
+    // Define larguras e posições linha detalhe
+    RLPedDd1.Left  := RLPedCab1.Left;
     RLPedDd1.Width := RLPedCab1.Width;
-    RLPedDd2.Left := RLPedCab2.Left;
+    RLPedDd2.Left  := RLPedCab2.Left;
     RLPedDd2.Width := RLPedCab2.Width;
-    RLPedDd3.Left := RLPedCab3.Left;
+    RLPedDd3.Left  := RLPedCab3.Left;
     RLPedDd3.Width := RLPedCab3.Width;
-    RLPedDd4.Left := RLPedCab4.Left;
+    RLPedDd4.Left  := RLPedCab4.Left;
     RLPedDd4.Width := RLPedCab4.Width;
-    RLPedDd5.Left := RLPedCab5.Left;
-    RLPedDd5.Width := RLPedCab5.Width;
+    RLPedDd3.Visible := FSTEPrincipal.lValorUnit;
     //
     if FileExists(FSTEPrincipal.LogoImpres) then
       RLLogo.Picture.LoadFromFile(FSTEPrincipal.LogoImpres);
@@ -269,12 +333,16 @@ begin
     FSTEPrincipal.LctWrk.First;
     while not FSTEPrincipal.LctWrk.Eof do
     begin
-      nAltura := nAltura + 16;
-      if FSTEPrincipal.LctWrkObs1.AsString <> '' then
-        nAltura := nAltura + 16;
-      if FSTEPrincipal.LctWrkObs2.AsString <> '' then
-        nAltura := nAltura + 16;
-      FSTEPrincipal.LctWrk.Next;
+      if FSTEPrincipal.linPedFixa then
+        nAltura := nAltura + 50
+      else begin
+        nAltura := nAltura + 18;
+        if FSTEPrincipal.LctWrkObs1.AsString <> '' then
+          nAltura := nAltura + 16;
+        if FSTEPrincipal.LctWrkObs2.AsString <> '' then
+          nAltura := nAltura + 16;
+      end;
+     FSTEPrincipal.LctWrk.Next;
     end;
     nAltura := nAltura + FSTEPrincipal.altExtra + FSTEPrincipal.margTop + FSTEPrincipal.margBot;
     tmPagina := Trunc(nAltura / 3.7795) + 1;
@@ -298,6 +366,150 @@ begin
 end;
 
 
+Procedure ImprimePedidoRP(pmtPreview:Boolean; pmtVias:Integer=1);
+var nAltura,tmPagina,i,posImg: Integer;
+    xPrinter,xportaPrt,xdriverPrt: String;
+    indexPrt: Integer;
+begin
+  FSTEImpressao := TFSTEImpressao.Create(nil);
+  with FSTEImpressao do
+  begin
+    lPreview := pmtPreview;
+
+    RLPedidoRP.Margins.TopMargin := FSTEPrincipal.margTop;
+    RLPedidoRP.Margins.BottomMargin := FSTEPrincipal.margBot;
+    RLPedidoRP.Margins.LeftMargin := FSTEPrincipal.margEsq;
+    RLPedidoRP.Margins.RightMargin := FSTEPrincipal.margDir;
+    wLargLst := RLCabecRP.Width;
+    // Define largura das colunas
+    RLPedCab1RP.Width := Trunc(wLargLst * 0.081);
+    RLPedCab3RP.Width := Trunc(wLargLst * 0.170);        // Valor unitário
+    RLPedCab4RP.Width := Trunc(wLargLst * 0.195);
+    RLPedCab2RP.Width := wLargLst - (RLPedCab1RP.Width + RLPedCab3RP.Width  + RLPedCab4RP.Width);
+    // Define posições
+    RLPedCab1RP.Left := 0;                                       // Quantidade
+    RLPedCab2RP.Left := RLPedCab1RP.Left + RLPedCab1RP.Width;    // Descricao do produto
+    RLPedCab3RP.Left := RLPedCab2RP.Left + RLPedCab2RP.Width;
+    RLPedCab4RP.Left := RLPedCab3RP.Left + RLPedCab3RP.Width;
+    RLPedCab3RP.Visible := FSTEPrincipal.lValorUnit;
+    // Define larguras e posições linha detalhe
+    RLPedDd1RP.Left  := RLPedCab1RP.Left;
+    RLPedDd1RP.Width := RLPedCab1RP.Width;
+    RLPedDd2RP.Left  := RLPedCab2RP.Left;
+    RLPedDd2RP.Width := RLPedCab2RP.Width;
+    RLPedDd3RP.Left  := RLPedCab3RP.Left;
+    RLPedDd3RP.Width := RLPedCab3RP.Width;
+    RLPedDd4RP.Left  := RLPedCab4RP.Left;
+    RLPedDd4RP.Width := RLPedCab4RP.Width;
+    RLPedDd3RP.Visible := FSTEPrincipal.lValorUnit;
+    //
+    if FileExists(FSTEPrincipal.LogoImpres) then
+      RLLogoRP.Picture.LoadFromFile(FSTEPrincipal.LogoImpres);
+    RLUsuarioRP.Caption := FSTEPrincipal.idUsuario;
+    RLEnder1RP.Caption := Trim(FSTEPrincipal.idLograd) + ' ' +
+                          Trim(FSTEPrincipal.idNro) + ' ' +
+                          Trim(FSTEPrincipal.idCompl) + ' ';
+    RLEnder2RP.Caption := Trim(FSTEPrincipal.idBairro) + ' ' +
+                          Trim(FSTEPrincipal.idCidade) + ' ' +
+                          Trim(FSTEPrincipal.idUF);
+    posImg := 52;
+    RLImgWhatsRP.Visible := False;
+    RLWAPPRP.Visible := False;
+    RLImgFoneRP.Visible := False;
+    RLFONERP.Visible := False;
+    if FSTEPrincipal.idWhats <> '' then
+    begin
+      RLImgWhatsRP.Left := posImg;
+      RLImgWhatsRP.Visible := True;
+      RLWAPPRP.Caption := Trim(FSTEPrincipal.idWhats);
+      RLWAPPRP.Left := RLImgWhatsRP.Left + RLImgWhatsRP.Width + 1;
+      RLWAPPRP.Visible := True;
+      posImg := posImg + RLImgWhatsRP.Width + RLWAPPRP.Width + 12;
+    end;
+    if FSTEPrincipal.idFone <> '' then
+    begin
+      RLImgFoneRP.Left := posImg;
+      RLImgFoneRP.Visible := True;
+      RLFONERP.Caption := Trim(FSTEPrincipal.idFone);
+      RLFONERP.Left := RLImgFoneRP.Left + RLImgFoneRP.Width + 1;
+      RLFONERP.Visible := True;
+    end;
+    //
+    RLNomeRP.Caption := FSTEPrincipal.PedWrkNome.AsString;
+    RLEnderecoRP.Caption := FSTEPrincipal.PedWrkEndereco.AsString;
+    RLBairroRP.Caption := FSTEPrincipal.PedWrkBairro.AsString;
+    RLReferRP.Caption := FSTEPrincipal.PedWrkRefer.AsString;
+    //RLFone.Caption := 'Fone: ' + EditaFone('',FSTEPrincipal.PedWrkFone.AsString,True);
+    RLFoneClieRP.Caption := ' ' + EditaFone('',FSTEPrincipal.PedWrkFone.AsString,True);
+    RLImgFoneClieRP.Left := RLFoneClieRP.Left - RLImgFoneClieRP.Width;
+    RLEntregaRP.Visible := FSTEPrincipal.lMdEntrega;
+    case FSTEPrincipal.PedWrkEntrega.AsInteger of
+      0:RLEntregaRP.Caption := 'Tele-entrega';
+      1:RLEntregaRP.Caption := 'Retira';
+      2:RLEntregaRP.Caption := 'Consumo local';
+      else RLEntregaRP.Caption := '';
+    end;
+    //
+    RLValorRP.Caption := 'Valor: ' + FloatToStrF(FSTEPrincipal.PedWrkTotal.AsCurrency,ffNumber,15,2);
+    RLTeleRP.Caption  := 'Tele: '  + FloatToStrF(FSTEPrincipal.PedWrkVlrTele.AsCurrency,ffNumber,15,2);
+    RLTotalRP.Caption := 'Total: ' + FloatToStrF(FSTEPrincipal.PedWrkZC_Total.AsCurrency,ffNumber,15,2);
+
+    RLMeioPagtoRP.Caption := 'Pagto: ' + FSTEPrincipal.PedwrkZC_MPagto.AsString;
+
+    RLVlrPagoRP.Caption := 'Vlr pago: ' + FloatToStrF(FSTEPrincipal.PedWrkVlrPago.AsCurrency,ffNumber,15,2);
+    if FSTEPrincipal.PedWrkZC_Troco.AsCurrency > 0 then
+    begin
+      RLTrocoRP.Caption := 'Troco: ' + FloatToStrF(FSTEPrincipal.PedWrkZC_Troco.AsCurrency,ffNumber,15,2);
+      RLTrocoRP.Visible := True;
+    end
+    else RLTrocoRP.Visible := False;
+    RLDraw1.Width := wLargLst;
+
+    RLDtTurnoNroRP.Caption := FSTEPrincipal.PedWrkData.AsString + '  ' +
+                              FSTEPrincipal.PedWrkTurno.AsString + '  ' +
+                              FSTEPrincipal.PedWrkNro.AsString;
+    //
+    xPrinter := FSTEPrincipal.idPrinter;
+    if not DefineImpressora(True,xPrinter,xportaPrt,xdriverPrt,indexPrt) then
+      lPreview := True;
+    //
+    nAltura := RLCabecRP.Height + RLDetCabecRP.Height + RLSumarioRP.Height + RLFooterRP.Height;
+    FSTEPrincipal.LctWrk.First;
+    while not FSTEPrincipal.LctWrk.Eof do
+    begin
+      if FSTEPrincipal.linPedFixa then
+        nAltura := nAltura + 50
+      else begin
+        nAltura := nAltura + 18;
+        if FSTEPrincipal.LctWrkObs1.AsString <> '' then
+          nAltura := nAltura + 16;
+        if FSTEPrincipal.LctWrkObs2.AsString <> '' then
+          nAltura := nAltura + 16;
+      end;
+     FSTEPrincipal.LctWrk.Next;
+    end;
+    nAltura := nAltura + FSTEPrincipal.altExtra + FSTEPrincipal.margTop + FSTEPrincipal.margBot;
+    tmPagina := Trunc(nAltura / 3.7795) + 1;
+    if tmPagina < 80 then
+      tmPagina := 80
+    else if tmPagina > FSTEPrincipal.tmMax then
+              tmPagina := FSTEPrincipal.tmMax;
+    RLPedidoRP.PageSetup.PaperHeight := tmPagina;
+    FFRCtle.RLPreviewSetup1.CustomActionText := '';      // 'Impressao';  //lstAction;
+    RLPedidoRP.PrintDialog := FSTEPrincipal.lDialog;
+    RLPrinters.RLPrinter.PrinterName := xPrinter;
+
+    if lPreview then
+      RLPedidoRP.Preview
+    else
+      for i:= 1 to pmtVias do
+        RLPedidoRP.Print;
+ end;
+ FSTEImpressao.Free;
+
+end;
+
+
 Procedure ImprimeInterno(pmtPreview:Boolean; pmtVias:Integer=1);
 var nAltura,tmPagina,i: Integer;
     xPrinter,xportaPrt,xdriverPrt: String;
@@ -314,12 +526,15 @@ begin
     RLInterno.Margins.RightMargin := FSTEPrincipal.margDir;
     wLargLst := RLCabInterno.Width;
     //
-    RLIntDd1.Left := 0;
-    RLIntDd1.Width := 18;
-    RLIntDd3.Left := wLargLst - 22;
-    RLIntDd3.Width := 22;
-    RLIntDd2.Left := RLIntDd1.Left + RLIntDd1.Width;
-    RLIntDd2.Width := wLargLst - (RLIntDd1.Width + RLIntDd3.Width);
+    RLIntCab1.Left := 0;
+    RLIntCab1.Width := 24;
+    RLIntCab2.Left := RLIntCab1.Width + 1;
+    RLIntDd1.Left := RLIntCab1.Left;
+    RLIntDd1.Width := RLIntCab1.Width;
+    RLIntDd2.Left := RLIntCab2.Left;
+    RLIntDd2.Width := wLargLst - (RLIntDd1.Width + 1);
+    RLIntObs1.Left := RLIntCab2.Left;
+    RLIntObs2.Left := RLIntCab2.Left;
     //
     RLIdInterno.Caption := FSTEPrincipal.idInterno;
     RLNroInterno.Caption := FSTEPrincipal.PedWrkData.AsString + ' ' +
@@ -347,11 +562,15 @@ begin
     FSTEPrincipal.LctWrk.First;
     while not FSTEPrincipal.LctWrk.Eof do
     begin
-      nAltura := nAltura + 18;
-      if FSTEPrincipal.LctWrkObs1.AsString <> '' then
-        nAltura := nAltura + 15;
-      if FSTEPrincipal.LctWrkObs2.AsString <> '' then
-        nAltura := nAltura + 15;
+      if FSTEPrincipal.linIntFixa then
+        nAltura := nAltura + 56
+      else begin
+        nAltura := nAltura + 20;
+        if FSTEPrincipal.LctWrkObs1.AsString <> '' then
+          nAltura := nAltura + 18;
+        if FSTEPrincipal.LctWrkObs2.AsString <> '' then
+          nAltura := nAltura + 18;
+      end;
       FSTEPrincipal.LctWrk.Next;
     end;
     nAltura := nAltura + FSTEPrincipal.altExtra + FSTEPrincipal.margTop + FSTEPrincipal.margBot;
@@ -376,13 +595,97 @@ begin
 end;
 
 
+Procedure ImprimeInternoRP(pmtPreview:Boolean; pmtVias:Integer=1);
+var nAltura,tmPagina,i: Integer;
+    xPrinter,xportaPrt,xdriverPrt: String;
+    indexPrt: Integer;
+begin
+  FSTEImpressao := TFSTEImpressao.Create(nil);
+  with FSTEImpressao do
+  begin
+    lPreview := pmtPreview;
+    RLInternoRP.Margins.TopMargin := FSTEPrincipal.margTop;
+    RLInternoRP.Margins.BottomMargin := FSTEPrincipal.margBot;
+    RLInternoRP.Margins.LeftMargin := FSTEPrincipal.margEsq;
+    RLInternoRP.Margins.RightMargin := FSTEPrincipal.margDir;
+    wLargLst := RLCabInternoRP.Width;
+    //
+    RLIntCab1RP.Left := 0;
+    RLIntCab1RP.Width := 24;
+    RLIntCab2RP.Left := RLIntCab1RP.Width + 1;
+    RLIntDd1RP.Left := RLIntCab1RP.Left;
+    RLIntDd1RP.Width := RLIntCab1RP.Width;
+    RLIntDd2RP.Left := RLIntCab2RP.Left;
+    RLIntDd2RP.Width := wLargLst - (RLIntDd1RP.Width + 1);
+    RLIntObs1RP.Left := RLIntCab2RP.Left;
+    RLIntObs2RP.Left := RLIntCab2RP.Left;
+    //
+    RLIdInternoRP.Caption := FSTEPrincipal.idInterno;
+    RLNroInternoRP.Caption := FSTEPrincipal.PedWrkData.AsString + ' ' +
+                              FSTEPrincipal.PedWrkTurno.AsString + ' ' +
+                              FSTEPrincipal.PedWrkNro.AsString;
+    //
+    RLNomeIntRP.Caption := FSTEPrincipal.PedWrkNome.AsString;
+    RLEnderIntRP.Caption := FSTEPrincipal.PedWrkEndereco.AsString;
+    RLBairroIntRP.Caption := FSTEPrincipal.PedWrkBairro.AsString;
+    RLReferIntRP.Caption := FSTEPrincipal.PedWrkRefer.AsString;
+    RLFoneIntRP.Caption := EditaFone('',FSTEPrincipal.PedWrkFone.AsString,True);
+    //RLEntregaInt.Visible := FSTEPrincipal.lMdEntrega;  Sempre visível
+    case FSTEPrincipal.PedWrkEntrega.AsInteger of
+      0:RLEntregaIntRP.Caption := 'Tele-entrega';
+      1:RLEntregaIntRP.Caption := 'Retira';
+      2:RLEntregaIntRP.Caption := 'Consumo local';
+      else RLEntregaIntRP.Caption := '';
+    end;
+    //
+    xPrinter := FSTEPrincipal.idPrinter;
+    if not DefineImpressora(True,xPrinter,xportaPrt,xdriverPrt,indexPrt) then
+      lPreview := True;
+    //
+    nAltura := RLCabInternoRP.Height + RLDetCabIntRP.Height + RLSumarIntRP.Height + RLFootIntRP.Height;
+    FSTEPrincipal.LctWrk.First;
+    while not FSTEPrincipal.LctWrk.Eof do
+    begin
+      if FSTEPrincipal.linIntFixa then
+        nAltura := nAltura + 56
+      else begin
+        nAltura := nAltura + 20;
+        if FSTEPrincipal.LctWrkObs1.AsString <> '' then
+          nAltura := nAltura + 18;
+        if FSTEPrincipal.LctWrkObs2.AsString <> '' then
+          nAltura := nAltura + 18;
+      end;
+      FSTEPrincipal.LctWrk.Next;
+    end;
+    nAltura := nAltura + FSTEPrincipal.altExtra + FSTEPrincipal.margTop + FSTEPrincipal.margBot;
+    tmPagina := Trunc(nAltura / 3.7795) + 1;
+    if tmPagina < 80 then
+      tmPagina := 80
+    else if tmPagina > FSTEPrincipal.tmMax then
+              tmPagina := FSTEPrincipal.tmMax;
+    RLInternoRP.PageSetup.PaperHeight := tmPagina;
+    FFRCtle.RLPreviewSetup1.CustomActionText := '';      // 'Impressao';  //lstAction;
+    RLInternoRP.PrintDialog := FSTEPrincipal.lDialog;
+    RLPrinters.RLPrinter.PrinterName := xPrinter;
+
+    if lPreview then
+      RLInternoRP.Preview
+    else
+      for i := 1 to pmtVias do
+        RLInternoRP.Print;
+ end;
+ FSTEImpressao.Free;
+
+end;
+
+
 Procedure ImprimeFechamento(pmtData:TDateTime;
                             pmtDtFim:TDateTime;
                             pmtTurno:String;
                             pmtDin,pmtCCred,pmtCDeb,pmtPix,pmtOutros:Currency;
                             pmtQtdDia:Integer;pmtVlrDia,pmtTeleDia,pmtTotalDia:Currency;
                             pmtQtdNoite:Integer;pmtVlrNoite,pmtTeleNoite,pmtTotalNoite:Currency;
-                            pmtTipo: String);  //        pmtTipo:String='Turno');
+                            pmtTipo: String);  //        'Turno' 'Total'  'Periodo'
 var nAltura,tmPagina,i,nLarg: Integer;
     xPrinter,xportaPrt,xdriverPrt: String;
     indexPrt: Integer;
@@ -441,8 +744,8 @@ begin
         RLFechData.Caption := RLFechData.Caption + 'NOITE';
     end
     else begin
-      if pmtTipo = 'PerTotal' then
-        RLFechData.Caption := 'Todos os turnos'
+      if pmtTipo = 'Total' then
+        RLFechData.Caption := 'Todos as datas'
       else
         RLFechData.Caption := DateToStr(pmtData) + '-' + DateToStr(pmtDtFim);
       if pmtTurno = 'D' then
@@ -483,10 +786,12 @@ begin
     if not DefineImpressora(True,xPrinter,xportaPrt,xdriverPrt,indexPrt) then
       lPreview := True;
     //
-    if (pmtTipo <> 'Turno') and
-       (pmtTipo <> 'PerTurno') then
-    begin
-      lPreview := True;
+    if pmtTipo = 'Turno' then
+    begin                             // Impressão do turno
+      RLPanTurnos.Visible := False;
+      RLFechSum.Height := 90;
+    end
+    else begin                        // Total ou Periodo, Turno Dia, Noite ou Ambos  (D,N,DN)
       RLPanTurnos.Visible := True;
       RLLabQtdDia.Caption := IntToStr(pmtQtdDia);
       RLLabVlrDia.Caption := FloatToStrF(pmtVlrDia,ffNumber,15,2);
@@ -497,10 +802,6 @@ begin
       RLLabTeleNoite.Caption := FloatToStrF(pmtTeleNoite,ffNumber,15,2);
       RLLabTotalNoite.Caption := FloatToStrF(pmtTotalNoite,ffNumber,15,2);
       RLFechSum.Height := 128;
-    end
-    else begin    // Impressão do turno
-      RLPanTurnos.Visible := False;
-      RLFechSum.Height := 90;
     end;
     //
     nAltura := (FSTEPrincipal.Pedidos.RecordCount * 14) +
@@ -537,45 +838,58 @@ end;
 
 procedure TFSTEImpressao.RLDetInternoBeforePrint(Sender: TObject; var PrintIt: Boolean);
 begin
-  if FSTEPrincipal.LctWrkObs1.AsString <> '' then
-  begin
-    RLIntObs1.Visible := True;
-    RLDetInterno.Height := 33;
-    if FSTEPrincipal.LctWrkObs2.AsString <> '' then
-    begin
-      RLIntObs2.Visible := True;
-      RLDetInterno.Height := 48;
-    end
-    else
-      RLPedObs2.Visible := False;
-  end
+  if FSTEPrincipal.linIntFixa then
+    RLDetInterno.Height := 56
   else begin
-    RLIntObs1.Visible := False;
-    RLIntObs2.Visible := False;
-    RLDetInterno.Height := 18;
+    RLDetInterno.Height := 20;
+    if FSTEPrincipal.LctWrkObs1.AsString <> '' then
+      RLDetInterno.Height := 38;
+    if FSTEPrincipal.LctWrkObs2.AsString <> '' then
+      RLDetInterno.Height := 56;
   end;
 
 end;
 
 
+procedure TFSTEImpressao.RLDetInternoRDBeforePrint(Sender: TObject; var PrintIt: Boolean);
+begin
+  if FSTEPrincipal.linIntFixa then
+    RLDetInterno.Height := 56
+  else begin
+    RLDetInternoRD.Height := 20;
+    if FSTEPrincipal.LctWrkObs1.AsString <> '' then
+      RLDetInternoRD.Height := 38;
+    if FSTEPrincipal.LctWrkObs2.AsString <> '' then
+      RLDetInternoRD.Height := 56;
+  end;
+
+end;
+
 procedure TFSTEImpressao.RLDetPedidoBeforePrint(Sender: TObject; var PrintIt: Boolean);
 begin
-  if FSTEPrincipal.LctWrkObs1.AsString <> '' then
-  begin
-    RLPedObs1.Visible := True;
-    RLDetPedido.Height := 30;
-    if FSTEPrincipal.LctWrkObs2.AsString <> '' then
-    begin
-      RLPedObs2.Visible := True;
-      RLDetPedido.Height := 45;
-    end
-    else
-      RLPedObs2.Visible := False;
-  end
+  if FSTEPrincipal.linPedFixa then
+    RLDetPedido.Height := 50
   else begin
-    RLPedObs1.Visible := False;
-    RLPedObs2.Visible := False;
-    RLDetPedido.Height := 15;
+    RLDetPedido.Height := 18;
+    if FSTEPrincipal.LctWrkObs1.AsString <> '' then
+      RLDetPedido.Height := 34;
+    if FSTEPrincipal.LctWrkObs2.AsString <> '' then
+      RLDetPedido.Height := 50;
+  end;
+
+end;
+
+procedure TFSTEImpressao.RLDetPedidoRPBeforePrint(Sender: TObject;
+  var PrintIt: Boolean);
+begin
+  if FSTEPrincipal.linPedFixa then
+    RLDetPedidoRP.Height := 50
+  else begin
+    RLDetPedidoRP.Height := 18;
+    if FSTEPrincipal.LctWrkObs1.AsString <> '' then
+      RLDetPedidoRP.Height := 34;
+    if FSTEPrincipal.LctWrkObs2.AsString <> '' then
+      RLDetPedidoRP.Height := 50;
   end;
 
 end;

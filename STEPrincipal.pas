@@ -271,6 +271,8 @@ type
     tmpProds: String;
     idPrinter: String;
     tmMax,margEsq,margDir,margTop,margBot,copias,copInterno,tempEspera: Integer;
+    loPedido,loInterno: Integer;
+    linPedFixa,linIntFixa,lValorUnit: Boolean;
     lPreview,lDialog,lPrevCons,lImpInterno: Boolean;
     pixelHor,altExtra: Integer;
     keyUsuar: String;
@@ -1389,9 +1391,17 @@ begin
       LctWrk.Next;
     end;
     AtualizaCliente;
-    ImprimePedido(FSTEPrincipal.lPreview, FSTEPrincipal.copias);
+    if FSTEPrincipal.loPedido = 0 then
+      ImprimePedido(FSTEPrincipal.lPreview, FSTEPrincipal.copias)    // Cliente/Endereço TOPO
+    else
+      ImprimePedidoRP(FSTEPrincipal.lPreview, FSTEPrincipal.copias);    // Cliente/Endereço Rodape
+
     if FSTEPrincipal.lImpInterno then
-      ImprimeInterno(FSTEPrincipal.lPreview, FSTEPrincipal.copInterno);
+      if FSTEPrincipal.loInterno = 0 then
+        ImprimeInterno(FSTEPrincipal.lPreview, FSTEPrincipal.copInterno)   // Cliente/Endereço TOPO
+      else
+        ImprimeInternoRP(FSTEPrincipal.lPreview, FSTEPrincipal.copInterno);   // Cliente/Endereço Rodape
+
     SalvaDados(4,False);
   end;
   btCancelaClick(nil);
