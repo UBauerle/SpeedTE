@@ -500,6 +500,7 @@ begin
                       xTpFecham);
   ExibeSelecaoDeTurnos(False);
   //
+  //
   lAtivo := True;
   Turnos.Last;
   edTurnoChange(nil);

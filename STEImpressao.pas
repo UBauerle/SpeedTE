@@ -642,6 +642,7 @@ begin
       else RLEntregaIntRP.Caption := '';
     end;
     //
+    //
     xPrinter := FSTEPrincipal.idPrinter;
     if not DefineImpressora(True,xPrinter,xportaPrt,xdriverPrt,indexPrt) then
       lPreview := True;

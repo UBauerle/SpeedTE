@@ -1700,7 +1700,7 @@ begin
   if PesquisaClientes(xFone) then
   begin
     PedWrkFone.AsString := xFone;
-    //dbFone.Text := xFone;
+    //dbFone.Text := xFone; ...
     dbFoneExit(nil);
   end
   else dbFone.Text := '';
