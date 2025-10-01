@@ -1998,10 +1998,11 @@ begin
   if (FSTEPrincipal.PedWrkTotal.AsCurrency = 0) and
      (FSTEPrincipal.PedWrk.RecordCount = 0) then
   begin
-    if MessageDlg('Informe:'+ #13 +
-                  'Alterar dados do cliente ou Cancelar pedido',
+    if MessageDlg('Informe:'+ #13#13 +
+                  '     Alterar/informar dados do cliente, ou' + #13 +
+                  '     Cancelar pedido',
                   mtConfirmation,[mbYes,mbNo],0,mbYes,
-                  ['Alterar dados cliente','Cancelar pedido']) = mrYes then
+                  ['Alterar/informar dados','Cancelar pedido']) = mrYes then
       dbNome.SetFocus
     else
       btCancelaClick(nil);

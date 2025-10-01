@@ -533,7 +533,6 @@ object FSTEPrincipal: TFSTEPrincipal
       TabOrder = 0
       OnEnter = gbClienteEnter
       OnExit = gbClienteExit
-      ExplicitTop = -2
       DesignSize = (
         328
         435)
@@ -1111,7 +1110,6 @@ object FSTEPrincipal: TFSTEPrincipal
       TabOrder = 2
       OnEnter = gbTotalizEnter
       OnExit = gbTotalizExit
-      ExplicitTop = -2
       DesignSize = (
         250
         435)
@@ -1346,7 +1344,7 @@ object FSTEPrincipal: TFSTEPrincipal
       end
       object btCancela: TBitBtn
         Left = 64
-        Top = 385
+        Top = 389
         Width = 157
         Height = 43
         Anchors = [akRight, akBottom]
