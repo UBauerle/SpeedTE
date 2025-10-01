@@ -123,9 +123,7 @@ type
     dbTotal: TDBEdit;
     Label6: TLabel;
     PedidosTurno: TStringField;
-    PedidosData: TDateField;
     PedWrkTurno: TStringField;
-    PedWrkData: TDateField;
     dbProdCombo: TDBComboBox;
     SDSMeiosPgto: TDataSource;
     DSMeiosPgto: TClientDataSet;
@@ -178,6 +176,11 @@ type
     LabEntrega: TLabel;
     dbLkEntrega: TDBLookupComboBox;
     PedidosZC_Entrega: TStringField;
+    PedidosData: TDateTimeField;
+    PedWrkData: TDateTimeField;
+    PedWrkZC_TurnoNro: TStringField;
+    PedWrkZC_DataHora: TStringField;
+    btConfCliente: TBitBtn;
     procedure FormActivate(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -251,6 +254,8 @@ type
     procedure dbObs1Exit(Sender: TObject);
     procedure Image2MouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure gbClienteEnter(Sender: TObject);
+    procedure btConfClienteClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -271,9 +276,10 @@ type
     tmpProds: String;
     idPrinter: String;
     tmMax,margEsq,margDir,margTop,margBot,copias,copInterno,tempEspera: Integer;
+    mdDtHr: Integer;
     loPedido,loInterno: Integer;
     linPedFixa,linIntFixa,lValorUnit: Boolean;
-    lPreview,lDialog,lPrevCons,lImpInterno: Boolean;
+    lPreview,lDialog,lPrevCons,lImpInterno,lLctSV,lExCarga,lImpTurno: Boolean;
     pixelHor,altExtra: Integer;
     keyUsuar: String;
     ddCheck: Integer;
@@ -302,7 +308,7 @@ uses uGenericas, STEProdutos, STEClientes, STEImpressao, STEConsTurno,
 
 Procedure ObtemCamposArqTexto(pmtLinha:String; pmtResult:TStringList; pmtMinimo:Integer);
 var xLinha: String;
-    nP,nOcorr: Integer;
+    nP: Integer;
 begin
   xLinha := pmtLinha + '|';
   nP := Pos('|',xLinha);
@@ -462,7 +468,7 @@ begin
     Pedidos.FieldDefs.Add('MeioPgto', ftSmallInt);
     Pedidos.FieldDefs.Add('VlrPago',  ftCurrency);
     Pedidos.FieldDefs.Add('Turno',    ftString, 1);
-    Pedidos.FieldDefs.Add('Data',     ftDate);
+    Pedidos.FieldDefs.Add('Data',     ftDateTime);
     Pedidos.FieldDefs.Add('CPF_CNPJ', ftString, 14);
     Pedidos.FieldDefs.Add('Entrega',  ftSmallint);
     Pedidos.IndexDefs.Add('','Nro',[ixPrimary,ixUnique]);
@@ -508,7 +514,7 @@ begin
     PedWrk.FieldDefs.Add('MeioPgto', ftSmallInt);
     PedWrk.FieldDefs.Add('VlrPago',  ftCurrency);
     PedWrk.FieldDefs.Add('Turno',    ftString, 1);
-    PedWrk.FieldDefs.Add('Data',     ftDate);
+    PedWrk.FieldDefs.Add('Data',     ftDateTime);
     PedWrk.FieldDefs.Add('CPF_CNPJ', ftString, 14);
     PedWrk.FieldDefs.Add('Entrega',  ftSmallint);
     PedWrk.CreateDataSet;
@@ -671,11 +677,13 @@ begin
     end;
     Clientes.SaveToFile(cadClientes,dfXMLUTF8);
     Clientes.FileName := cadClientes;
-    MessageDlg('Lidos: ' + IntToStr(lstWork.Count) + #13 +
-               'Gravados: ' + IntToStr(gravs) + #13 +
-               'Desconsiderados: ' + IntToStr(descons) + #13 +
-               'Brancos: ' + IntToStr(brancos),mtInformation,[mbOk],0);
     lstWork.Free;
+    if lExCarga then
+      MessageDlg('Clientes' + #13 +
+                 'Lidos: ' + IntToStr(lstWork.Count) + #13 +
+                 'Gravados: ' + IntToStr(gravs) + #13 +
+                 'Desconsiderados: ' + IntToStr(descons) + #13 +
+                 'Brancos: ' + IntToStr(brancos),mtInformation,[mbOk],0);
   end;
   Result := True;
 
@@ -684,7 +692,7 @@ end;
 
 Function CarregaProdutos: Boolean;
 var lstWork: TStringList;
-    i: Integer;
+    lidos,gravs,i: Integer;
     xLine,xNome,xTipo,xValor: String;
 begin
   Result := False;
@@ -695,6 +703,15 @@ begin
     begin
       Produtos.LoadFromFile(cadProdutos);
       Produtos.FileName := cadProdutos;
+      ultProduto := 0;
+      Produtos.Active := True;
+      Produtos.First;
+      while not Produtos.Eof do
+      begin
+        if ProdutosSeq.AsInteger > ultProduto  then
+          ultProduto := ProdutosSeq.AsInteger;
+        Produtos.Next;
+      end;
       Result := True;
       Exit;
     end;
@@ -715,36 +732,48 @@ begin
     Application.ProcessMessages;
     Produtos.Active := True;
     ultProduto := 0;
+    lidos := 0;
+    gravs := 0;
     for i := 0 to lstWork.Count-1 do
     begin
-      ultProduto := ultProduto + 1;
-      Produtos.Append;
-      ProdutosSeq.AsInteger := ultProduto;
       xLine := lstWork[i];
-      if Length(xLine) < 40 then    // Carrega pelo layout original
+      lidos := lidos + 1;
+      if xLine <> '' then
       begin
-        xNome := Copy(xLine,1,30);
-        xTipo := '0';
-        xValor := Copy(xLine,31,Length(xLine)-30);
-      end
-      else begin
-        xNome := Copy(xLine,1,40);
-        xTipo := Copy(xLine,41,1);
-        xValor := Copy(xLine,42,Length(xLine)-41);
+        ultProduto := ultProduto + 1;
+        Produtos.Append;
+        ProdutosSeq.AsInteger := ultProduto;
+        xLine := lstWork[i];
+        if Length(xLine) < 40 then    // Carrega pelo layout original
+        begin
+          xNome := Copy(xLine,1,30);
+          xTipo := '0';
+          xValor := Copy(xLine,31,Length(xLine)-30);
+        end
+        else begin
+          xNome := Copy(xLine,1,40);
+          xTipo := Copy(xLine,41,1);
+          xValor := Copy(xLine,42,Length(xLine)-41);
+        end;
+        ProdutosDescr.AsString := xNome;
+        ProdutosTipo.AsInteger := StrToIntDef(xTipo,0);
+        ProdutosValor.AsCurrency := StrToFloat(xValor);
+        Try
+          Produtos.Post;
+          gravs := gravs + 1;
+        Except
+          Produtos.Cancel;
+        End;
       end;
-      ProdutosDescr.AsString := xNome;
-      ProdutosTipo.AsInteger := StrToIntDef(xTipo,0);
-      ProdutosValor.AsCurrency := StrToFloat(xValor);
-      Try
-        Produtos.Post;
-      Except
-        Produtos.Cancel;
-      End;
       Gauge1.Progress := Gauge1.Progress + 1;
     end;
     Produtos.SaveToFile(cadProdutos,dfXMLUTF8);
     Produtos.FileName := cadProdutos;
     lstWork.Free;
+    if lExCarga then
+      MessageDlg('Produtos' + #13 +
+                 'Lidos: ' + IntToStr(lidos) + #13 +
+                 'Gravados: ' + IntToStr(gravs),mtInformation,[mbOk],0);
   end;
   Result := True;
 
@@ -947,7 +976,7 @@ end;
 
 Function SalvaDados(pmtInfo:Integer; pmtFecha:Boolean): Boolean;
 var lstWork: TStringList;
-    xLinha: String;
+    xLinha,xValor,xDescr,xTipo: String;
     wDataLimite: TDate;
     nMeses: Integer;
     lSalva: Boolean;
@@ -1015,10 +1044,18 @@ begin
       Produtos.First;
       while not Produtos.Eof do
       begin
-        xLinha := stringCompleta(ProdutosDescr.AsString,'D',' ',40) +
-                  ProdutosTipo.AsString +
-                  ProdutosValor.AsString;
-        lstWork.Add(xLinha);
+        if ProdutosDescr.AsString <> '' then
+        begin
+          xDescr := stringCompleta(ProdutosDescr.AsString,'D',' ',40);
+          xTipo := ProdutosTipo.AsString;
+          if xTipo = '' then
+            xTipo := '0';
+          xValor := ProdutosValor.AsString;
+          if xValor = '' then
+            xValor := '00';
+          xLinha := xDescr + xTipo + xValor;
+          lstWork.Add(xLinha);
+        end;
         Produtos.Next;
         Gauge1.Progress := Gauge1.Progress + 1;
       end;
@@ -1257,7 +1294,7 @@ begin
     PedWrkTurno.AsString := 'D'
   else
     PedWrkTurno.AsString := 'N';
-  PedWrkData.AsDateTime := DateOf(Date);
+  PedWrkData.AsDateTime := Now;     //DateOf(Date);
   LctWrk.Active := True;
   LctWrk.EmptyDataSet;
   RETexto.Lines.Clear;
@@ -1268,6 +1305,7 @@ begin
   CarregaProdsCombo;
   FSTEPrincipal.FormResize(nil);
   qtdLctos := 0;
+  btConfCliente.Visible := False;
   dbFone.SetFocus;
 
 end;
@@ -1328,6 +1366,7 @@ end;
 
 procedure TFSTEPrincipal.btFinalizaClick(Sender: TObject);
 var sqLct: Integer;
+//    usaLct: Boolean;
 begin
   if PedWrkZC_Troco.AsCurrency < 0 then
   begin
@@ -1338,9 +1377,12 @@ begin
     Exit;
   end;
   //
-
   if PedWrkZC_Total.AsCurrency > 0 then
   begin
+    Try
+      PedWrkData.AsDateTime := Now;
+    Except
+    End;
     Pedidos.Append;
     PedidosNro.AsInteger := PedWrkNro.AsInteger;
     PedidosFone.AsString := PedWrkFone.AsString;
@@ -1356,13 +1398,19 @@ begin
     PedidosData.AsDateTime := PedWrkData.AsDateTime;
     PedidosCPF_CNPJ.AsString := PedWrkCPF_CNPJ.AsString;
     PedidosEntrega.AsInteger := PedWrkEntrega.AsInteger;
+    //PedidosHora.AsDateTime :=
     Pedidos.Post;
     //
+   {  ---- Retirado em 30/09
     sqLct := 0;
     LctWrk.First;
     while not LctWrk.Eof do
     begin
       if LctWrkTotal.AsCurrency > 0 then
+        usaLct := True
+      else
+        usaLct := lLctSV;
+      if usaLct then
       begin
         sqLct := sqLct + 1;
         LctWrk.Edit;
@@ -1374,13 +1422,17 @@ begin
         LctWrk.Delete;
       LctWrk.Next;
     end;
+    ----- }
     //
+    // nro.lançamento:   Alterado em 30/09/2025
+    sqLct := 0;          // 30/09
     LctWrk.First;
     while not LctWrk.Eof do
     begin
+      sqLct := sqLct + 1;     // 30/09
       PedLctos.Append;
       PedLctosPedNro.AsInteger := LctWrkPedNro.AsInteger;
-      PedLctosLcto.AsInteger := LctWrkLcto.AsInteger;
+      PedLctosLcto.AsInteger := sqLct;       // 30/09 .... LctWrkLcto.AsInteger;
       PedLctosQuant.AsInteger := LctWrkQuant.AsInteger;
       PedLctosProduto.AsString := LctWrkProduto.AsString;
       PedLctosObs1.AsString := LctWrkObs1.AsString;
@@ -1408,10 +1460,30 @@ begin
 
 end;
 
+procedure TFSTEPrincipal.btConfClienteClick(Sender: TObject);
+begin
+  btConfCliente.Visible := False;
+  dbProdCombo.SetFocus;
+
+end;
+
 procedure TFSTEPrincipal.btConfirmaProdClick(Sender: TObject);
 var wValor: Currency;
     xDescr,xQtd,xUnit,xTotal: String;
 begin
+  if lLancando then        // Lancando item
+    if (LctWrkTotal.AsCurrency = 0) and     // Valor ZERADO e
+       (not lLctSV) then                    // Não aceita item sem valor
+      if MessageDlg('Lançamento SEM VALOR' + #13#13 +
+                    LctWrkProduto.AsString + #13#13 +
+                    'Incluir no pedido/comanda?',
+                    mtConfirmation,[mbYes,mbNo],0,mbNo,['Sim','Não']) = mrNo then
+      begin
+        LctWrk.Delete;
+        SolicitaInclusao(True);
+        Exit;
+      end;
+  //
   lLancando := False;
   if not lExclusao then
   begin
@@ -1641,8 +1713,7 @@ begin
   lCadastrado := False;
   xFone := dbFone.Text;
   if xFone = '' then
-  begin
-    // Forçando a saída do pedido
+  begin         // Forçando a saída do pedido
     PedWrkFone.AsString := '11111';
     dbNome.SetFocus;
     dbProdCombo.SetFocus;
@@ -1669,7 +1740,9 @@ begin
     else
       PedwrkCPF_CNPJ.EditMask := '000\.000\.000-00;0; ';
     lCadastrado := True;
-    dbProdCombo.SetFocus;
+    btConfCliente.Visible := True;
+    btConfCliente.SetFocus;
+    // dbProdCombo.SetFocus;
   end
   else dbNome.SetFocus;
 
@@ -1758,7 +1831,7 @@ end;
 
 procedure TFSTEPrincipal.dbObs1Change(Sender: TObject);
 begin
-  if Length(Trim(dbObs1.Text)) = 50 then
+  if Length(Trim(dbObs1.Text)) = 45 then
      SelectNext((Sender as TwinControl),True,True);
 
 end;
@@ -1787,13 +1860,12 @@ end;
 
 procedure TFSTEPrincipal.dbObs2Change(Sender: TObject);
 begin
-  if Length(Trim(dbObs2.Text)) = 50 then
+  if Length(Trim(dbObs2.Text)) = 45 then
      SelectNext((Sender as TwinControl),True,True);
 
 end;
 
-procedure TFSTEPrincipal.dbObs2KeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
+procedure TFSTEPrincipal.dbObs2KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if Key = Vk_Return then
      SelectNext((Sender as TwinControl),True,True);
@@ -1923,9 +1995,16 @@ end;
 
 procedure TFSTEPrincipal.edValorTeleEnter(Sender: TObject);
 begin
-  if FSTEPrincipal.PedWrkTotal.AsCurrency = 0 then
+  if (FSTEPrincipal.PedWrkTotal.AsCurrency = 0) and
+     (FSTEPrincipal.PedWrk.RecordCount = 0) then
   begin
-    btCancelaClick(nil);
+    if MessageDlg('Informe:'+ #13 +
+                  'Alterar dados do cliente ou Cancelar pedido',
+                  mtConfirmation,[mbYes,mbNo],0,mbYes,
+                  ['Alterar dados cliente','Cancelar pedido']) = mrYes then
+      dbNome.SetFocus
+    else
+      btCancelaClick(nil);
     Exit;
   end;
   LabTele.Caption := '---> Tele:';
@@ -2049,6 +2128,12 @@ begin
 
 end;
 
+procedure TFSTEPrincipal.gbClienteEnter(Sender: TObject);
+begin
+  // showMessage('Entrando....');
+
+end;
+
 procedure TFSTEPrincipal.gbClienteExit(Sender: TObject);
 begin
   if qtdLctos = 0 then
@@ -2116,6 +2201,10 @@ begin
 end;
 
 procedure TFSTEPrincipal.PedWrkCalcFields(DataSet: TDataSet);
+var xData,xHora: String;
+const x1: String = ' ';
+      x2: String = '  ';
+      x3: String = '   ';
 begin
   PedWrkZC_Total.AsCurrency := PedWrkTotal.AsCurrency + PedWrkVlrTele.AsCurrency;
   PedWrkZC_Troco.AsCurrency := PedWrkVlrPago.AsCurrency - PedWrkZC_Total.AsCurrency;
@@ -2134,6 +2223,12 @@ begin
     99:PedWrkZC_MPagto.AsString := 'Outros';
     else PedWrkZC_MPagto.AsString := '< ' + FSTEPrincipal.PedWrkMeioPgto.AsString + ' >';
   end;
+  PedWrkZC_TurnoNro.AsString := PedWrkTurno.AsString + '  ' + PedWrkNro.AsString;
+  xData := DateToStr(DateOf(PedWrkData.AsDateTime));
+  if mdDtHr = 1 then
+    xData := Copy(xData,1,6) + Copy(xData,9,2);
+  xHora := Copy(TimeToStr(TimeOf(PedWrkData.AsDateTime)),1,5);
+  PedWrkZC_DataHora.AsString := xData + '  ' + xHora;
 
 end;
 

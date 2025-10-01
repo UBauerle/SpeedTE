@@ -40,12 +40,9 @@ type
     procedure btCancelaProdClick(Sender: TObject);
     procedure btGravaProdClick(Sender: TObject);
     procedure GridProdsDblClick(Sender: TObject);
-    procedure dbDescricaoKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
-    procedure dbValorKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
-    procedure dbLkTipoKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
+    procedure dbDescricaoKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure dbValorKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure dbLkTipoKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure dbDescricaoKeyPress(Sender: TObject; var Key: Char);
     procedure dbValorKeyPress(Sender: TObject; var Key: Char);
     procedure dbLkTipoKeyPress(Sender: TObject; var Key: Char);
@@ -115,6 +112,10 @@ end;
 
 procedure TFSTEProdutos.btGravaProdClick(Sender: TObject);
 begin
+  if FSTEPrincipal.ProdutosValor.isNull then
+    FSTEPrincipal.ProdutosValor.AsCurrency := 0;
+  if FSTEPrincipal.ProdutosTipo.IsNull then
+    FSTEPrincipal.ProdutosTipo.AsInteger := 0;
   Try
     FSTEPrincipal.Produtos.Post;
   Except
@@ -146,8 +147,7 @@ begin
 
 end;
 
-procedure TFSTEProdutos.dbDescricaoKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
+procedure TFSTEProdutos.dbDescricaoKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if Key = Vk_Return then
      SelectNext((Sender as TwinControl),True,True);
@@ -161,8 +161,7 @@ begin
 
 end;
 
-procedure TFSTEProdutos.dbLkTipoKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
+procedure TFSTEProdutos.dbLkTipoKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if Key = Vk_Return then
      SelectNext((Sender as TwinControl),True,True);
@@ -176,8 +175,7 @@ begin
 
 end;
 
-procedure TFSTEProdutos.dbValorKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
+procedure TFSTEProdutos.dbValorKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if Key = Vk_Return then
      SelectNext((Sender as TwinControl),True,True);
@@ -210,7 +208,7 @@ end;
 procedure TFSTEProdutos.FormResize(Sender: TObject);
 begin
   if FSTEProdutos.Width < 620 then
-    FSTEProdutos.Width := 6520;
+    FSTEProdutos.Width := 620;
   if FSTEProdutos.Height < 440 then
     FSTEProdutos.Height := 440;
   GridProds := DefineGrid(GridProds,[0.07, 0.33, 0.16, 0.20],1,0);

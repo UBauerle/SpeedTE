@@ -239,7 +239,7 @@ object FSTEProdutos: TFSTEProdutos
       Caption = 'LabNRegs'
     end
     object btSair: TBitBtn
-      Left = 560
+      Left = 565
       Top = 5
       Width = 33
       Height = 29

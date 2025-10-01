@@ -160,7 +160,6 @@ type
     RLPanIdInterno: TRLPanel;
     RLIdInterno: TRLLabel;
     RLNroInterno: TRLLabel;
-    RLDtTurnoNro: TRLLabel;
     RLPedidoRP: TRLReport;
     RLCabecRP: TRLBand;
     RLDetCabecRP: TRLBand;
@@ -202,6 +201,7 @@ type
     RLImgFoneRP: TRLImage;
     RLFONERP: TRLLabel;
     RLDraw1: TRLDraw;
+    RLDtTurnoNro: TRLLabel;
     procedure RLDetPedidoBeforePrint(Sender: TObject; var PrintIt: Boolean);
     procedure RLDetInternoBeforePrint(Sender: TObject; var PrintIt: Boolean);
     procedure RLDetInternoRDBeforePrint(Sender: TObject; var PrintIt: Boolean);
@@ -292,6 +292,11 @@ begin
       RLFONE.Visible := True;
     end;
     //
+    RLDtTurnoNro.Caption := FSTEPrincipal.PedWrkZC_DataHora.AsString;
+    if FSTEPrincipal.lImpTurno then
+      RLDtTurnoNro.Caption := RLDtTurnoNro.Caption + '   ' + FSTEPrincipal.PedWrkZC_TurnoNro.AsString;
+     RLDtTurnoNro.Caption := RLDtTurnoNro.Caption + '  ';
+
     RLNome.Caption := FSTEPrincipal.PedWrkNome.AsString;
     RLEndereco.Caption := FSTEPrincipal.PedWrkEndereco.AsString;
     RLBairro.Caption := FSTEPrincipal.PedWrkBairro.AsString;
@@ -320,10 +325,6 @@ begin
       RLTroco.Visible := True;
     end
     else RLTroco.Visible := False;
-
-    RLDtTurnoNro.Caption := FSTEPrincipal.PedWrkData.AsString + '  ' +
-                            FSTEPrincipal.PedWrkTurno.AsString + '  ' +
-                            FSTEPrincipal.PedWrkNro.AsString;
     //
     xPrinter := FSTEPrincipal.idPrinter;
     if not DefineImpressora(True,xPrinter,xportaPrt,xdriverPrt,indexPrt) then
@@ -465,9 +466,10 @@ begin
     else RLTrocoRP.Visible := False;
     RLDraw1.Width := wLargLst;
 
-    RLDtTurnoNroRP.Caption := FSTEPrincipal.PedWrkData.AsString + '  ' +
-                              FSTEPrincipal.PedWrkTurno.AsString + '  ' +
-                              FSTEPrincipal.PedWrkNro.AsString;
+    RLDtTurnoNroRP.Caption := FSTEPrincipal.PedWrkZC_DataHora.AsString;
+    if FSTEPrincipal.lImpTurno then
+      RLDtTurnoNroRP.Caption := RLDtTurnoNroRP.Caption + '   ' + FSTEPrincipal.PedWrkZC_TurnoNro.AsString;
+    RLDtTurnoNroRP.Caption := RLDtTurnoNro.Caption + '  ';
     //
     xPrinter := FSTEPrincipal.idPrinter;
     if not DefineImpressora(True,xPrinter,xportaPrt,xdriverPrt,indexPrt) then
@@ -537,9 +539,10 @@ begin
     RLIntObs2.Left := RLIntCab2.Left;
     //
     RLIdInterno.Caption := FSTEPrincipal.idInterno;
-    RLNroInterno.Caption := FSTEPrincipal.PedWrkData.AsString + ' ' +
-                            FSTEPrincipal.PedWrkTurno.AsString + ' ' +
-                            FSTEPrincipal.PedWrkNro.AsString;
+    RLNroInterno.Caption := FSTEPrincipal.PedWrkZC_DataHora.AsString;
+    if FSTEPrincipal.lImpTurno then
+      RLNroInterno.Caption := RLNroInterno.Caption + '   ' + FSTEPrincipal.PedWrkZC_TurnoNro.AsString;
+    RLNroInterno.Caption := RLNroInterno.Caption + '  ';
     //
     RLNomeInt.Caption := FSTEPrincipal.PedWrkNome.AsString;
     RLEnderInt.Caption := FSTEPrincipal.PedWrkEndereco.AsString;
@@ -621,9 +624,10 @@ begin
     RLIntObs2RP.Left := RLIntCab2RP.Left;
     //
     RLIdInternoRP.Caption := FSTEPrincipal.idInterno;
-    RLNroInternoRP.Caption := FSTEPrincipal.PedWrkData.AsString + ' ' +
-                              FSTEPrincipal.PedWrkTurno.AsString + ' ' +
-                              FSTEPrincipal.PedWrkNro.AsString;
+    RLNroInternoRP.Caption := FSTEPrincipal.PedWrkZC_DataHora.AsString;
+    if FSTEPrincipal.lImpTurno then
+      RLNroInternoRP.Caption := RLNroInternoRP.Caption + '   ' + FSTEPrincipal.PedWrkZC_TurnoNro.AsString;
+    RLNroInternoRP.Caption := RLNroInternoRP.Caption + '  ';
     //
     RLNomeIntRP.Caption := FSTEPrincipal.PedWrkNome.AsString;
     RLEnderIntRP.Caption := FSTEPrincipal.PedWrkEndereco.AsString;

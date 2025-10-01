@@ -19,7 +19,7 @@ object FSTEConfigurar: TFSTEConfigurar
     Top = 0
     Width = 873
     Height = 357
-    ActivePage = TSPedido
+    ActivePage = TSConfiguracao
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -669,12 +669,12 @@ object FSTEConfigurar: TFSTEConfigurar
           TabOrder = 11
         end
         object gbCtle: TGroupBox
-          Left = 540
-          Top = 170
+          Left = 600
+          Top = 178
           Width = 129
           Height = 127
           Caption = 'Controle'
-          TabOrder = 14
+          TabOrder = 15
           OnMouseDown = gbCtleMouseDown
           object Label10: TLabel
             Left = 16
@@ -768,6 +768,38 @@ object FSTEConfigurar: TFSTEConfigurar
           TabOrder = 13
           Text = 'edTxtIncluir'
         end
+        object cbLctSV: TCheckBox
+          Left = 201
+          Top = 272
+          Width = 228
+          Height = 17
+          Caption = 'Aceita lancamento sem valor'
+          Color = clBtnFace
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentColor = False
+          ParentFont = False
+          TabOrder = 14
+        end
+        object cbExCarga: TCheckBox
+          Left = 201
+          Top = 295
+          Width = 225
+          Height = 17
+          Caption = 'Exibe carga Clientes e Produtos'
+          Color = clBtnFace
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentColor = False
+          ParentFont = False
+          TabOrder = 16
+        end
       end
     end
     object TSPedido: TTabSheet
@@ -786,7 +818,6 @@ object FSTEConfigurar: TFSTEConfigurar
         Font.Style = []
         ParentFont = False
         TabOrder = 0
-        ExplicitTop = -2
         object Label19: TLabel
           Left = 106
           Top = 16
@@ -989,7 +1020,7 @@ object FSTEConfigurar: TFSTEConfigurar
           Left = 351
           Top = 174
           Width = 502
-          Height = 135
+          Height = 139
           Caption = 'Layout de impress'#227'o'
           TabOrder = 15
           object Label36: TLabel
@@ -1007,7 +1038,7 @@ object FSTEConfigurar: TFSTEConfigurar
           end
           object Label37: TLabel
             Left = 12
-            Top = 52
+            Top = 48
             Width = 47
             Height = 16
             Alignment = taRightJustify
@@ -1015,15 +1046,22 @@ object FSTEConfigurar: TFSTEConfigurar
           end
           object Label38: TLabel
             Left = 16
-            Top = 92
+            Top = 80
             Width = 43
             Height = 16
             Alignment = taRightJustify
             Caption = 'Interno:'
           end
+          object Label39: TLabel
+            Left = 12
+            Top = 112
+            Width = 119
+            Height = 16
+            Caption = 'Formato Data/Hora:'
+          end
           object cbLOPedido: TComboBox
             Left = 65
-            Top = 48
+            Top = 44
             Width = 145
             Height = 24
             TabOrder = 0
@@ -1034,7 +1072,7 @@ object FSTEConfigurar: TFSTEConfigurar
           end
           object cbLOInterno: TComboBox
             Left = 65
-            Top = 88
+            Top = 76
             Width = 145
             Height = 24
             TabOrder = 3
@@ -1045,7 +1083,7 @@ object FSTEConfigurar: TFSTEConfigurar
           end
           object cbAltFixaPed: TCheckBox
             Left = 220
-            Top = 52
+            Top = 48
             Width = 88
             Height = 17
             Caption = 'Altura fixa '
@@ -1053,7 +1091,7 @@ object FSTEConfigurar: TFSTEConfigurar
           end
           object cbAltFixaInt: TCheckBox
             Left = 220
-            Top = 92
+            Top = 80
             Width = 88
             Height = 17
             Caption = 'Altura fixa '
@@ -1061,11 +1099,31 @@ object FSTEConfigurar: TFSTEConfigurar
           end
           object cbVlrUnit: TCheckBox
             Left = 314
-            Top = 52
+            Top = 48
             Width = 159
             Height = 17
             Caption = 'Imprimir valor unit'#225'rio'
             TabOrder = 2
+          end
+          object cbDataHora: TComboBox
+            Left = 137
+            Top = 108
+            Width = 164
+            Height = 24
+            TabOrder = 5
+            Text = 'cbDataHora'
+            Items.Strings = (
+              'DD/MM/AAAA  HR:MI'
+              'DD/MM/AA  HR:MI'
+              '')
+          end
+          object cbImpTN: TCheckBox
+            Left = 312
+            Top = 112
+            Width = 177
+            Height = 17
+            Caption = 'Imprime Turno && N'#250'mero'
+            TabOrder = 6
           end
         end
       end

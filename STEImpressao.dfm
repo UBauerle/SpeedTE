@@ -33,7 +33,7 @@ object FSTEImpressao: TFSTEImpressao
       Left = 30
       Top = 19
       Width = 246
-      Height = 159
+      Height = 179
       BandType = btHeader
       Borders.Sides = sdCustom
       Borders.DrawLeft = False
@@ -45,7 +45,7 @@ object FSTEImpressao: TFSTEImpressao
         Left = 0
         Top = 0
         Width = 246
-        Height = 58
+        Height = 60
         Align = faTop
         Borders.Sides = sdCustom
         Borders.DrawLeft = False
@@ -201,7 +201,7 @@ object FSTEImpressao: TFSTEImpressao
       end
       object RLNome: TRLLabel
         Left = 12
-        Top = 60
+        Top = 80
         Width = 54
         Height = 16
         Font.Charset = DEFAULT_CHARSET
@@ -213,7 +213,7 @@ object FSTEImpressao: TFSTEImpressao
       end
       object RLEndereco: TRLLabel
         Left = 12
-        Top = 80
+        Top = 100
         Width = 75
         Height = 16
         Font.Charset = DEFAULT_CHARSET
@@ -225,7 +225,7 @@ object FSTEImpressao: TFSTEImpressao
       end
       object RLBairro: TRLLabel
         Left = 12
-        Top = 100
+        Top = 120
         Width = 54
         Height = 16
         Font.Charset = DEFAULT_CHARSET
@@ -237,7 +237,7 @@ object FSTEImpressao: TFSTEImpressao
       end
       object RLRefer: TRLLabel
         Left = 12
-        Top = 120
+        Top = 140
         Width = 50
         Height = 16
         Font.Charset = DEFAULT_CHARSET
@@ -249,7 +249,7 @@ object FSTEImpressao: TFSTEImpressao
       end
       object RLFoneClie: TRLLabel
         Left = 152
-        Top = 139
+        Top = 159
         Width = 94
         Height = 19
         Align = faRightBottom
@@ -263,7 +263,7 @@ object FSTEImpressao: TFSTEImpressao
       end
       object RLEntrega: TRLLabel
         Left = 0
-        Top = 140
+        Top = 160
         Width = 79
         Height = 18
         Align = faLeftBottom
@@ -276,9 +276,10 @@ object FSTEImpressao: TFSTEImpressao
       end
       object RLImgFoneClie: TRLLabel
         Left = 138
-        Top = 139
+        Top = 158
         Width = 40
         Height = 20
+        Align = faBottomOnly
         Caption = #39
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
@@ -287,10 +288,23 @@ object FSTEImpressao: TFSTEImpressao
         Font.Style = []
         ParentFont = False
       end
+      object RLDtTurnoNro: TRLLabel
+        Left = 153
+        Top = 60
+        Width = 93
+        Height = 16
+        Align = faRightTop
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
     end
     object RLDetCabec: TRLBand
       Left = 30
-      Top = 178
+      Top = 198
       Width = 246
       Height = 15
       AutoSize = True
@@ -350,7 +364,7 @@ object FSTEImpressao: TFSTEImpressao
     end
     object RLDetPedido: TRLBand
       Left = 30
-      Top = 193
+      Top = 213
       Width = 246
       Height = 50
       Borders.Sides = sdCustom
@@ -442,7 +456,7 @@ object FSTEImpressao: TFSTEImpressao
     end
     object RLSumario: TRLBand
       Left = 30
-      Top = 243
+      Top = 263
       Width = 246
       Height = 102
       BandType = btSummary
@@ -523,23 +537,10 @@ object FSTEImpressao: TFSTEImpressao
         Info = itDetailCount
         Text = 'Itens: '
       end
-      object RLDtTurnoNro: TRLLabel
-        Left = 0
-        Top = 85
-        Width = 93
-        Height = 16
-        Align = faLeftBottom
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -13
-        Font.Name = 'Arial'
-        Font.Style = [fsBold]
-        ParentFont = False
-      end
     end
     object RLFooter: TRLBand
       Left = 30
-      Top = 345
+      Top = 365
       Width = 246
       Height = 16
       BandType = btFooter
