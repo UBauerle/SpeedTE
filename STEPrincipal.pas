@@ -1429,18 +1429,22 @@ begin
     LctWrk.First;
     while not LctWrk.Eof do
     begin
-      sqLct := sqLct + 1;     // 30/09
-      PedLctos.Append;
-      PedLctosPedNro.AsInteger := LctWrkPedNro.AsInteger;
-      PedLctosLcto.AsInteger := sqLct;       // 30/09 .... LctWrkLcto.AsInteger;
-      PedLctosQuant.AsInteger := LctWrkQuant.AsInteger;
-      PedLctosProduto.AsString := LctWrkProduto.AsString;
-      PedLctosObs1.AsString := LctWrkObs1.AsString;
-      PedLctosObs2.AsString := LctWrkObs2.AsString;
-      PedLctosValor.AsCurrency := LctWrkValor.AsCurrency;
-      PedLctosTotal.AsCurrency := LctWrkTotal.AsCurrency;
-      PedLctos.Post;
-      LctWrk.Next;
+      if LctWrkProduto.AsString = '' then
+        LctWrk.Delete
+      else begin
+        sqLct := sqLct + 1;     // 30/09
+        PedLctos.Append;
+        PedLctosPedNro.AsInteger := LctWrkPedNro.AsInteger;
+        PedLctosLcto.AsInteger := sqLct;       // 30/09 .... LctWrkLcto.AsInteger;
+        PedLctosQuant.AsInteger := LctWrkQuant.AsInteger;
+        PedLctosProduto.AsString := LctWrkProduto.AsString;
+        PedLctosObs1.AsString := LctWrkObs1.AsString;
+        PedLctosObs2.AsString := LctWrkObs2.AsString;
+        PedLctosValor.AsCurrency := LctWrkValor.AsCurrency;
+        PedLctosTotal.AsCurrency := LctWrkTotal.AsCurrency;
+        PedLctos.Post;
+        LctWrk.Next;
+      end;
     end;
     AtualizaCliente;
     if FSTEPrincipal.loPedido = 0 then
@@ -1513,32 +1517,35 @@ begin
   wValor := 0;
   while not LctWrk.Eof do
   begin
-    wValor := wValor + LctWrkTotal.AsCurrency;
-    //
-    xQtd := stringCompleta(LctWrkQuant.AsString,'E',' ',2);
-    xDescr := stringCompleta(LctWrkProduto.AsString,'D',' ',40);
-    xUnit := stringCompleta(FloatToStrF(LctWrkValor.AsCurrency,ffNumber,15,2),'E',' ',7);
-    xTotal := stringCompleta(FloatToStrF(LctWrkTotal.AsCurrency,ffNumber,15,2),'E',' ',8);
-    if (LctWrkObs1.AsString = '') and (LctWrkObs2.AsString = '') then
-      RETexto.SelAttributes.Underline := True;
-    RETexto.Lines.Add(xQtd + ' ' + xDescr + ' ' + xUnit + ' ' + xTotal + '.');
-    MemLcto.Lines.Add(LctWrkLcto.AsString);
-    if LctWrkObs1.AsString <> '' then
-    begin
-      RETexto.SelAttributes.Color := clBlue;
-      if LctWrkObs2.AsString = '' then
+    if LctWrkProduto.AsString = '' then
+      LctWrk.Delete
+    else begin
+      wValor := wValor + LctWrkTotal.AsCurrency;
+      xQtd := stringCompleta(LctWrkQuant.AsString,'E',' ',2);
+      xDescr := stringCompleta(LctWrkProduto.AsString,'D',' ',40);
+      xUnit := stringCompleta(FloatToStrF(LctWrkValor.AsCurrency,ffNumber,15,2),'E',' ',7);
+      xTotal := stringCompleta(FloatToStrF(LctWrkTotal.AsCurrency,ffNumber,15,2),'E',' ',8);
+      if (LctWrkObs1.AsString = '') and (LctWrkObs2.AsString = '') then
         RETexto.SelAttributes.Underline := True;
-      RETexto.lines.Add('     ' + StringCompleta(LctWrkObs1.AsString,'D',' ',55) + '.');
+      RETexto.Lines.Add(xQtd + ' ' + xDescr + ' ' + xUnit + ' ' + xTotal + '.');
       MemLcto.Lines.Add(LctWrkLcto.AsString);
-      if LctWrkObs2.AsString <> '' then
+      if LctWrkObs1.AsString <> '' then
       begin
         RETexto.SelAttributes.Color := clBlue;
-        RETexto.SelAttributes.Underline := True;
-        RETexto.lines.Add('     ' + StringCompleta(LctWrkObs2.AsString,'D',' ',55) + '.');
+        if LctWrkObs2.AsString = '' then
+          RETexto.SelAttributes.Underline := True;
+        RETexto.lines.Add('     ' + StringCompleta(LctWrkObs1.AsString,'D',' ',55) + '.');
         MemLcto.Lines.Add(LctWrkLcto.AsString);
+        if LctWrkObs2.AsString <> '' then
+        begin
+          RETexto.SelAttributes.Color := clBlue;
+          RETexto.SelAttributes.Underline := True;
+          RETexto.lines.Add('     ' + StringCompleta(LctWrkObs2.AsString,'D',' ',55) + '.');
+          MemLcto.Lines.Add(LctWrkLcto.AsString);
+        end;
       end;
+      LctWrk.Next;
     end;
-    LctWrk.Next;
   end;
   PedWrkTotal.AsCurrency := wValor;
   LabALtExc.Visible := False;
@@ -1958,7 +1965,8 @@ end;
 
 procedure TFSTEPrincipal.dbUnitExit(Sender: TObject);
 begin
-  LctWrkTotal.AsCurrency := LctWrkValor.AsCurrency * LctWrkQuant.AsInteger;
+  if (LctWrk.State = dsEdit) or (LctWrk.State = dsInsert) then
+    LctWrkTotal.AsCurrency := LctWrkValor.AsCurrency * LctWrkQuant.AsInteger;
   btConfirmaProd.SetFocus;
 
 end;
