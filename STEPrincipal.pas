@@ -1104,7 +1104,7 @@ begin
       Application.ProcessMessages;
       lstWork.Clear;
       PedLctos.First;
-      while not PedLctos.eof do
+      while not PedLctos.Eof do
       begin
         xLinha := PedLctosPedNro.AsString + '|' +
                   PedLctosLcto.AsString + '|' +
@@ -1891,6 +1891,7 @@ var xKey: String;
 begin
   if dbProdCombo.Text = '' then
   begin
+    LctWrk.Delete;
     edValorTele.SetFocus;
     Exit;
   end;
