@@ -181,6 +181,7 @@ type
     PedWrkZC_TurnoNro: TStringField;
     PedWrkZC_DataHora: TStringField;
     btConfCliente: TBitBtn;
+    PedidosZC_MPLst: TStringField;
     procedure FormActivate(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -252,8 +253,7 @@ type
     procedure dbLkEntregaExit(Sender: TObject);
     procedure dbFoneDblClick(Sender: TObject);
     procedure dbObs1Exit(Sender: TObject);
-    procedure Image2MouseDown(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
+    procedure Image2MouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure gbClienteEnter(Sender: TObject);
     procedure btConfClienteClick(Sender: TObject);
   private
@@ -284,6 +284,7 @@ type
     keyUsuar: String;
     ddCheck: Integer;
     txtIncluir: String;
+    wLogFile: String;
 
   end;
 
@@ -297,7 +298,6 @@ var
   //xInfo: array[0..19] of String;
   qtdLctos: Integer;
   lUtilizar: Boolean;
-
 
 implementation
 
@@ -471,6 +471,7 @@ begin
     Pedidos.FieldDefs.Add('Data',     ftDateTime);
     Pedidos.FieldDefs.Add('CPF_CNPJ', ftString, 14);
     Pedidos.FieldDefs.Add('Entrega',  ftSmallint);
+    Pedidos.FieldDefs.Add('Hora',     ftTime);
     Pedidos.IndexDefs.Add('','Nro',[ixPrimary,ixUnique]);
     Pedidos.CreateDataSet;
     Try
@@ -1340,10 +1341,10 @@ begin
   btProdutos.Enabled := True;
   btClientes.Enabled := True;
   btConsultar.Enabled := True;
-
+  {
   PedWrk.EmptyDataSet;
   LctWrk.EmptyDataSet;
-
+  }
   btAbrirPedido.SetFocus;
   PanPedido.Visible := False;
 
@@ -2004,6 +2005,12 @@ end;
 
 procedure TFSTEPrincipal.edValorTeleEnter(Sender: TObject);
 begin
+  if FSTEPrincipal.LctWrk.RecordCount = 0 then
+  begin
+    btCancelaClick(nil);
+    Exit;
+  end;
+
   if (FSTEPrincipal.PedWrkTotal.AsCurrency = 0) and
      (FSTEPrincipal.PedWrk.RecordCount = 0) then
   begin
@@ -2122,6 +2129,7 @@ begin
   fTime := True;
   FSTEPrincipal.Width := 1240;
   FSTEPrincipal.Height := 640;
+  FSTEPrincipal.wLogFile := ChangeFileExt(Application.ExeName,'.Log');
 
 end;
 
@@ -2200,13 +2208,23 @@ begin
     17:PedidosZC_MPgto.AsString := 'PIX';
     else PedidosZC_MPgto.AsString := 'Out';  // Outros';
   end;
+  PedidosZC_MPLst.AsString := PedidosZC_MPgto.AsString;
+  if PedidosEntrega.AsInteger >= 10 then
+    PedidosZC_MPLst.AsString := 'CAN';
   PedidosZC_FoneNome.AsString := Trim(PedidosFone.AsString) + ' ' + Trim(PedidosNome.AsString);
   case PedidosEntrega.AsInteger of
-    0:PedidosZC_Entrega.AsString := 'Tele';
-    1:PedidosZC_Entrega.AsString := 'Retira';
-    2:PedidosZC_Entrega.AsString := 'Cons';
-    else PedidosZC_Entrega.AsString := '*';
+     0:PedidosZC_Entrega.AsString := 'Tele';
+     1:PedidosZC_Entrega.AsString := 'Retira';
+     2:PedidosZC_Entrega.AsString := 'Cons';
+    10:PedidosZC_Entrega.AsString := 'Canc-Tele';
+    11:PedidosZC_Entrega.AsString := 'Canc-Retira';
+    12:PedidosZC_Entrega.AsString := 'Canc-Cons';
+    else if PedidosEntrega.AsInteger < 10 then
+           PedidosZC_Entrega.AsString := '*'
+         else
+           PedidosZC_Entrega.AsString := 'Cancelado';
   end;
+
 
 end;
 

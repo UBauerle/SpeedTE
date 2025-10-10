@@ -60,7 +60,7 @@ type
     btFechPeriodo: TBitBtn;
     PanSelTurnos: TPanel;
     Label10: TLabel;
-    btImprInterno: TBitBtn;
+    btInterno: TBitBtn;
     Label11: TLabel;
     dtPicIni: TDateTimePicker;
     Label12: TLabel;
@@ -74,6 +74,7 @@ type
     TurnosSelec: TStringField;
     TurnosTurno: TStringField;
     TurnosTxDtTurno: TStringField;
+    btCancelar: TBitBtn;
     procedure FormResize(Sender: TObject);
     procedure btSairClick(Sender: TObject);
     procedure edTurnoChange(Sender: TObject);
@@ -85,7 +86,7 @@ type
     procedure PanVisualizExit(Sender: TObject);
     procedure btFechamentoClick(Sender: TObject);
     procedure btFechPeriodoClick(Sender: TObject);
-    procedure btImprInternoClick(Sender: TObject);
+    procedure btInternoClick(Sender: TObject);
     procedure btCancelClick(Sender: TObject);
     procedure cbDatasClick(Sender: TObject);
     procedure cbDatasKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -98,6 +99,7 @@ type
     procedure cbTurnosKeyPress(Sender: TObject; var Key: Char);
     procedure GridTurnosDblClick(Sender: TObject);
     procedure btProssegClick(Sender: TObject);
+    procedure btCancelarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -117,7 +119,7 @@ implementation
 
 {$R *.dfm}
 
-uses STEPrincipal, uGenericas, STEImpressao;
+uses STEPrincipal, uGenericas, STEImpressao, STECancelaReativa;
 
 
 Function ObtemTurnos(pmtPath:String; pmtMeses:Integer=12): Boolean;
@@ -245,7 +247,7 @@ begin
     lAtivo := True;
     Turnos.Last;
     edTurnoChange(nil);
-    btImprInterno.Visible := FSTEPrincipal.lImpInterno;
+    btInterno.Visible := FSTEPrincipal.lImpInterno;
     Form_Define(FSTEConsTurno);
     FormResize(nil);
     ShowModal;
@@ -282,7 +284,7 @@ begin
     NavPedidos.Enabled := pmtModo;
     btVisualizar.Enabled := pmtModo;
     btImprimir.Enabled := pmtModo;
-    btImprInterno.Enabled := pmtModo;
+    btInterno.Enabled := pmtModo;
     btFechamento.Enabled := pmtModo;
     btFechPeriodo.Enabled := pmtModo;
     btSair.Enabled := pmtModo;
@@ -291,6 +293,15 @@ begin
 
 end;
 
+
+procedure TFSTEConsTurno.btCancelarClick(Sender: TObject);
+var nResp: Integer;
+begin
+  if FSTEPrincipal.Pedidos.RecordCount = 0 then
+    Exit;
+  FSTECancelaReativa.ShowModal;
+
+end;
 
 procedure TFSTEConsTurno.btCancelClick(Sender: TObject);
 begin
@@ -346,7 +357,7 @@ begin
 
 end;
 
-procedure TFSTEConsTurno.btImprInternoClick(Sender: TObject);
+procedure TFSTEConsTurno.btInternoClick(Sender: TObject);
 begin
   if FSTEPrincipal.Pedidos.RecordCount = 0 then
   begin
@@ -422,7 +433,7 @@ begin
   tOutros := 0;
   for i := 1 to 2 do               // 1-Dia  2-Noite
   begin
-    qtdTurnos[i] := 0;                // Qunatidade de pedidos
+    qtdTurnos[i] := 0;                // Quantidade de pedidos
     for j := 1 to 3 do                // 1-Valor  2-Tele  3-Total
       totTurnos[i,j] := 0;
   end;
@@ -693,15 +704,18 @@ begin
   FSTEPrincipal.Pedidos.First;
   while not FSTEPrincipal.Pedidos.Eof do
   begin
-    tProds := tProds + FSTEPrincipal.PedidosTotal.AsCurrency;
-    tTele := tTele + FSTEPrincipal.PedidosVlrTele.AsCurrency;
-    tGeral := tGeral + FSTEPrincipal.PedidosZC_Total.AsCurrency;
-    case FSTEPrincipal.PedidosMeioPgto.AsInteger of
-      1:tDin := tDin + FSTEPrincipal.PedidosZC_Total.AsCurrency;
-      3:tCCred := tCCred + FSTEPrincipal.PedidosZC_Total.AsCurrency;
-      4:tCDeb := tCDeb + FSTEPrincipal.PedidosZC_Total.AsCurrency;
-      17:tPix := tPix + FSTEPrincipal.PedidosZC_Total.AsCurrency;
-      else tOutros := tOutros + FSTEPrincipal.PedidosZC_Total.AsCurrency;
+    if FSTEPrincipal.PedidosEntrega.AsInteger < 10 then
+    begin        // Pedidos VALIDOS
+      tProds := tProds + FSTEPrincipal.PedidosTotal.AsCurrency;
+      tTele := tTele + FSTEPrincipal.PedidosVlrTele.AsCurrency;
+      tGeral := tGeral + FSTEPrincipal.PedidosZC_Total.AsCurrency;
+      case FSTEPrincipal.PedidosMeioPgto.AsInteger of
+        1:tDin := tDin + FSTEPrincipal.PedidosZC_Total.AsCurrency;
+        3:tCCred := tCCred + FSTEPrincipal.PedidosZC_Total.AsCurrency;
+        4:tCDeb := tCDeb + FSTEPrincipal.PedidosZC_Total.AsCurrency;
+        17:tPix := tPix + FSTEPrincipal.PedidosZC_Total.AsCurrency;
+        else tOutros := tOutros + FSTEPrincipal.PedidosZC_Total.AsCurrency;
+      end;
     end;
     FSTEPrincipal.Pedidos.Next;
   end;
@@ -728,9 +742,10 @@ procedure TFSTEConsTurno.FormCreate(Sender: TObject);
 begin
   btVisualizar.Caption := '&Visualizar'  +  #13 + 'pedido';
   btImprimir.Caption := '&Imprimir'+ #13 + 'pedido';
-  btImprInterno.Caption := 'Imprimir' + #13 + 'in&Terno';
+  btInterno.Caption := 'Imprimir' + #13 + 'in&Terno';
   btFechamento.Caption := 'Imprimir' + #13 + '&fechamento';
   btFechPeriodo.Caption := 'Fechamento' + #13 + '&periódico';
+  btCancelar.Caption := 'Cancelar' + #13 + '&Reativar';
   PanSelTurnos.Width := 268;
   btProsseg.Width := 124;
   btCancel.Width := 124;
@@ -740,6 +755,7 @@ begin
 end;
 
 procedure TFSTEConsTurno.FormResize(Sender: TObject);
+var nrBotoes,lrgDisp,lrgBot,tamSep: Integer;
 begin
   if FSTEConsTurno.Width < 900 then
     FSTEConsTurno.Width := 900;
@@ -750,6 +766,36 @@ begin
     GridPedidos := DefineGrid(GridPedidos,[0.11,0.33,0.11,0.11,0.11,0.11,0.07],1,0)
   else
     GridPedidos := DefineGrid(GridPedidos,[0.11,0.33,0.11,0.11,0.11,0.11,0.00],1,0);
+  //  Botões
+  // btVisualizar btImprimir btInterno btCancelar btFechamento btFechPeriodo btSair
+  if btInterno.Visible then
+    nrBotoes := 7
+  else
+    nrBotoes := 6;
+  tamSep := 6;
+  lrgDisp := PanRodape.Width - 140;
+  lrgBot := lrgDisp div nrBotoes - tamSep;
+  btVisualizar.Width := lrgBot;
+  btImprimir.Width := lrgBot;
+  btInterno.Width := lrgBot;
+  btCancelar.Width := lrgBot;
+  btFechamento.Width := lrgBot;
+  btFechPeriodo.Width := lrgBot;
+  btSair.Width := lrgBot;
+  lrgBot := lrgBot + tamSep;
+  //
+  btSair.Left := (lrgDisp - lrgBot) + 140;
+  btFechPeriodo.Left := btSair.Left - lrgBot;
+  btFechamento.Left := btFechPeriodo.Left - lrgBot;
+  btCancelar.Left := btFechamento.Left - lrgBot;
+  if btInterno.Visible then
+  begin
+    btInterno.Left := btCancelar.Left - lrgBot;
+    btImprimir.Left := btInterno.Left - lrgBot;
+  end
+  else
+     btImprimir.Left := btCancelar.Left - lrgBot;
+  btVisualizar.Left := btImprimir.Left - lrgBot;
 
 end;
 

@@ -742,12 +742,12 @@ object FSTEImpressao: TFSTEImpressao
       end
       object RLFechDd5: TRLDBText
         Left = 219
-        Top = -2
+        Top = 1
         Width = 24
         Height = 12
         Alignment = taCenter
         AutoSize = False
-        DataField = 'ZC_MPgto'
+        DataField = 'ZC_MPLst'
         DataSource = FSTEPrincipal.DSPedidos
         Text = ''
       end

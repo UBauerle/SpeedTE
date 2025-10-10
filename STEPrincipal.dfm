@@ -1884,7 +1884,7 @@ object FSTEPrincipal: TFSTEPrincipal
     Aggregates = <>
     Params = <>
     OnCalcFields = PedidosCalcFields
-    Left = 252
+    Left = 248
     Top = 85
     object PedidosNro: TIntegerField
       FieldName = 'Nro'
@@ -1963,6 +1963,12 @@ object FSTEPrincipal: TFSTEPrincipal
       FieldKind = fkCalculated
       FieldName = 'ZC_Entrega'
       Size = 10
+      Calculated = True
+    end
+    object PedidosZC_MPLst: TStringField
+      FieldKind = fkCalculated
+      FieldName = 'ZC_MPLst'
+      Size = 3
       Calculated = True
     end
   end

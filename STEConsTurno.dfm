@@ -122,15 +122,15 @@ object FSTEConsTurno: TFSTEConsTurno
         827
         57)
       object LabNRegs: TLabel
-        Left = 12
+        Left = 4
         Top = 37
         Width = 66
         Height = 16
         Caption = 'LabNRegs'
       end
       object NavPedidos: TDBNavigator
-        Left = 12
-        Top = 6
+        Left = 4
+        Top = 5
         Width = 132
         Height = 25
         DataSource = FSTEPrincipal.DSPedidos
@@ -140,9 +140,9 @@ object FSTEConsTurno: TFSTEConsTurno
         TabOrder = 0
       end
       object btVisualizar: TBitBtn
-        Left = 150
+        Left = 140
         Top = 6
-        Width = 108
+        Width = 88
         Height = 43
         Anchors = [akTop, akRight]
         Caption = '&Visualizar'
@@ -188,9 +188,9 @@ object FSTEConsTurno: TFSTEConsTurno
         OnClick = btVisualizarClick
       end
       object btImprimir: TBitBtn
-        Left = 262
+        Left = 250
         Top = 6
-        Width = 108
+        Width = 88
         Height = 43
         Anchors = [akTop, akRight]
         Caption = '&Imprimir'
@@ -255,9 +255,9 @@ object FSTEConsTurno: TFSTEConsTurno
         OnClick = btImprimirClick
       end
       object btSair: TBitBtn
-        Left = 710
+        Left = 722
         Top = 6
-        Width = 108
+        Width = 88
         Height = 43
         Anchors = [akTop, akRight]
         Caption = '&Sair'
@@ -303,9 +303,9 @@ object FSTEConsTurno: TFSTEConsTurno
         OnClick = btSairClick
       end
       object btFechamento: TBitBtn
-        Left = 486
-        Top = 6
-        Width = 108
+        Left = 534
+        Top = 5
+        Width = 88
         Height = 43
         Anchors = [akTop, akRight]
         Caption = 'Impr &Fecham'
@@ -327,9 +327,9 @@ object FSTEConsTurno: TFSTEConsTurno
         OnClick = btFechamentoClick
       end
       object btFechPeriodo: TBitBtn
-        Left = 600
+        Left = 628
         Top = 6
-        Width = 108
+        Width = 88
         Height = 43
         Anchors = [akTop, akRight]
         Caption = 'Fecham periodo'
@@ -350,10 +350,10 @@ object FSTEConsTurno: TFSTEConsTurno
         TabOrder = 5
         OnClick = btFechPeriodoClick
       end
-      object btImprInterno: TBitBtn
-        Left = 374
-        Top = 5
-        Width = 108
+      object btInterno: TBitBtn
+        Left = 344
+        Top = 6
+        Width = 88
         Height = 43
         Anchors = [akTop, akRight]
         Caption = 'Interno'
@@ -415,7 +415,55 @@ object FSTEConsTurno: TFSTEConsTurno
           9DE1BDB8E0B7B2E0B5ADE0B1A9E0ACA5E0AAA0DDA39AF8AF9AFF00FFFF00FFFF
           00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
         TabOrder = 3
-        OnClick = btImprInternoClick
+        OnClick = btInternoClick
+      end
+      object btCancelar: TBitBtn
+        Left = 440
+        Top = 6
+        Width = 88
+        Height = 43
+        Anchors = [akTop, akRight]
+        Caption = 'Canc/Ativ'
+        Glyph.Data = {
+          76040000424D7604000000000000760000002800000040000000200000000100
+          0400000000000004000000000000000000001000000000000000000000000000
+          8000008000000080800080000000800080008080000080808000C0C0C0000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00666666666666
+          6666666666666666666666666666666666666666666666666666666666666666
+          666666666666666666666666666666666666F666666666666666666666666666
+          6666B66666666666666666666666666666668F66666666666666666666666666
+          6666B66666666666666666666666666666668F66666666666666666666666666
+          666BBB66666666666666666666666666666888F6666666666666666666666666
+          666BBB66666666666666666666666666666888F6666666666666666666666666
+          666BBB66666666666666666666666666666888F6666666666666666666666666
+          66BBBBB66666666666666666666666666688888F666666666666666666666666
+          66BBBBB66666666666666666666666666688888F666666666666666666666666
+          66BBBBB66666666666666666666666666688888F666666666666666666666666
+          66BBBBB66666666666666666666666666688888F666666666666666666666666
+          6BBBBBBB66666666666666666666666668888888FF666666666666666666666B
+          BBBBBBBBBB66666666666666666666688888888888FFF666666666666666BBBB
+          BBBBBBBBBBBBB66666666666666688888888888888888FFF666666666BBBBBBB
+          BBBBBBBBBBBBBBBB66666666688888888888888888888888F6666666BBBBBBBB
+          BBBBBBBBBBBBBBBBB66666668888888888888888888888888F6666666666BBBB
+          BBBBBBBBBBBBBB6666666666666688888888888888888866666666666666666B
+          BBBBBBBBBBB66666666666666666666888888888888666666666666666666666
+          6BBBBBBB66666666666666666666666668888888666666666666666666666666
+          66BBBBB666666666666666666666666666888886666666666666666666666666
+          66BBBBB666666666666666666666666666888886666666666666666666666666
+          66BBBBB666666666666666666666666666888886666666666666666666666666
+          66BBBBB666666666666666666666666666888886666666666666666666666666
+          666BBB6666666666666666666666666666688866666666666666666666666666
+          666BBB6666666666666666666666666666688866666666666666666666666666
+          666BBB6666666666666666666666666666688866666666666666666666666666
+          6666B66666666666666666666666666666668666666666666666666666666666
+          6666B66666666666666666666666666666668666666666666666666666666666
+          6666666666666666666666666666666666666666666666666666666666666666
+          6666666666666666666666666666666666666666666666666666666666666666
+          6666666666666666666666666666666666666666666666666666666666666666
+          6666666666666666666666666666666666666666666666666666}
+        NumGlyphs = 2
+        TabOrder = 7
+        OnClick = btCancelarClick
       end
     end
     object PanVisualiz: TPanel

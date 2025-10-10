@@ -4,7 +4,7 @@
         <ProjectVersion>20.1</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <ProjectName Condition="'$(ProjectName)'==''">SpeedTE</ProjectName>
         <TargetedPlatforms>3</TargetedPlatforms>
@@ -118,6 +118,8 @@
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=SpeedTE;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <Icon_MainIcon>$(ProjectName).Artwork\Windows\AppIcon.ico</Icon_MainIcon>
+        <DCC_ExeOutput>C:\SpeedTE\Debug\</DCC_ExeOutput>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
@@ -149,42 +151,37 @@
         </DelphiCompile>
         <DCCReference Include="STEPrincipal.pas">
             <Form>FSTEPrincipal</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\UsoGeral\uGenericas.pas">
             <Form>FGen</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="STEProdutos.pas">
             <Form>FSTEProdutos</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="STEClientes.pas">
             <Form>FSTEClientes</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="STEImpressao.pas">
             <Form>FSTEImpressao</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\uFortesReport\FortesReportCtle.pas">
             <Form>FFRCtle</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\UsoGeral\uSysPrinters.pas">
             <Form>FuSysPrinters</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="STEConsTurno.pas">
             <Form>FSTEConsTurno</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="STEConsCliente.pas">
             <Form>FSTEConsCliente</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="STEConfigurar.pas">
             <Form>FSTEConfigurar</Form>
+        </DCCReference>
+        <DCCReference Include="..\UsoGeral\uProcessos.pas"/>
+        <DCCReference Include="STECancelaReativa.pas">
+            <Form>FSTECancelaReativa</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Base">
@@ -241,13 +238,13 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="C:\SpeedTE\SpeedTE.exe" Configuration="Release" Class="ProjectOutput">
+                <DeployFile LocalName="C:\SpeedTE\Debug\SpeedTE.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>SpeedTE.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="C:\TeleEntrega\SpeedTE.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="C:\SpeedTE\SpeedTE.exe" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>SpeedTE.exe</RemoteName>
                         <Overwrite>true</Overwrite>
