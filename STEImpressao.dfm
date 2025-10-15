@@ -20,6 +20,10 @@ object FSTEImpressao: TFSTEImpressao
     Margins.TopMargin = 5.000000000000000000
     Margins.RightMargin = 7.000000000000000000
     Margins.BottomMargin = 5.000000000000000000
+    Background.AutoSize = False
+    Background.Height = 200
+    Background.Stretch = True
+    Background.Width = 175
     DataSource = FSTEPrincipal.DSLctWrk
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBlack
@@ -697,14 +701,21 @@ object FSTEImpressao: TFSTEImpressao
       Top = 65
       Width = 246
       Height = 14
+      BeforePrint = RLFechDetalBeforePrint
       object RLFechDd1: TRLDBText
-        Left = 0
+        Left = -2
         Top = 1
         Width = 96
         Height = 12
         AutoSize = False
         DataField = 'ZC_FoneNome'
         DataSource = FSTEPrincipal.DSPedidos
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -9
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
         Text = ''
       end
       object RLFechDd2: TRLDBText
@@ -716,6 +727,12 @@ object FSTEImpressao: TFSTEImpressao
         AutoSize = False
         DataField = 'Total'
         DataSource = FSTEPrincipal.DSPedidos
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -9
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
         Text = ''
       end
       object RLFechDd3: TRLDBText
@@ -756,58 +773,13 @@ object FSTEImpressao: TFSTEImpressao
       Left = 30
       Top = 79
       Width = 246
-      Height = 112
+      Height = 124
       BandType = btSummary
       Borders.Sides = sdCustom
       Borders.DrawLeft = False
       Borders.DrawTop = True
       Borders.DrawRight = False
       Borders.DrawBottom = True
-      object RLTotValor: TRLDBResult
-        Left = 96
-        Top = 0
-        Width = 44
-        Height = 12
-        Alignment = taRightJustify
-        AutoSize = False
-        DataField = 'Total'
-        DataSource = FSTEPrincipal.DSPedidos
-        DisplayMask = ',0.00'
-        Info = riSum
-        Text = ''
-      end
-      object RLTotTele: TRLDBResult
-        Left = 140
-        Top = 2
-        Width = 32
-        Height = 12
-        Alignment = taRightJustify
-        AutoSize = False
-        DataField = 'VlrTele'
-        DataSource = FSTEPrincipal.DSPedidos
-        Info = riSum
-        Text = ''
-      end
-      object RLTotGeral: TRLDBResult
-        Left = 172
-        Top = 2
-        Width = 48
-        Height = 12
-        Alignment = taRightJustify
-        AutoSize = False
-        DataField = 'ZC_Total'
-        DataSource = FSTEPrincipal.DSPedidos
-        Info = riSum
-        Text = ''
-      end
-      object RLSystemInfo1: TRLSystemInfo
-        Left = 0
-        Top = 2
-        Width = 94
-        Height = 12
-        Info = itDetailCount
-        Text = 'Pedidos #'
-      end
       object RLLabel11: TRLLabel
         Left = 59
         Top = 12
@@ -815,40 +787,16 @@ object FSTEImpressao: TFSTEImpressao
         Height = 12
         Caption = 'M'#233'dias:'
       end
-      object RLMediaValor: TRLDBResult
-        Left = 97
-        Top = 12
-        Width = 44
-        Height = 12
-        Alignment = taRightJustify
-        AutoSize = False
-        DataField = 'Total'
-        DataSource = FSTEPrincipal.DSPedidos
-        Info = riAverage
-        Text = ''
-      end
-      object RLMediaGeral: TRLDBResult
-        Left = 175
-        Top = 12
-        Width = 44
-        Height = 12
-        Alignment = taRightJustify
-        AutoSize = False
-        DataField = 'ZC_Total'
-        DataSource = FSTEPrincipal.DSPedidos
-        Info = riAverage
-        Text = ''
-      end
       object RLLabel12: TRLLabel
         Left = 2
-        Top = 24
+        Top = 36
         Width = 89
         Height = 12
         Caption = 'Meios de pagamento'
       end
       object RLLabel13: TRLLabel
         Left = 22
-        Top = 36
+        Top = 48
         Width = 40
         Height = 12
         Alignment = taRightJustify
@@ -856,7 +804,7 @@ object FSTEImpressao: TFSTEImpressao
       end
       object RLLabel14: TRLLabel
         Left = 16
-        Top = 48
+        Top = 60
         Width = 46
         Height = 12
         Alignment = taRightJustify
@@ -864,7 +812,7 @@ object FSTEImpressao: TFSTEImpressao
       end
       object RLLabel15: TRLLabel
         Left = 19
-        Top = 60
+        Top = 72
         Width = 43
         Height = 12
         Alignment = taRightJustify
@@ -872,7 +820,7 @@ object FSTEImpressao: TFSTEImpressao
       end
       object RLLabel16: TRLLabel
         Left = 155
-        Top = 36
+        Top = 48
         Width = 19
         Height = 12
         Alignment = taRightJustify
@@ -880,7 +828,7 @@ object FSTEImpressao: TFSTEImpressao
       end
       object RLLabel17: TRLLabel
         Left = 140
-        Top = 48
+        Top = 60
         Width = 34
         Height = 12
         Alignment = taRightJustify
@@ -888,7 +836,7 @@ object FSTEImpressao: TFSTEImpressao
       end
       object RLLabDin: TRLLabel
         Left = 64
-        Top = 36
+        Top = 48
         Width = 64
         Height = 12
         Alignment = taRightJustify
@@ -896,15 +844,14 @@ object FSTEImpressao: TFSTEImpressao
       end
       object RLLabCCred: TRLLabel
         Left = 64
-        Top = 48
+        Top = 60
         Width = 64
         Height = 12
         Alignment = taRightJustify
-        Transparent = False
       end
       object RLLabCDeb: TRLLabel
         Left = 64
-        Top = 60
+        Top = 72
         Width = 64
         Height = 12
         Alignment = taRightJustify
@@ -912,7 +859,7 @@ object FSTEImpressao: TFSTEImpressao
       end
       object RLLabPix: TRLLabel
         Left = 176
-        Top = 36
+        Top = 48
         Width = 64
         Height = 12
         Alignment = taRightJustify
@@ -920,7 +867,7 @@ object FSTEImpressao: TFSTEImpressao
       end
       object RLLabOutros: TRLLabel
         Left = 176
-        Top = 48
+        Top = 60
         Width = 64
         Height = 12
         Alignment = taRightJustify
@@ -928,14 +875,14 @@ object FSTEImpressao: TFSTEImpressao
       end
       object RLLabAuxil: TRLLabel
         Left = 176
-        Top = 60
+        Top = 72
         Width = 50
         Height = 12
         Visible = False
       end
       object RLPanTurnos: TRLPanel
         Left = 0
-        Top = 73
+        Top = 85
         Width = 246
         Height = 38
         Align = faBottom
@@ -1101,10 +1048,58 @@ object FSTEImpressao: TFSTEImpressao
           AutoSize = False
         end
       end
+      object RLLabCancel: TRLLabel
+        Left = 12
+        Top = 24
+        Width = 99
+        Height = 12
+        Caption = 'Cancelamentos: xxxxx'
+      end
+      object RLLabQtdValid: TRLLabel
+        Left = 0
+        Top = 2
+        Width = 65
+        Height = 12
+      end
+      object RLLabTProds: TRLLabel
+        Left = 92
+        Top = 0
+        Width = 59
+        Height = 12
+        Alignment = taRightJustify
+      end
+      object RLLabTTele: TRLLabel
+        Left = 144
+        Top = 0
+        Width = 52
+        Height = 12
+        Alignment = taRightJustify
+      end
+      object RLLabTGeral: TRLLabel
+        Left = 188
+        Top = 0
+        Width = 57
+        Height = 12
+        Alignment = taRightJustify
+      end
+      object RLLabMProds: TRLLabel
+        Left = 97
+        Top = 12
+        Width = 61
+        Height = 12
+        Alignment = taRightJustify
+      end
+      object RLLabMGeral: TRLLabel
+        Left = 184
+        Top = 12
+        Width = 59
+        Height = 12
+        Alignment = taRightJustify
+      end
     end
     object RLFechFooter: TRLBand
       Left = 30
-      Top = 191
+      Top = 203
       Width = 246
       Height = 16
       BandType = btFooter
@@ -1146,6 +1141,10 @@ object FSTEImpressao: TFSTEImpressao
     Margins.TopMargin = 5.000000000000000000
     Margins.RightMargin = 7.000000000000000000
     Margins.BottomMargin = 5.000000000000000000
+    Background.AutoSize = False
+    Background.Height = 120
+    Background.Stretch = True
+    Background.Width = 105
     DataSource = FSTEPrincipal.DSLctWrk
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBlack
@@ -1476,6 +1475,10 @@ object FSTEImpressao: TFSTEImpressao
     Margins.TopMargin = 5.000000000000000000
     Margins.RightMargin = 7.000000000000000000
     Margins.BottomMargin = 5.000000000000000000
+    Background.AutoSize = False
+    Background.Height = 120
+    Background.Stretch = True
+    Background.Width = 105
     DataSource = FSTEPrincipal.DSLctWrk
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBlack
@@ -1790,13 +1793,17 @@ object FSTEImpressao: TFSTEImpressao
   end
   object RLPedidoRP: TRLReport
     Left = 290
-    Top = 307
+    Top = 309
     Width = 302
     Height = 454
     Margins.LeftMargin = 8.000000000000000000
     Margins.TopMargin = 5.000000000000000000
     Margins.RightMargin = 7.000000000000000000
     Margins.BottomMargin = 5.000000000000000000
+    Background.AutoSize = False
+    Background.Height = 200
+    Background.Stretch = True
+    Background.Width = 175
     DataSource = FSTEPrincipal.DSLctWrk
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBlack

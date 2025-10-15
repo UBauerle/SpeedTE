@@ -321,7 +321,7 @@ object FSTEConfigurar: TFSTEConfigurar
         TabOrder = 0
         object Label14: TLabel
           Left = 79
-          Top = 50
+          Top = 49
           Width = 71
           Height = 16
           Alignment = taRightJustify
@@ -368,8 +368,8 @@ object FSTEConfigurar: TFSTEConfigurar
           ParentFont = False
         end
         object Label17: TLabel
-          Left = 64
-          Top = 170
+          Left = 396
+          Top = 169
           Width = 86
           Height = 16
           Alignment = taRightJustify
@@ -384,8 +384,8 @@ object FSTEConfigurar: TFSTEConfigurar
           ParentFont = False
         end
         object Label16: TLabel
-          Left = 58
-          Top = 140
+          Left = 222
+          Top = 169
           Width = 92
           Height = 16
           Alignment = taRightJustify
@@ -401,7 +401,7 @@ object FSTEConfigurar: TFSTEConfigurar
         end
         object Label13: TLabel
           Left = 84
-          Top = 110
+          Top = 168
           Width = 66
           Height = 16
           Alignment = taRightJustify
@@ -429,6 +429,38 @@ object FSTEConfigurar: TFSTEConfigurar
           Height = 16
           Alignment = taRightJustify
           Caption = 'Texto "Incluir Lancto":'
+          Color = clBtnFace
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label40: TLabel
+          Left = 30
+          Top = 109
+          Width = 120
+          Height = 16
+          Alignment = taRightJustify
+          Caption = 'Img "CANCELADO":'
+          Color = clBtnFace
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label41: TLabel
+          Left = 55
+          Top = 138
+          Width = 95
+          Height = 16
+          Alignment = taRightJustify
+          Caption = 'Img "NORMAL":'
           Color = clBtnFace
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -507,7 +539,7 @@ object FSTEConfigurar: TFSTEConfigurar
           Font.Name = 'MS Sans Serif'
           Font.Style = []
           ParentFont = False
-          TabOrder = 12
+          TabOrder = 14
           Text = 'cbMeses'
           Items.Strings = (
             '6'
@@ -533,11 +565,11 @@ object FSTEConfigurar: TFSTEConfigurar
           Font.Style = []
           ParentColor = False
           ParentFont = False
-          TabOrder = 7
+          TabOrder = 9
         end
         object cbPgto: TComboBox
-          Left = 152
-          Top = 166
+          Left = 484
+          Top = 165
           Width = 125
           Height = 24
           Font.Charset = DEFAULT_CHARSET
@@ -546,7 +578,7 @@ object FSTEConfigurar: TFSTEConfigurar
           Font.Name = 'MS Sans Serif'
           Font.Style = []
           ParentFont = False
-          TabOrder = 6
+          TabOrder = 8
           Text = 'cbPgto'
           Items.Strings = (
             'Dinheiro (1)'
@@ -556,8 +588,8 @@ object FSTEConfigurar: TFSTEConfigurar
             'Outro (99)')
         end
         object cbPixel: TComboBox
-          Left = 152
-          Top = 136
+          Left = 316
+          Top = 165
           Width = 47
           Height = 24
           Font.Charset = DEFAULT_CHARSET
@@ -566,7 +598,7 @@ object FSTEConfigurar: TFSTEConfigurar
           Font.Name = 'MS Sans Serif'
           Font.Style = []
           ParentFont = False
-          TabOrder = 5
+          TabOrder = 7
           Text = 'cbPixel'
           Items.Strings = (
             '0'
@@ -583,7 +615,7 @@ object FSTEConfigurar: TFSTEConfigurar
         end
         object cbIniNoite: TComboBox
           Left = 152
-          Top = 106
+          Top = 165
           Width = 48
           Height = 24
           Font.Charset = DEFAULT_CHARSET
@@ -592,7 +624,7 @@ object FSTEConfigurar: TFSTEConfigurar
           Font.Name = 'MS Sans Serif'
           Font.Style = []
           ParentFont = False
-          TabOrder = 4
+          TabOrder = 6
           Text = 'cbIniNoite'
           Items.Strings = (
             '15'
@@ -618,7 +650,7 @@ object FSTEConfigurar: TFSTEConfigurar
           Font.Style = []
           ParentColor = False
           ParentFont = False
-          TabOrder = 8
+          TabOrder = 10
         end
         object cbCPF: TCheckBox
           Left = 20
@@ -634,7 +666,7 @@ object FSTEConfigurar: TFSTEConfigurar
           Font.Style = []
           ParentColor = False
           ParentFont = False
-          TabOrder = 9
+          TabOrder = 11
         end
         object cbEntrega: TCheckBox
           Left = 20
@@ -650,7 +682,7 @@ object FSTEConfigurar: TFSTEConfigurar
           Font.Style = []
           ParentColor = False
           ParentFont = False
-          TabOrder = 10
+          TabOrder = 12
         end
         object cbValida: TCheckBox
           Left = 20
@@ -666,7 +698,7 @@ object FSTEConfigurar: TFSTEConfigurar
           Font.Style = []
           ParentColor = False
           ParentFont = False
-          TabOrder = 11
+          TabOrder = 13
         end
         object gbCtle: TGroupBox
           Left = 600
@@ -674,7 +706,7 @@ object FSTEConfigurar: TFSTEConfigurar
           Width = 129
           Height = 127
           Caption = 'Controle'
-          TabOrder = 15
+          TabOrder = 17
           OnMouseDown = gbCtleMouseDown
           object Label10: TLabel
             Left = 16
@@ -765,7 +797,7 @@ object FSTEConfigurar: TFSTEConfigurar
           Font.Name = 'MS Sans Serif'
           Font.Style = []
           ParentFont = False
-          TabOrder = 13
+          TabOrder = 15
           Text = 'edTxtIncluir'
         end
         object cbLctSV: TCheckBox
@@ -782,7 +814,7 @@ object FSTEConfigurar: TFSTEConfigurar
           Font.Style = []
           ParentColor = False
           ParentFont = False
-          TabOrder = 14
+          TabOrder = 16
         end
         object cbExCarga: TCheckBox
           Left = 201
@@ -798,7 +830,35 @@ object FSTEConfigurar: TFSTEConfigurar
           Font.Style = []
           ParentColor = False
           ParentFont = False
-          TabOrder = 16
+          TabOrder = 18
+        end
+        object edImgCancel: TEdit
+          Left = 152
+          Top = 106
+          Width = 372
+          Height = 24
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 4
+          Text = 'edImgCancel'
+        end
+        object edImgNormal: TEdit
+          Left = 152
+          Top = 135
+          Width = 372
+          Height = 24
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 5
+          Text = 'edImgNormal'
         end
       end
     end
@@ -1251,7 +1311,7 @@ object FSTEConfigurar: TFSTEConfigurar
     TabOrder = 1
     object btSalvar: TBitBtn
       Left = 192
-      Top = 8
+      Top = 6
       Width = 132
       Height = 37
       Caption = '&Salvar'

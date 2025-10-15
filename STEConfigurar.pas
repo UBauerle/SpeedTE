@@ -120,6 +120,10 @@ type
     Label39: TLabel;
     cbDataHora: TComboBox;
     cbImpTN: TCheckBox;
+    Label40: TLabel;
+    edImgCancel: TEdit;
+    Label41: TLabel;
+    edImgNormal: TEdit;
     procedure btSalvarClick(Sender: TObject);
     procedure btCancelarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -166,6 +170,8 @@ begin
     edPathTelas.Text := wIniFile.ReadString ('Config', 'PathSalvaTelas',  'C:\NAO_EXISTE_MESMO');
     edLogoIni.Text   := wIniFile.ReadString ('Config', 'LogoInicial',     '');
     edLogoPrint.Text := wIniFile.ReadString ('Config', 'LogoImpressao',   '');
+    edImgCancel.Text := wIniFile.ReadString ('Config', 'ImgCancelado',    '');
+    edImgNormal.Text := wIniFile.ReadString ('Config', 'ImgNormal',       '');
     cbIniNoite.Text  := wIniFile.ReadString ('Config', 'HrInicioNoite',   '17');
     cbPixel.Text     := wIniFile.ReadString ('Config', 'PixelHorizontal', '4');
     cbPgto.ItemIndex := wIniFile.ReadInteger('Config', 'MeioPagtoPadrao', 1);
@@ -240,6 +246,8 @@ begin
     wIniFile.WriteInteger('Config', 'HrInicioNoite',  StrToIntDef(cbIniNoite.Text,17));
     wIniFile.WriteString ('Config', 'LogoInicial',    edLogoIni.Text);
     wIniFile.WriteString ('Config', 'LogoImpressao',  edLogoPrint.Text);
+    wIniFile.WriteString ('Config', 'ImgCancelado',   edImgCancel.Text);
+    wIniFile.WriteString ('Config', 'ImgNormal',      edImgNormal.Text);
     wIniFile.WriteBool   ('Config', 'Desenv',         cbDesenv.Checked);
     wIniFile.WriteInteger('Config', 'PixelHorizontal',StrToIntDef(cbPixel.Text,4));
     wIniFile.WriteBool   ('Config', 'PrimeiroItem',   cbPrItem.Checked);
@@ -316,6 +324,8 @@ begin
     hrIniNoite    := wIniFile.ReadInteger('Config', 'HrInicioNoite',  17);
     LogoInit      := wIniFile.ReadString ('Config', 'LogoInicial',    'C:\SpeedTE\Dados\LogoInicio.BMP');
     LogoImpres    := wIniFile.ReadString ('Config', 'LogoImpressao',  'C:\SpeedTE\Dados\LogoImpressao.BMP');
+    ImgCancel     := wIniFile.ReadString ('Config', 'ImgCancelado',   'C:\SpeedTE\Dados\ImgCancelado.BMP');
+    ImgNormal     := wIniFile.ReadString ('Config', 'ImgNormal',      'C:\SpeedTE\Dados\ImgNormal.BMP');
     lDesenv       := wIniFile.ReadBool   ('Config', 'Desenv',         False);
     pixelHor      := wIniFile.ReadInteger('Config', 'PixelHorizontal',4);
     lPrItemSN     := wIniFile.ReadBool   ('Config', 'PrimeiroItem',   False);
@@ -323,7 +333,7 @@ begin
     lConsTurno    := wIniFile.ReadBool   ('Config', 'ConsultaPedidos', True);
     mesesConsulta := wIniFile.ReadInteger('Config', 'MesesConsulta',  12);
     txtIncluir    := wIniFile.ReadString ('Config', 'TextoIncluir',   'Incluir lançamento?');
-    lLctSV        := wIniFile.ReadBool   ('Config', 'LctoSemValor',   False);
+    lLctSemValor  := wIniFile.ReadBool   ('Config', 'LctoSemValor',   False);
     lExCarga      := wIniFile.ReadBool   ('Config', 'ExibeCarga',     False);
     lInfCPF       := wIniFile.ReadBool   ('Config', 'CPFCliente',     False);
     lMdEntrega    := wIniFile.ReadBool   ('Config', 'Entrega',        False);

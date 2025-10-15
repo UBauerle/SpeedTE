@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, RLReport, RLPrinters;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, RLReport, RLPrinters, System.UITypes;
   Procedure ImprimePedido(pmtPreview:Boolean; pmtVias:Integer=1);
   Procedure ImprimePedidoRP(pmtPreview:Boolean; pmtVias:Integer=1);
   Procedure ImprimeInterno(pmtPreview:Boolean; pmtVias:Integer=1);
@@ -15,8 +15,9 @@ uses
                               pmtDin,pmtCCred,pmtCDeb,pmtPix,pmtOutros:Currency;
                               pmtQtdDia:Integer;pmtVlrDia,pmtTeleDia,pmtTotalDia:Currency;
                               pmtQtdNoite:Integer;pmtVlrNoite,pmtTeleNoite,pmtTotalNoite:Currency;
-                              pmtTipo: String);  //        pmtTipo:String='Turno' ou 'Periodo);
-
+                              pmtTipo: String;       //        pmtTipo:String='Turno' ou 'Periodo);
+                              pmtQtdCancel:Integer;
+                              pmtVlrCancel: Currency);
 type
   TFSTEImpressao = class(TForm)
     RLPedido: TRLReport;
@@ -66,15 +67,9 @@ type
     RLFechDd4: TRLDBText;
     RLFechDd5: TRLDBText;
     RLFechSum: TRLBand;
-    RLTotValor: TRLDBResult;
-    RLTotTele: TRLDBResult;
-    RLTotGeral: TRLDBResult;
-    RLSystemInfo1: TRLSystemInfo;
     RLFechFooter: TRLBand;
     RLFechEmissao: TRLLabel;
     RLLabel11: TRLLabel;
-    RLMediaValor: TRLDBResult;
-    RLMediaGeral: TRLDBResult;
     RLLabel12: TRLLabel;
     RLLabel13: TRLLabel;
     RLLabel14: TRLLabel;
@@ -202,10 +197,18 @@ type
     RLFONERP: TRLLabel;
     RLDraw1: TRLDraw;
     RLDtTurnoNro: TRLLabel;
+    RLLabCancel: TRLLabel;
+    RLLabQtdValid: TRLLabel;
+    RLLabTProds: TRLLabel;
+    RLLabTTele: TRLLabel;
+    RLLabTGeral: TRLLabel;
+    RLLabMProds: TRLLabel;
+    RLLabMGeral: TRLLabel;
     procedure RLDetPedidoBeforePrint(Sender: TObject; var PrintIt: Boolean);
     procedure RLDetInternoBeforePrint(Sender: TObject; var PrintIt: Boolean);
     procedure RLDetInternoRDBeforePrint(Sender: TObject; var PrintIt: Boolean);
     procedure RLDetPedidoRPBeforePrint(Sender: TObject; var PrintIt: Boolean);
+    procedure RLFechDetalBeforePrint(Sender: TObject; var PrintIt: Boolean);
   private
     { Private declarations }
   public
@@ -301,15 +304,23 @@ begin
     RLEndereco.Caption := FSTEPrincipal.PedWrkEndereco.AsString;
     RLBairro.Caption := FSTEPrincipal.PedWrkBairro.AsString;
     RLRefer.Caption := FSTEPrincipal.PedWrkRefer.AsString;
-    //RLFone.Caption := 'Fone: ' + EditaFone('',FSTEPrincipal.PedWrkFone.AsString,True);
     RLFoneClie.Caption := ' ' + EditaFone('',FSTEPrincipal.PedWrkFone.AsString,True);
     RLImgFoneClie.Left := RLFoneClie.Left - RLImgFoneClie.Width;
     RLEntrega.Visible := FSTEPrincipal.lMdEntrega;
     case FSTEPrincipal.PedWrkEntrega.AsInteger of
-      0:RLEntrega.Caption := 'Tele-entrega';
-      1:RLEntrega.Caption := 'Retira';
-      2:RLEntrega.Caption := 'Consumo local';
+      0,10:RLEntrega.Caption := 'Tele-entrega';
+      1,11:RLEntrega.Caption := 'Retira';
+      2,12:RLEntrega.Caption := 'Consumo local';
       else RLEntrega.Caption := '';
+    end;
+    if FSTEPrincipal.PedWrkEntrega.AsInteger < 10 then
+    begin
+      if FileExists(FSTEPrincipal.ImgNormal) then
+        RLPedido.Background.Picture.LoadFromFile(FSTEPrincipal.ImgNormal)
+    end
+    else begin
+      if FileExists(FSTEPrincipal.ImgCancel) then
+        RLPedido.Background.Picture.LoadFromFile(FSTEPrincipal.ImgCancel);
     end;
     //
     RLValor.Caption := 'Valor: ' + FloatToStrF(FSTEPrincipal.PedWrkTotal.AsCurrency,ffNumber,15,2);
@@ -445,10 +456,19 @@ begin
     RLImgFoneClieRP.Left := RLFoneClieRP.Left - RLImgFoneClieRP.Width;
     RLEntregaRP.Visible := FSTEPrincipal.lMdEntrega;
     case FSTEPrincipal.PedWrkEntrega.AsInteger of
-      0:RLEntregaRP.Caption := 'Tele-entrega';
-      1:RLEntregaRP.Caption := 'Retira';
-      2:RLEntregaRP.Caption := 'Consumo local';
+      0,10:RLEntregaRP.Caption := 'Tele-entrega';
+      1,11:RLEntregaRP.Caption := 'Retira';
+      2,12:RLEntregaRP.Caption := 'Consumo local';
       else RLEntregaRP.Caption := '';
+    end;
+    if FSTEPrincipal.PedWrkEntrega.AsInteger < 10 then
+    begin
+      if FileExists(FSTEPrincipal.ImgNormal) then
+        RLPedidoRP.Background.Picture.LoadFromFile(FSTEPrincipal.ImgNormal)
+    end
+    else begin
+      if FileExists(FSTEPrincipal.ImgCancel) then
+        RLPedidoRP.Background.Picture.LoadFromFile(FSTEPrincipal.ImgCancel);
     end;
     //
     RLValorRP.Caption := 'Valor: ' + FloatToStrF(FSTEPrincipal.PedWrkTotal.AsCurrency,ffNumber,15,2);
@@ -556,6 +576,15 @@ begin
       2:RLEntregaInt.Caption := 'Consumo local';
       else RLEntregaInt.Caption := '';
     end;
+    if FSTEPrincipal.PedWrkEntrega.AsInteger < 10 then
+    begin
+      if FileExists(FSTEPrincipal.ImgNormal) then
+        RLInterno.Background.Picture.LoadFromFile(FSTEPrincipal.ImgNormal)
+    end
+    else begin
+      if FileExists(FSTEPrincipal.ImgCancel) then
+        RLInterno.Background.Picture.LoadFromFile(FSTEPrincipal.ImgCancel);
+    end;
     //
     xPrinter := FSTEPrincipal.idPrinter;
     if not DefineImpressora(True,xPrinter,xportaPrt,xdriverPrt,indexPrt) then
@@ -634,14 +663,21 @@ begin
     RLBairroIntRP.Caption := FSTEPrincipal.PedWrkBairro.AsString;
     RLReferIntRP.Caption := FSTEPrincipal.PedWrkRefer.AsString;
     RLFoneIntRP.Caption := EditaFone('',FSTEPrincipal.PedWrkFone.AsString,True);
-    //RLEntregaInt.Visible := FSTEPrincipal.lMdEntrega;  Sempre visível
     case FSTEPrincipal.PedWrkEntrega.AsInteger of
       0:RLEntregaIntRP.Caption := 'Tele-entrega';
       1:RLEntregaIntRP.Caption := 'Retira';
       2:RLEntregaIntRP.Caption := 'Consumo local';
       else RLEntregaIntRP.Caption := '';
     end;
-    //
+    if FSTEPrincipal.PedWrkEntrega.AsInteger < 10 then
+    begin
+      if FileExists(FSTEPrincipal.ImgNormal) then
+        RLInternoRP.Background.Picture.LoadFromFile(FSTEPrincipal.ImgNormal)
+    end
+    else begin
+      if FileExists(FSTEPrincipal.ImgCancel) then
+        RLInternoRP.Background.Picture.LoadFromFile(FSTEPrincipal.ImgCancel);
+    end;
     //
     xPrinter := FSTEPrincipal.idPrinter;
     if not DefineImpressora(True,xPrinter,xportaPrt,xdriverPrt,indexPrt) then
@@ -690,7 +726,9 @@ Procedure ImprimeFechamento(pmtData:TDateTime;
                             pmtDin,pmtCCred,pmtCDeb,pmtPix,pmtOutros:Currency;
                             pmtQtdDia:Integer;pmtVlrDia,pmtTeleDia,pmtTotalDia:Currency;
                             pmtQtdNoite:Integer;pmtVlrNoite,pmtTeleNoite,pmtTotalNoite:Currency;
-                            pmtTipo: String);  //        'Turno' 'Total'  'Periodo'
+                            pmtTipo: String;  //        'Turno'  'Total'  'Periodo'
+                            pmtQtdCancel: Integer;
+                            pmtVlrCancel: Currency);
 var nAltura,tmPagina,i,nLarg: Integer;
     xPrinter,xportaPrt,xdriverPrt: String;
     indexPrt: Integer;
@@ -728,16 +766,16 @@ begin
     RLFechDd5.Left := RLFechCab5.Left;
     RLFechDd5.Width := RLFechCab5.Width;
     //
-    RLTotValor.Left := RLFechDd2.Left;
-    RLTotValor.Width := RLFechDd2.Width;
-    RLTotTele.Left := RLFechDd3.Left;
-    RLTotTele.Width := RLFechDd3.Width;
-    RLTotGeral.Left := RLFechDd4.Left;
-    RLTotGeral.Width := RLFechDd4.Width;
-    RLMediaValor.Left := RLTotValor.Left;
-    RLMediaValor.Width := RLTotValor.Width;
-    RLMediaGeral.Left := RLTotGeral.Left;
-    RLMediaGeral.Width := RLTotGeral.Width;
+    RLLabTProds.Left := RLFechDd2.Left;
+    RLLabTProds.Width := RLFechDd2.Width;
+    RLLabTTele.Left := RLFechDd3.Left;
+    RLLabTTele.Width := RLFechDd3.Width;
+    RLLabTGeral.Left := RLFechDd4.Left;
+    RLLabTGeral.Width := RLFechDd4.Width;
+    RLLabMProds.Left := RLLabTProds.Left;
+    RLLabMProds.Width := RLLabTProds.Width;
+    RLLabMGeral.Left := RLLabTGeral.Left;
+    RLLabMGeral.Width := RLLabTGeral.Width;
     //
     RLFechUsuar.Caption := FSTEPrincipal.idUsuario;
     if pmtTipo = 'Turno' then
@@ -779,11 +817,24 @@ begin
     RLLabPix.Width := nLarg;
     RLLabOutros.Width := nLarg;
 
+    RLLabQtdValid.Caption := 'Pedidos: ' + IntToStr(pmtQtdDia + pmtQtdNoite);
+    RLLabTProds.Caption := FloatToStrF(pmtVlrDia+pmtVlrNoite,ffNumber,15,2);
+    RLLabTTele.Caption := FloatToStrF(pmtTeleDia+pmtTeleNoite,ffNumber,15,2);
+    RLLabTGeral.Caption := FloatToStrF(pmtTotalDia+pmtTotalNoite,ffNumber,15,2);
+    RLLabMProds.Caption := FloatToStrF((pmtVlrDia+pmtVlrNoite)/(pmtQtdDia + pmtQtdNoite),ffNumber,15,2);
+    RLLabMGeral.Caption := FloatToStrF((pmtTotalDia+pmtTotalNoite)/(pmtQtdDia + pmtQtdNoite),ffNumber,15,2);
+
     RLLabDin.Caption := FloatToStrF(pmtDin,ffNumber,15,2);
     RLLabCCred.Caption := FloatToStrF(pmtCCred,ffNumber,15,2);
     RLLabCDeb.Caption := FloatToStrF(pmtCDeb,ffNumber,15,2);
     RLLabPix.Caption := FloatToStrF(pmtPix,ffNumber,15,2);
     RLLabOutros.Caption := FloatToStrF(pmtOutros,ffNumber,15,2);
+
+    if pmtQtdCancel > 0 then
+      RLLabCancel.Caption := 'Cancelamentos: ' + IntToStr(pmtQtdCancel) +
+                             '   R$ ' + FloatToStrF(pmtVlrCancel,ffNumber,15,2)
+    else
+      RLLabCancel.Caption := 'Não há cancelamentos';
     RLFechEmissao.Caption := 'Emissão: ' + DateToStr(Date) + ' as ' + TimeToStr(Time);
     //
     xPrinter := FSTEPrincipal.idPrinter;
@@ -896,6 +947,17 @@ begin
     if FSTEPrincipal.LctWrkObs2.AsString <> '' then
       RLDetPedidoRP.Height := 50;
   end;
+
+end;
+
+procedure TFSTEImpressao.RLFechDetalBeforePrint(Sender: TObject; var PrintIt: Boolean);
+begin
+  RLFechDd1.Font.Style := [];
+  if FSTEPrincipal.PedidosEntrega.AsInteger >= 10 then
+    RLFechDd1.Font.Style := [fsStrikeOut];
+  RLFechDd2.Font.Style := RLFechDd1.Font.Style;
+  RLFechDd3.Font.Style := RLFechDd1.Font.Style;
+  RLFechDd4.Font.Style := RLFechDd1.Font.Style;
 
 end;
 

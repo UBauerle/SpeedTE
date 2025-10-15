@@ -75,6 +75,14 @@ type
     TurnosTurno: TStringField;
     TurnosTxDtTurno: TStringField;
     btCancelar: TBitBtn;
+    btLogOcorr: TBitBtn;
+    GroupBox1: TGroupBox;
+    Label14: TLabel;
+    LabQtdCancel: TLabel;
+    Label16: TLabel;
+    LabVlrCancel: TLabel;
+    Label15: TLabel;
+    LabQtdValid: TLabel;
     procedure FormResize(Sender: TObject);
     procedure btSairClick(Sender: TObject);
     procedure edTurnoChange(Sender: TObject);
@@ -100,17 +108,30 @@ type
     procedure GridTurnosDblClick(Sender: TObject);
     procedure btProssegClick(Sender: TObject);
     procedure btCancelarClick(Sender: TObject);
+    procedure btLogOcorrClick(Sender: TObject);
   private
     { Private declarations }
   public
     { Public declarations }
+    qtdCancReat: Integer;
+    lAtivo: Boolean;
+    turnoProc: String;
+
   end;
 
 var
   FSTEConsTurno: TFSTEConsTurno;
-  lAtivo: Boolean;
-  tProds,tTele,tGeral: Currency;
-  tDin,tCCred,tCDeb,tPix,tOutros: Currency;
+  tProds: array[1..2] of Currency;
+  tTele: array[1..2] of Currency;
+  tGeral: array[1..2] of Currency;
+  tDin: array[1..2] of Currency;
+  tCCred: array[1..2] of Currency;
+  tCDeb: array[1..2] of Currency;
+  tPix: array[1..2] of Currency;
+  tOutros: array[1..2] of Currency;
+  tVlrCancel: array[1..2] of Currency;
+  tQtdCancel: array[1..2] of Integer;
+  tQtdValid: array[1..2] of Integer;
 
 const
   msgSemMovto: String = 'Turno sem movimentação';
@@ -119,7 +140,7 @@ implementation
 
 {$R *.dfm}
 
-uses STEPrincipal, uGenericas, STEImpressao, STECancelaReativa;
+uses STEPrincipal, uGenericas, STEImpressao, STECancelaReativa, uEdicaoTexto;
 
 
 Function ObtemTurnos(pmtPath:String; pmtMeses:Integer=12): Boolean;
@@ -197,6 +218,39 @@ begin
 
 end;
 
+Procedure SalvaPedidosAtuais(pmtPeds:String);
+var lstWork: TStringList;
+    wLinha: String;
+begin
+  if (pmtPeds = 'XXX') or
+     (FSTEConsTurno.qtdCancReat = 0) then
+    Exit;
+  //
+  lstWork := TStringList.Create;
+  FSTEPrincipal.Pedidos.First;
+  while not FSTEPrincipal.Pedidos.Eof do
+  begin
+    wLinha := FSTEPrincipal.PedidosNro.AsString + '|' +
+              FSTEPrincipal.PedidosFone.AsString + '|' +
+              FSTEPrincipal.PedidosNome.AsString + '|' +
+              FSTEPrincipal.PedidosEndereco.AsString  + '|' +
+              FSTEPrincipal.PedidosBairro.AsString  + '|' +
+              FSTEPrincipal.PedidosRefer.AsString  + '|' +
+              FSTEPrincipal.PedidosTotal.AsString + '|' +
+              FSTEPrincipal.PedidosVlrTele.AsString + '|' +
+              FSTEPrincipal.PedidosMeioPgto.AsString + '|' +
+              FSTEPrincipal.PedidosVlrPago.AsString  + '|' +
+              FSTEPrincipal.PedidosTurno.AsString  + '|' +
+              FSTEPrincipal.PedidosData.AsString + '|' +
+              FSTEPrincipal.PedidosCPF_CNPJ.AsString  + '|' +
+              FSTEPrincipal.PedidosEntrega.AsString + '|';
+    lstWork.Add(wLinha);
+    FSTEPrincipal.Pedidos.Next;
+  end;
+  lstWork.SaveToFile(pmtPeds);
+
+end;
+
 
 Procedure Copia_Pedido_Wrk;
 var i: Integer;
@@ -236,12 +290,14 @@ end;
 
 Procedure ConsultaPedidos;
 begin
-  lAtivo := False;
+  FSTEConsTurno.lAtivo := False;
   if not ObtemTurnos(FSTEPrincipal.pathDados, FSTEPrincipal.mesesConsulta) then
     Exit;
   //
+  FSTEPrincipal.Hide;
   with FSTEConsTurno do
   begin
+    turnoProc := 'XXX';
     Caption := 'Consultar pedidos';
     LabTurnos.Caption := IntToStr(Turnos.RecordCount) + ' Turnos';
     lAtivo := True;
@@ -250,9 +306,10 @@ begin
     btInterno.Visible := FSTEPrincipal.lImpInterno;
     Form_Define(FSTEConsTurno);
     FormResize(nil);
+    qtdCancReat := 0;
     ShowModal;
-
   end;
+  FSTEPrincipal.Visible := True;
 
 end;
 
@@ -294,12 +351,87 @@ begin
 end;
 
 
+Procedure TotalizaExibeTurno(pmtNrLcto:Integer=0);
+var i: Integer;
+begin
+  for i := 1 to 2 do
+  begin
+    tProds[i] := 0;        // Total produtos (1-Dia 2-Noite)
+    tTele[i] := 0;         // Total de tele
+    tGeral[i] := 0;        // Total geral (produtos + tele)
+    tQtdValid[i] := 0;     // Pedidos validos
+    tQtdCancel[i] := 0;    // Pedidos cancelados
+    tDin[i] := 0;          // Total recebido R$
+    tCCred[i] := 0;        // Total recebido C.Cred
+    tCDeb[i] := 0;         // Total recebido C.Deb
+    tPix[i] := 0;          // Total recebido PIX
+    tOutros[i] := 0;       // Total recebido Outros
+    tVlrCancel[i] := 0;    // Valor cancelado (produtos)
+  end;
+  FSTEPrincipal.Pedidos.First;
+  while not FSTEPrincipal.Pedidos.Eof do
+  begin
+    if FSTEPrincipal.PedidosTurno.AsString = 'D' then
+      i := 1
+    else
+      i := 2;
+    if FSTEPrincipal.PedidosEntrega.AsInteger < 10 then
+    begin        // Pedidos VALIDOS
+      tProds[i] := tProds[i] + FSTEPrincipal.PedidosTotal.AsCurrency;
+      tTele[i] := tTele[i] + FSTEPrincipal.PedidosVlrTele.AsCurrency;
+      tGeral[i] := tGeral[i] + FSTEPrincipal.PedidosZC_Total.AsCurrency;
+      case FSTEPrincipal.PedidosMeioPgto.AsInteger of
+        1:tDin[i] := tDin[i] + FSTEPrincipal.PedidosZC_Total.AsCurrency;
+        3:tCCred[i] := tCCred[i] + FSTEPrincipal.PedidosZC_Total.AsCurrency;
+        4:tCDeb[i] := tCDeb[i] + FSTEPrincipal.PedidosZC_Total.AsCurrency;
+        17:tPix[i] := tPix[i] + FSTEPrincipal.PedidosZC_Total.AsCurrency;
+        else tOutros[i] := tOutros[i] + FSTEPrincipal.PedidosZC_Total.AsCurrency;
+      end;
+      tQtdValid[i] := tQtdValid[i] + 1;
+    end
+    else begin
+      tQtdCancel[i] := tQtdCancel[i] + 1;
+      tVlrCancel[i] := tVlrCancel[i] + FSTEPrincipal.PedidosTotal.AsCurrency;
+    end;
+    FSTEPrincipal.Pedidos.Next;
+  end;
+
+  FSTEConsTurno.LabTotProd.Caption := FloatToStrF(tProds[1]+tProds[2],ffNumber,15,2);
+  FSTEConsTurno.LabTele.Caption := FloatToStrF(tTele[1]+tTele[2],ffNumber,15,2);
+  FSTEConsTurno.LabTotGeral.Caption := FloatToStrF(tGeral[1]+tGeral[2],ffNumber,15,2);
+  FSTEConsTurno.LabQtdValid.Caption := IntToStr(tQtdValid[1]+tQtdValid[2]);
+  FSTEConsTurno.LabDinheiro.Caption := FloatToStrF(tDin[1]+tDin[2],ffNumber,15,2);
+  FSTEConsTurno.LabCCred.Caption := FloatToStrF(tCCred[1]+tCCred[2],ffNumber,15,2);
+  FSTEConsTurno.LabCDeb.Caption := FloatToStrF(tCDeb[1]+tCDeb[2],ffNumber,15,2);
+  FSTEConsTurno.LabPix.Caption := FloatToStrF(tPix[1]+tPix[2],ffNumber,15,2);
+  FSTEConsTurno.LabOutros.Caption := FloatToStrF(tOutros[1]+tOutros[2],ffNumber,15,2);
+  if (tQtdCancel[1]+tQtdCancel[2]) > 0 then
+  begin
+    FSTEConsTurno.LabQtdCancel.Caption := IntToStr(tQtdCancel[1]+tQtdCancel[2]);
+    FSTEConsTurno.LabVlrCancel.Caption := FloatToStrF(tVlrCancel[1]+tVlrCancel[2],ffNumber,15,2);
+  end
+  else begin
+    FSTEConsTurno.LabQtdCancel.Caption := 'Não há';
+    FSTEConsTurno.LabVlrCancel.Caption := '---';
+  end;
+  //
+  if pmtNrLcto > 0 then
+    FSTEPrincipal.Pedidos.FindKey([pmtNrLcto]);
+
+end;
+
+
+
 procedure TFSTEConsTurno.btCancelarClick(Sender: TObject);
 var nResp: Integer;
 begin
   if FSTEPrincipal.Pedidos.RecordCount = 0 then
     Exit;
+  FSTECancelaReativa.lCancReat := False;
   FSTECancelaReativa.ShowModal;
+  if FSTECancelaReativa.lCancReat then
+    FSTEConsTurno.qtdCancReat := FSTEConsTurno.qtdCancReat + 1;
+  TotalizaExibeTurno(FSTEPrincipal.PedidosNro.AsInteger);
 
 end;
 
@@ -316,13 +448,23 @@ begin
     MessageDlg(msgSemMovto,mtInformation,[mbOk],0);
     Exit;
   end;
+  TotalizaExibeTurno;
   ImprimeFechamento(TurnosData.AsDateTime,
                     TurnosData.AsDateTime,
                     TurnosTurno.AsString,
-                    tDin,tCCred,tCDeb,tPix,tOutros,
+                    tDin[1]+tDin[2],
+                    tCCred[1]+tCCred[2],
+                    tCDeb[1]+tCDeb[2],
+                    tPix[1]+tPix[2],
+                    tOutros[1]+tOutros[2],
+                    tQtdValid[1]+tQtdValid[2],
+                    tProds[1]+tProds[2],
+                    tTele[1]+tTele[2],
+                    tGeral[1]+tGeral[2],
                     0,0,0,0,
-                    0,0,0,0,
-                    'Turno');
+                    'Turno',
+                    tQtdCancel[1]+tQtdCancel[2],
+                    tVlrCancel[1]+tQtdCancel[2]);
 
 end;
 
@@ -374,6 +516,12 @@ begin
 
 end;
 
+procedure TFSTEConsTurno.btLogOcorrClick(Sender: TObject);
+begin
+  VisualizarTexto(FSTEPrincipal.wLogFile);
+
+end;
+
 procedure TFSTEConsTurno.btProssegClick(Sender: TObject);
 var wArqs: TStringDynArray;
     i,j,nrSeq: Integer;
@@ -389,6 +537,8 @@ var wArqs: TStringDynArray;
     totTurnos: array[1..2,1..3] of Currency;
     qtdTurnos: array[1..2] of Integer;
     idxTurno: Integer;
+    qtdCancel: Integer;
+    vlrCancel: Currency;
 
 begin
   LabPedTurno.Caption := 'Pedidos de ' + DateToStr(dtPicIni.Date) + ' a ' +
@@ -437,6 +587,8 @@ begin
     for j := 1 to 3 do                // 1-Valor  2-Tele  3-Total
       totTurnos[i,j] := 0;
   end;
+  qtdCancel := 0;
+  vlrCancel := 0;
   //
   for i := Low(wArqs) to High(wArqs) do
   begin
@@ -478,17 +630,24 @@ begin
         FSTEPrincipal.PedidosEntrega.AsInteger := StrToIntDef(xInfo[13],0);
         Try
           FSTEPrincipal.Pedidos.Post;
-          case FSTEPrincipal.PedidosMeioPgto.AsInteger of
-            1:tDin := tDin + FSTEPrincipal.PedidosZC_Total.AsCurrency;
-            3:tCCred := tCCred + FSTEPrincipal.PedidosZC_Total.AsCurrency;
-            4:tCDeb := tCDeb + FSTEPrincipal.PedidosZC_Total.AsCurrency;
-            17:tPix := tPix + FSTEPrincipal.PedidosZC_Total.AsCurrency;
-            else tOutros := tOutros + FSTEPrincipal.PedidosZC_Total.AsCurrency;
+          if FSTEPrincipal.PedidosEntrega.AsInteger < 10 then
+          begin
+            case FSTEPrincipal.PedidosMeioPgto.AsInteger of
+              1:tDin := tDin + FSTEPrincipal.PedidosZC_Total.AsCurrency;
+              3:tCCred := tCCred + FSTEPrincipal.PedidosZC_Total.AsCurrency;
+              4:tCDeb := tCDeb + FSTEPrincipal.PedidosZC_Total.AsCurrency;
+              17:tPix := tPix + FSTEPrincipal.PedidosZC_Total.AsCurrency;
+              else tOutros := tOutros + FSTEPrincipal.PedidosZC_Total.AsCurrency;
+            end;
+            qtdTurnos[idxTurno] := qtdTurnos[idxTurno] + 1;
+            totTurnos[idxTurno,1] := totTurnos[idxTurno,1] + FSTEPrincipal.PedidosTotal.AsCurrency;
+            totTurnos[idxTurno,2] := totTurnos[idxTurno,2] + FSTEPrincipal.PedidosVlrTele.AsCurrency;
+            totTurnos[idxTurno,3] := totTurnos[idxTurno,3] + FSTEPrincipal.PedidosVlrPago.AsCurrency;
+          end
+          else begin
+            qtdCancel := qtdCancel + 1;
+            vlrCancel := vlrCancel + FSTEPrincipal.PedidosTotal.AsCurrency;
           end;
-          qtdTurnos[idxTurno] := qtdTurnos[idxTurno] + 1;
-          totTurnos[idxTurno,1] := totTurnos[idxTurno,1] + FSTEPrincipal.PedidosTotal.AsCurrency;
-          totTurnos[idxTurno,2] := totTurnos[idxTurno,2] + FSTEPrincipal.PedidosVlrTele.AsCurrency;
-          totTurnos[idxTurno,3] := totTurnos[idxTurno,3] + FSTEPrincipal.PedidosVlrPago.AsCurrency;
         Except
           FSTEPrincipal.Pedidos.Cancel;
         End;
@@ -508,7 +667,7 @@ begin
                       tDin,tCCred,tCDeb,tPix,tOutros,
                       qtdTurnos[1],totTurnos[1,1],totTurnos[1,2],totTurnos[1,3],
                       qtdTurnos[2],totTurnos[2,1],totTurnos[2,2],totTurnos[2,3],
-                      xTpFecham);
+                      xTpFecham,qtdCancel,vlrCancel);
   ExibeSelecaoDeTurnos(False);
   //
   //
@@ -520,6 +679,7 @@ end;
 
 procedure TFSTEConsTurno.btSairClick(Sender: TObject);
 begin
+  SalvaPedidosAtuais(FSTEConsTurno.turnoProc);
   PanVisualiz.Visible := False;
   REPedido.Lines.Clear;
   Close;
@@ -684,6 +844,9 @@ begin
   if not lAtivo then
     Exit;
   //
+  SalvaPedidosAtuais(FSTEConsTurno.turnoProc);
+  TurnoProc := TurnosIdPedidos.AsString;
+  qtdCancReat := 0;
   LabPedTurno.Caption := 'Pedidos  Data: ' + TurnosData.AsString + '  Turno: ' + TurnosTxTurno.AsString;
   FSTEPrincipal.Pedidos.Active := False;
   FSTEPrincipal.PedLctos.Active := False;
@@ -693,40 +856,7 @@ begin
     Exit;
   end;
   LabNRegs.Caption := IntToStr(FSTEPrincipal.Pedidos.RecordCount) + ' pedidos';
-  tProds := 0;
-  tTele := 0;
-  tGeral := 0;
-  tDin := 0;
-  tCCred := 0;
-  tCDeb := 0;
-  tPix := 0;
-  tOutros := 0;
-  FSTEPrincipal.Pedidos.First;
-  while not FSTEPrincipal.Pedidos.Eof do
-  begin
-    if FSTEPrincipal.PedidosEntrega.AsInteger < 10 then
-    begin        // Pedidos VALIDOS
-      tProds := tProds + FSTEPrincipal.PedidosTotal.AsCurrency;
-      tTele := tTele + FSTEPrincipal.PedidosVlrTele.AsCurrency;
-      tGeral := tGeral + FSTEPrincipal.PedidosZC_Total.AsCurrency;
-      case FSTEPrincipal.PedidosMeioPgto.AsInteger of
-        1:tDin := tDin + FSTEPrincipal.PedidosZC_Total.AsCurrency;
-        3:tCCred := tCCred + FSTEPrincipal.PedidosZC_Total.AsCurrency;
-        4:tCDeb := tCDeb + FSTEPrincipal.PedidosZC_Total.AsCurrency;
-        17:tPix := tPix + FSTEPrincipal.PedidosZC_Total.AsCurrency;
-        else tOutros := tOutros + FSTEPrincipal.PedidosZC_Total.AsCurrency;
-      end;
-    end;
-    FSTEPrincipal.Pedidos.Next;
-  end;
-  LabTotProd.Caption := FloatToStrF(tProds,ffNumber,15,2);
-  LabTele.Caption := FloatToStrF(tTele,ffNumber,15,2);
-  LabTotGeral.Caption := FloatToStrF(tGeral,ffNumber,15,2);
-  LabDinheiro.Caption := FloatToStrF(tDin,ffNumber,15,2);
-  LabCCred.Caption := FloatToStrF(tCCred,ffNumber,15,2);
-  LabCDeb.Caption := FloatToStrF(tCDeb,ffNumber,15,2);
-  LabPix.Caption := FloatToStrF(tPix,ffNumber,15,2);
-  LabOutros.Caption := FloatToStrF(tOutros,ffNumber,15,2);
+  TotalizaExibeTurno;
   FormResize(nil);
 
 end;
@@ -734,12 +864,13 @@ end;
 procedure TFSTEConsTurno.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   Form_Salva(FSTEConsTurno);
-  Close;
+  FSTEConsTurno.lAtivo := False;
 
 end;
 
 procedure TFSTEConsTurno.FormCreate(Sender: TObject);
 begin
+  btLogOcorr.Caption := 'Log de' + #13 + 'ocorrencias';
   btVisualizar.Caption := '&Visualizar'  +  #13 + 'pedido';
   btImprimir.Caption := '&Imprimir'+ #13 + 'pedido';
   btInterno.Caption := 'Imprimir' + #13 + 'in&Terno';
@@ -751,6 +882,7 @@ begin
   btCancel.Width := 124;
   btProsseg.Left := 8;
   btCancel.Left := 136;
+  FSTEConsTurno.lAtivo := False;
 
 end;
 

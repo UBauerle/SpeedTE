@@ -137,8 +137,8 @@ object FSTEPrincipal: TFSTEPrincipal
       1224
       57)
     object LabAbort: TLabel
-      Left = 184
-      Top = 20
+      Left = 183
+      Top = 16
       Width = 52
       Height = 16
       Caption = 'Abortar'
@@ -503,1295 +503,6 @@ object FSTEPrincipal: TFSTEPrincipal
       Progress = 0
     end
   end
-  object PanPedido: TPanel
-    Left = 28
-    Top = 68
-    Width = 1177
-    Height = 437
-    Color = clGradientInactiveCaption
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    ParentBackground = False
-    ParentFont = False
-    TabOrder = 3
-    object gbCliente: TGroupBox
-      Left = 1
-      Top = 1
-      Width = 328
-      Height = 435
-      Align = alLeft
-      Caption = 'Identifica'#231#227'o do cliente'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -16
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentFont = False
-      TabOrder = 0
-      OnEnter = gbClienteEnter
-      OnExit = gbClienteExit
-      DesignSize = (
-        328
-        435)
-      object Label1: TLabel
-        Left = 12
-        Top = 32
-        Width = 54
-        Height = 16
-        Caption = 'Telefone'
-        Color = clGradientInactiveCaption
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentColor = False
-        ParentFont = False
-      end
-      object Label2: TLabel
-        Left = 12
-        Top = 76
-        Width = 37
-        Height = 16
-        Caption = 'Nome'
-        Color = clGradientInactiveCaption
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentColor = False
-        ParentFont = False
-      end
-      object Label3: TLabel
-        Left = 12
-        Top = 120
-        Width = 59
-        Height = 16
-        Caption = 'Endere'#231'o'
-        Color = clGradientInactiveCaption
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentColor = False
-        ParentFont = False
-      end
-      object Label4: TLabel
-        Left = 12
-        Top = 164
-        Width = 36
-        Height = 16
-        Caption = 'Bairro'
-        Color = clGradientInactiveCaption
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentColor = False
-        ParentFont = False
-      end
-      object Label5: TLabel
-        Left = 12
-        Top = 208
-        Width = 68
-        Height = 16
-        Caption = 'Pr'#243'ximo de'
-        Color = clGradientInactiveCaption
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentColor = False
-        ParentFont = False
-      end
-      object LabCPF_CNPJ: TLabel
-        Left = 12
-        Top = 252
-        Width = 194
-        Height = 16
-        Caption = 'CPF / CNPJ  (Somente n'#250'meros)'
-        Color = clGradientInactiveCaption
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentColor = False
-        ParentFont = False
-      end
-      object dbFone: TDBEdit
-        Left = 12
-        Top = 46
-        Width = 106
-        Height = 24
-        CharCase = ecUpperCase
-        DataField = 'Fone'
-        DataSource = DSPedWrk
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-        TabOrder = 0
-        OnDblClick = dbFoneDblClick
-        OnExit = dbFoneExit
-        OnKeyDown = dbFoneKeyDown
-        OnKeyPress = dbFoneKeyPress
-      end
-      object dbNome: TDBEdit
-        Left = 12
-        Top = 90
-        Width = 205
-        Height = 24
-        CharCase = ecUpperCase
-        DataField = 'Nome'
-        DataSource = DSPedWrk
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-        TabOrder = 1
-        OnKeyDown = dbNomeKeyDown
-        OnKeyPress = dbNomeKeyPress
-      end
-      object dbEnder: TDBEdit
-        Left = 12
-        Top = 134
-        Width = 305
-        Height = 24
-        CharCase = ecUpperCase
-        DataField = 'Endereco'
-        DataSource = DSPedWrk
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-        TabOrder = 2
-        OnKeyDown = dbEnderKeyDown
-        OnKeyPress = dbEnderKeyPress
-      end
-      object dbBairro: TDBEdit
-        Left = 12
-        Top = 178
-        Width = 205
-        Height = 24
-        CharCase = ecUpperCase
-        DataField = 'Bairro'
-        DataSource = DSPedWrk
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-        TabOrder = 3
-        OnKeyDown = dbBairroKeyDown
-        OnKeyPress = dbBairroKeyPress
-      end
-      object dbProx: TDBEdit
-        Left = 12
-        Top = 222
-        Width = 305
-        Height = 24
-        CharCase = ecUpperCase
-        DataField = 'Refer'
-        DataSource = DSPedWrk
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-        TabOrder = 4
-        OnKeyDown = dbProxKeyDown
-        OnKeyPress = dbProxKeyPress
-      end
-      object MemLcto: TMemo
-        Left = 12
-        Top = 322
-        Width = 77
-        Height = 45
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        Lines.Strings = (
-          'MemLcto')
-        ParentFont = False
-        TabOrder = 6
-        Visible = False
-      end
-      object dbCPF_CNPJ: TDBEdit
-        Left = 12
-        Top = 266
-        Width = 169
-        Height = 24
-        DataField = 'CPF_CNPJ'
-        DataSource = DSPedWrk
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-        TabOrder = 5
-        OnExit = dbCPF_CNPJExit
-        OnKeyDown = dbCPF_CNPJKeyDown
-        OnKeyPress = dbCPF_CNPJKeyPress
-      end
-      object btConfCliente: TBitBtn
-        Left = 48
-        Top = 373
-        Width = 261
-        Height = 43
-        Anchors = [akRight, akBottom]
-        Caption = 'Confirma dados do cliente'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -16
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        Glyph.Data = {
-          76040000424D7604000000000000760000002800000040000000200000000100
-          0400000000000004000000000000000000001000000000000000000000000000
-          8000008000000080800080000000800080008080000080808000C0C0C0000000
-          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00DDDDDDDDDDDD
-          DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
-          DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
-          DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDFFFFDDDDDDDDDDDDDDDDDDDDDDDDDDD22
-          22DDDDDDDDDDDDDDDDDDDDDDDDDDDD8888FDDDDDDDDDDDDDDDDDDDDDDDDDDD22
-          222DDDDDDDDDDDDDDDDDDDDDDDDDDD88888FDDDDDDDDDDDDDDDDDDDDDDDDDD22
-          222DDDDDDDDDDDDDDDDDDDDDDDDDDD88888FDDDDDDDDDDDDDDDDDDDDDDDDDD22
-          222DDDDDDDDDDDDDDDDDDDDDDDDDDD88888FDDDDDDDDDDDDDDDDDDDDDDDDD222
-          2222DDDDDDDDDDDDDDDDDDDDDDDDD8888888FDDDDDDDDDDDDDDDDDDDDDDDD222
-          2222DDDDDDDDDDDDDDDDDDDDDDDDD8888888FDDDDDDDDDDDDDDDDDDDDDDDD222
-          22222DDDDDDDDDDDDDDDDDDDDDDDD88888888FDDDDDDDDDDDDDDDDDDDDDD2222
-          22222DDDDDDDDDDDDDDDDDDDDDDD888888888FDDDDDDDDDDDDDDDDDDDDDD2222
-          D2222DDDDDDDDDDDDDDDDDDDDDDD8888F8888FDDDDDDDDDDDDDDDDDDDDDD2222
-          DD2222DDDDDDDDDDDDDDDDDDDDDD8888FD8888FDDDDDDDDDDDDDDDDDDDD22222
-          DD2222DDDDDDDDDDDDDDDDDDDDD88888DD8888FDDDDDDDDDDDDDDDDDDDD2222D
-          DD22222DDDDDDDDDDDDDDDDDDDD8888DDD88888FDDDDDDDDDDDDDDDDDD22222D
-          DDD22222DDDDDDDDDDDDDDDDDD88888DDDD88888FDDDDDDDDDDDDDDDDD2222DD
-          DDD22222DDDDDDDDDDDDDDDDDD8888DDDDD88888FDDDDDDDDDDDDDDDD22222DD
-          DDDD22222DDDDDDDDDDDDDDDD88888DDDDDD88888FDDDDDDDDDDDDDD22222DDD
-          DDDDD22222DDDDDDDDDDDDDD88888DDDDDDDD88888FDDDDDDDDDDDD222222DDD
-          DDDDD222222DDDDDDDDDDDD888888DDDDDDDD888888FDDDDDDDDD2222222DDDD
-          DDDDDD222222DDDDDDDDD8888888DDDDDDDDDD888888FDDDDDDDDD22222DDDDD
-          DDDDDDD222222DDDDDDDDD88888DDDDDDDDDDDD888888FDDDDDDDDD222DDDDDD
-          DDDDDDDD222222DDDDDDDDD888DDDDDDDDDDDDDD888888FFDDDDDDDDDDDDDDDD
-          DDDDDDDDD2222222DDDDDDDDDDDDDDDDDDDDDDDDD8888888FDDDDDDDDDDDDDDD
-          DDDDDDDDDD2222222DDDDDDDDDDDDDDDDDDDDDDDDD8888888FFDDDDDDDDDDDDD
-          DDDDDDDDDDD2222222DDDDDDDDDDDDDDDDDDDDDDDDD8888888FDDDDDDDDDDDDD
-          DDDDDDDDDDDDD22222DDDDDDDDDDDDDDDDDDDDDDDDDDD88888FDDDDDDDDDDDDD
-          DDDDDDDDDDDDDD2222DDDDDDDDDDDDDDDDDDDDDDDDDDDD8888FDDDDDDDDDDDDD
-          DDDDDDDDDDDDDDD222DDDDDDDDDDDDDDDDDDDDDDDDDDDDD888DDDDDDDDDDDDDD
-          DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
-          DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
-          DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD}
-        NumGlyphs = 2
-        ParentFont = False
-        TabOrder = 7
-        Visible = False
-        OnClick = btConfClienteClick
-      end
-    end
-    object gbLanctos: TGroupBox
-      Left = 335
-      Top = 5
-      Width = 568
-      Height = 404
-      Caption = 'Lan'#231'amentos'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -16
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentFont = False
-      TabOrder = 1
-      DesignSize = (
-        568
-        404)
-      object Label10: TLabel
-        Left = 340
-        Top = 24
-        Width = 21
-        Height = 16
-        Caption = 'Qtd'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-      end
-      object Label11: TLabel
-        Left = 12
-        Top = 24
-        Width = 47
-        Height = 16
-        Caption = 'Produto'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-      end
-      object Label12: TLabel
-        Left = 12
-        Top = 64
-        Width = 75
-        Height = 16
-        Caption = 'Observa'#231#227'o'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-      end
-      object Label13: TLabel
-        Left = 12
-        Top = 132
-        Width = 46
-        Height = 16
-        Caption = 'Unit'#225'rio'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-      end
-      object Label6: TLabel
-        Left = 100
-        Top = 130
-        Width = 37
-        Height = 16
-        Caption = 'Total'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = [fsBold]
-        ParentFont = False
-      end
-      object LabAltExc: TLabel
-        Left = 2
-        Top = 386
-        Width = 564
-        Height = 16
-        Align = alBottom
-        Alignment = taCenter
-        Caption = 
-          '"Duplo click" na linha correspondente para alterar ou excluir la' +
-          'n'#231'amento'
-        Color = clAqua
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -12
-        Font.Name = 'Courier New'
-        Font.Style = [fsBold]
-        ParentColor = False
-        ParentFont = False
-        Transparent = False
-        Visible = False
-        ExplicitWidth = 504
-      end
-      object dbTotal: TDBEdit
-        Left = 100
-        Top = 144
-        Width = 101
-        Height = 28
-        TabStop = False
-        DataField = 'Total'
-        DataSource = DSLctWrk
-        ReadOnly = True
-        TabOrder = 5
-      end
-      object dbQtd: TDBEdit
-        Left = 339
-        Top = 38
-        Width = 31
-        Height = 24
-        DataField = 'Quant'
-        DataSource = DSLctWrk
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-        TabOrder = 1
-        OnExit = dbQtdExit
-        OnKeyDown = dbQtdKeyDown
-        OnKeyPress = dbQtdKeyPress
-      end
-      object dbUnit: TDBEdit
-        Left = 12
-        Top = 146
-        Width = 71
-        Height = 24
-        DataField = 'Valor'
-        DataSource = DSLctWrk
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-        TabOrder = 4
-        OnExit = dbUnitExit
-        OnKeyDown = dbUnitKeyDown
-        OnKeyPress = dbUnitKeyPress
-      end
-      object dbObs1: TDBEdit
-        Left = 12
-        Top = 78
-        Width = 421
-        Height = 24
-        CharCase = ecUpperCase
-        DataField = 'Obs1'
-        DataSource = DSLctWrk
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-        TabOrder = 2
-        OnChange = dbObs1Change
-        OnExit = dbObs1Exit
-        OnKeyDown = dbObs1KeyDown
-        OnKeyPress = dbObs1KeyPress
-      end
-      object btConfirmaProd: TBitBtn
-        Left = 268
-        Top = 137
-        Width = 160
-        Height = 43
-        Caption = '&Confirma produto'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        Glyph.Data = {
-          76040000424D7604000000000000760000002800000040000000200000000100
-          0400000000000004000000000000000000001000000000000000000000000000
-          8000008000000080800080000000800080008080000080808000C0C0C0000000
-          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00DDDDDDDDDDDD
-          DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
-          DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
-          DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDFFFFDDDDDDDDDDDDDDDDDDDDDDDDDDD22
-          22DDDDDDDDDDDDDDDDDDDDDDDDDDDD8888FDDDDDDDDDDDDDDDDDDDDDDDDDDD22
-          222DDDDDDDDDDDDDDDDDDDDDDDDDDD88888FDDDDDDDDDDDDDDDDDDDDDDDDDD22
-          222DDDDDDDDDDDDDDDDDDDDDDDDDDD88888FDDDDDDDDDDDDDDDDDDDDDDDDDD22
-          222DDDDDDDDDDDDDDDDDDDDDDDDDDD88888FDDDDDDDDDDDDDDDDDDDDDDDDD222
-          2222DDDDDDDDDDDDDDDDDDDDDDDDD8888888FDDDDDDDDDDDDDDDDDDDDDDDD222
-          2222DDDDDDDDDDDDDDDDDDDDDDDDD8888888FDDDDDDDDDDDDDDDDDDDDDDDD222
-          22222DDDDDDDDDDDDDDDDDDDDDDDD88888888FDDDDDDDDDDDDDDDDDDDDDD2222
-          22222DDDDDDDDDDDDDDDDDDDDDDD888888888FDDDDDDDDDDDDDDDDDDDDDD2222
-          D2222DDDDDDDDDDDDDDDDDDDDDDD8888F8888FDDDDDDDDDDDDDDDDDDDDDD2222
-          DD2222DDDDDDDDDDDDDDDDDDDDDD8888FD8888FDDDDDDDDDDDDDDDDDDDD22222
-          DD2222DDDDDDDDDDDDDDDDDDDDD88888DD8888FDDDDDDDDDDDDDDDDDDDD2222D
-          DD22222DDDDDDDDDDDDDDDDDDDD8888DDD88888FDDDDDDDDDDDDDDDDDD22222D
-          DDD22222DDDDDDDDDDDDDDDDDD88888DDDD88888FDDDDDDDDDDDDDDDDD2222DD
-          DDD22222DDDDDDDDDDDDDDDDDD8888DDDDD88888FDDDDDDDDDDDDDDDD22222DD
-          DDDD22222DDDDDDDDDDDDDDDD88888DDDDDD88888FDDDDDDDDDDDDDD22222DDD
-          DDDDD22222DDDDDDDDDDDDDD88888DDDDDDDD88888FDDDDDDDDDDDD222222DDD
-          DDDDD222222DDDDDDDDDDDD888888DDDDDDDD888888FDDDDDDDDD2222222DDDD
-          DDDDDD222222DDDDDDDDD8888888DDDDDDDDDD888888FDDDDDDDDD22222DDDDD
-          DDDDDDD222222DDDDDDDDD88888DDDDDDDDDDDD888888FDDDDDDDDD222DDDDDD
-          DDDDDDDD222222DDDDDDDDD888DDDDDDDDDDDDDD888888FFDDDDDDDDDDDDDDDD
-          DDDDDDDDD2222222DDDDDDDDDDDDDDDDDDDDDDDDD8888888FDDDDDDDDDDDDDDD
-          DDDDDDDDDD2222222DDDDDDDDDDDDDDDDDDDDDDDDD8888888FFDDDDDDDDDDDDD
-          DDDDDDDDDDD2222222DDDDDDDDDDDDDDDDDDDDDDDDD8888888FDDDDDDDDDDDDD
-          DDDDDDDDDDDDD22222DDDDDDDDDDDDDDDDDDDDDDDDDDD88888FDDDDDDDDDDDDD
-          DDDDDDDDDDDDDD2222DDDDDDDDDDDDDDDDDDDDDDDDDDDD8888FDDDDDDDDDDDDD
-          DDDDDDDDDDDDDDD222DDDDDDDDDDDDDDDDDDDDDDDDDDDDD888DDDDDDDDDDDDDD
-          DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
-          DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
-          DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD}
-        NumGlyphs = 2
-        ParentFont = False
-        TabOrder = 6
-        OnClick = btConfirmaProdClick
-      end
-      object RETexto: TRichEdit
-        Left = 16
-        Top = 186
-        Width = 541
-        Height = 196
-        TabStop = False
-        Anchors = [akLeft, akTop, akBottom]
-        Color = clAliceblue
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'Courier New'
-        Font.Style = []
-        Lines.Strings = (
-          'RETexto'
-          
-            '123456789.123456789.123456789.123456789.123456789.123456789.1234' +
-            '5')
-        ParentFont = False
-        ReadOnly = True
-        ScrollBars = ssVertical
-        TabOrder = 7
-        OnDblClick = RETextoDblClick
-      end
-      object dbProdCombo: TDBComboBox
-        Left = 12
-        Top = 38
-        Width = 321
-        Height = 24
-        CharCase = ecUpperCase
-        DataField = 'Produto'
-        DataSource = DSLctWrk
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-        TabOrder = 0
-        OnExit = dbProdComboExit
-        OnKeyDown = dbProdComboKeyDown
-        OnKeyPress = dbProdComboKeyPress
-      end
-      object dbObs2: TDBEdit
-        Left = 12
-        Top = 102
-        Width = 421
-        Height = 24
-        CharCase = ecUpperCase
-        DataField = 'Obs2'
-        DataSource = DSLctWrk
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-        TabOrder = 3
-        OnChange = dbObs2Change
-        OnKeyDown = dbObs2KeyDown
-        OnKeyPress = dbObs2KeyPress
-      end
-    end
-    object gbTotaliz: TGroupBox
-      Left = 926
-      Top = 1
-      Width = 250
-      Height = 435
-      Align = alRight
-      Caption = 'Totaliza'#231#227'o'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -16
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentFont = False
-      TabOrder = 2
-      OnEnter = gbTotalizEnter
-      OnExit = gbTotalizExit
-      DesignSize = (
-        250
-        435)
-      object Label7: TLabel
-        Left = 45
-        Top = 29
-        Width = 56
-        Height = 16
-        Alignment = taRightJustify
-        Caption = 'Sub-total:'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-      end
-      object LabTele: TLabel
-        Left = 70
-        Top = 63
-        Width = 31
-        Height = 16
-        Alignment = taRightJustify
-        Caption = 'Tele:'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-      end
-      object Label9: TLabel
-        Left = 60
-        Top = 99
-        Width = 41
-        Height = 16
-        Alignment = taRightJustify
-        Caption = 'Total:'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = [fsBold]
-        ParentFont = False
-      end
-      object Label16: TLabel
-        Left = 46
-        Top = 186
-        Width = 55
-        Height = 16
-        Caption = 'Vlr.Pago:'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-      end
-      object Label17: TLabel
-        Left = 62
-        Top = 216
-        Width = 39
-        Height = 16
-        Caption = 'Troco:'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-      end
-      object Label15: TLabel
-        Left = 28
-        Top = 141
-        Width = 73
-        Height = 16
-        Alignment = taRightJustify
-        Caption = 'Pagamento:'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-      end
-      object dbMeioPagto: TDBText
-        Left = 177
-        Top = 163
-        Width = 63
-        Height = 13
-        Alignment = taRightJustify
-        AutoSize = True
-        DataField = 'MeioPgto'
-        DataSource = DSPedWrk
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-      end
-      object LabEntrega: TLabel
-        Left = 51
-        Top = 254
-        Width = 50
-        Height = 16
-        Alignment = taRightJustify
-        Caption = 'Entrega:'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-      end
-      object btFinaliza: TBitBtn
-        Left = 3
-        Top = 350
-        Width = 157
-        Height = 43
-        Anchors = [akLeft, akBottom]
-        BiDiMode = bdLeftToRight
-        Caption = 'Finali&za pedido'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        Glyph.Data = {
-          360C0000424D360C000000000000360000002800000020000000200000000100
-          180000000000000C000000000000000000000000000000000000FFFFFFFFFFFF
-          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000
-          000000000000000000000000000000000000000000000000000000000000FFFF
-          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000BFBFBF
-          7F7F7F7F7F7F7F7F7F0000FF7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F000000FFFF
-          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000FFFFFF
-          BFBFBFBFBFBF0000FF0000FF0000FFBFBFBFBFBFBFBFBFBF7F7F7F0000000000
-          0000000000000000000000000000000000000000000000000000000000000000
-          0000000000000000000000000000000000000000000000FFFFFF000000FFFFFF
-          BFBFBF0000FF0000FF0000FF0000FFBFBFBFBFBFBFBFBFBF7F7F7F0000007F7F
-          7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F
-          7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F000000FFFFFF000000FFFFFF
-          0000FF0000FF0000FF0000FF0000FF0000FFBFBFBFBFBFBF7F7F7F0000007F7F
-          7FBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF7F7F7F7F7F7F7F7F7F7F
-          7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F000000FFFFFF0000000000FF
-          0000FF0000FFBFBFBFBFBFBF0000FF0000FFBFBFBFBFBFBF7F7F7F0000007F7F
-          7FBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F
-          7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F000000FFFFFF0000000000FF
-          0000FFBFBFBFBFBFBFBFBFBF0000FF0000FF0000FFBFBFBF7F7F7F0000007F7F
-          7FBFBFBFBFBFBFBFBFBFBFBFBF7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F
-          7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F000000FFFFFF0000000000FF
-          BFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000FF0000FF0000FF7F7F7F0000007F7F
-          7FBFBFBFBFBFBFBFBFBF7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F
-          7F7F7F7F7F7F7F7F000000000000000000000000000000000000000000FFFFFF
-          BFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000FF0000FF0000FF0000FF0000007F7F
-          7FBFBFBFBFBFBF7F7F7F7F7F7F00000000000000000000000000000000000000
-          00000000000000007F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F000000FFFFFF
-          BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000FF0000FF0000FF0000007F7F
-          7FBFBFBF7F7F7F7F7F7F000000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-          BFBFBFBFBFBFBFBFBFBFBF7F7F7FBFBFBFBFBFBFBFBFBFBFBFBF000000FFFFFF
-          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000FF0000FF0000007F7F
-          7F7F7F7F7F7F7F000000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-          BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF000000000000
-          0000000000000000000000000000000000000000000000000000000000007F7F
-          7F7F7F7F000000BFBFBFBFBFBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFFFFFFFFFFFFF
-          FFFFFF000000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF7F7F7F7F7F
-          7F000000BFBFBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFFFFFFFFBFBFBFBFBFBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFF000000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF7F7F7F7F7F7F0000
-          00FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFBFBFBFBFBFBFBFBFBFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFF000000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBF7F7F7F7F7F7F000000BFBF
-          BFFFFFFFFFFFFFFFFFFF000000000000000000BFBFBFBFBFBFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFF0000007F00007F00007F00007F7F7F7F7F7F7F7F7F000000BFBFBFFFFF
-          FFFFFFFFFFFFFF000000000000000000000000BFBFBFBFBFBFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFF0000007F00007F00007F00007F00007F00007F0000000000FFFFFFFFFF
-          FFFFFFFF000000000000BFBFBFBFBFBF000000BFBFBFBFBFBFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFF000000BFBFBFBFBFBFBFBFBFBFBFBFFF0000FF0000BFBFBFFFFFFFFFFF
-          FF0000007F7F7F000000BFBFBF000000000000BFBFBFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFFFFFFFF000000000000000000000000000000FFFFFFFFFFFF
-          FFFFFF000000BFBFBFBFBFBFBFBFBFBFBFBF0000007F0000000000FFFFFF0000
-          00FF00007F7F7F000000BFBFBF000000BFBFBFBFBFBFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFF000000000000BFBFBFBFBFBF000000FFFFFFFFFFFFFFFFFF
-          FFFFFF000000BFBFBFBFBFBFBFBFBF000000FFFFFFBFBFBF7F00000000007F00
-          00FFFF007F0000000000000000BFBFBFBFBFBFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFF000000BFBFBFBFBFBFBFBFBF000000FFFFFFFFFFFFFFFFFF
-          FFFFFF000000BFBFBFBFBFBFBFBFBF000000FFFFFFFFFFFFBFBFBF0000007F00
-          007F0000FFFF00BFBFBF7F0000FF0000BFBFBFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFF000000BFBFBFBFBFBFBFBFBFBFBFBF000000FFFFFFFFFFFFFFFFFF
-          FFFFFF000000BFBFBFBFBFBFBFBFBF000000FFFFFFFFFFFF0000000000007F7F
-          7F0000007F00007F0000FFFF007F0000FF0000FFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFF000000BFBFBFBFBFBFBFBFBFBFBFBF000000FFFFFFFFFFFFFFFFFF
-          FFFFFF000000BFBFBFBFBFBFBFBFBF000000000000FFFFFFFFFFFFBFBFBF0000
-          007F7F7F0000007F00007F0000FFFF00BFBFBF7F0000FF0000FFFFFFFFFFFFFF
-          FFFF000000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBF000000FFFFFFFFFFFFFFFFFF
-          FFFFFF000000BFBFBFBFBFBFBFBFBFBFBFBF000000FFFFFFFFFFFFFFFFFF0000
-          00000000BFBFBFFFFFFFFF00007F00007F0000FFFF007F00007F0000FF0000FF
-          FFFF000000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBF000000FFFFFFFFFFFFFFFFFF
-          FFFFFF000000000000000000000000000000000000000000FFFFFFFFFFFFBFBF
-          BF000000FFFFFFFFFFFFFFFFFFFFFFFF7F00007F0000FFFF00BFBFBF7F000000
-          0000000000000000000000000000000000000000000000FFFFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000FFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00007F00007F0000FFFF007F
-          0000FF0000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000FFFFFFFFFF
-          FFFFFFFFFFFFFFFFFFFFFFFFFF7F7F7FFFFFFF7F7F7F0000000000007F0000FF
-          FF00BFBFBF7F0000FF0000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000FFFF
-          FFFFFFFFFFFFFFFFFFFF7F7F7FFFFFFF7F7F7F000000FFFFFFFFFFFFFF00007F
-          00007F0000FFFF007F00007F0000FF0000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000
-          00FFFFFFFFFFFFFFFFFF000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFF0000007F0000FFFF00BFBFBF7F0000000000FFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FF000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFFFF00007F00007F0000FFFF007F0000FFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFFFF00000000007F0000FFFFFFFFFFFFFFFFFF}
-        ParentBiDiMode = False
-        ParentFont = False
-        TabOrder = 8
-        OnClick = btFinalizaClick
-      end
-      object btCancela: TBitBtn
-        Left = 64
-        Top = 389
-        Width = 157
-        Height = 43
-        Anchors = [akRight, akBottom]
-        BiDiMode = bdLeftToRight
-        Caption = '&Cancela pedido'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        Glyph.Data = {
-          D6090000424DD60900000000000036000000280000001D0000001C0000000100
-          180000000000A0090000C30E0000C30E00000000000000000000BFBFBFBFBFBF
-          BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-          BF7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7FBFBFBFBFBFBFBFBFBFBFBFBFBF
-          BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF00BFBFBFBFBFBFBFBFBFBFBFBFBFBF
-          BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF7F7F7F7F7F7F7F7F7F7F7F7F7F
-          7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7FBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-          BFBFBFBFBFBFBFBFBF00BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-          BFBFBFBFBF7F7F7F7F7F7F0000000000000000000000000000000000007F7F7F
-          7F7F7F7F7F7F7F7F7F7F7F7F7F7F7FBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-          BF00BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF7F7F7F000000
-          00000000007F00007F00007F00007F00007F00007F0000000000007F7F7F7F7F
-          7F7F7F7F7F7F7F7F7F7FBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF00BFBFBFBFBFBF
-          BFBFBFBFBFBFBFBFBFBFBFBFBFBFBF00000000007F00007F00007F00007F0000
-          7F00007F00007F00007F00007F00007F00007F0000000000007F7F7F7F7F7F7F
-          7F7F7F7F7FBFBFBFBFBFBFBFBFBFBFBFBF00BFBFBFBFBFBFBFBFBFBFBFBFBFBF
-          BFBFBFBF00007F00007F00007F00007F00007F0000FF0000FF0000FF0000FF00
-          00FF0000FF00007F00007F00007F0000000000007F7F7F7F7F7F7F7F7F7F7F7F
-          BFBFBFBFBFBFBFBFBF00BFBFBFBFBFBFBFBFBFBFBFBFBFBFBF00007F00007F00
-          00FF00007F00007F0000FFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000FF
-          0000FF00007F00007F0000000000007F7F7F7F7F7F7F7F7F7F7F7FBFBFBFBFBF
-          BF00BFBFBFBFBFBFBFBFBFBFBFBF00007F0000FF00007F00007F00007FBFBFBF
-          BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000FF0000
-          7F00007F0000000000007F7F7F7F7F7F7F7F7FBFBFBFBFBFBF00BFBFBFBFBFBF
-          BFBFBF0000FF0000FF00007F00007F00007FBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-          BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF00007F00007F0000FF00007F00007F00
-          00000000007F7F7F7F7F7F7F7F7FBFBFBF00BFBFBFBFBFBFBFBFBF0000FF0000
-          7F00007F00007F7F7F7FBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-          BFBFBFBFBF00007F00007F0000FF00007F0000FF00007F00007F0000007F7F7F
-          7F7F7F7F7F7FBFBFBF00BFBFBFBFBFBF0000FF00007F00007F00007F7F7F7FBF
-          BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF00007F00007F
-          0000FF00007F00007FBFBFBF0000FF00007F0000000000007F7F7F7F7F7F7F7F
-          7F00BFBFBFBFBFBF0000FF00007F00007F0000007F7F7FBFBFBFBFBFBFBFBFBF
-          BFBFBFBFBFBFBFBFBFBFBFBFBFBFBF00007F00007F0000FF00007F00007FBFBF
-          BFBFBFBF0000FF00007F00007F0000007F7F7F7F7F7F7F7F7F00BFBFBF0000FF
-          00007F00007F0000007F7F7F7F7F7FBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-          BFBFBFBF00007F00007F0000FF00007F00007FBFBFBFBFBFBFBFBFBFBFBFBF00
-          00FF00007F00007F0000007F7F7F7F7F7F00BFBFBF0000FF00007F00007F0000
-          007F7F7F7F7F7FBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF00007F00007F00
-          00FF00007F00007FBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000FF00007F00007F
-          0000007F7F7F7F7F7F00BFBFBF0000FF00007F00007F0000007F7F7F7F7F7FBF
-          BFBFBFBFBFBFBFBFBFBFBFBFBFBF00007F00007F0000FF00007F00007FBFBFBF
-          BFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000FF00007F00007F0000007F7F7F7F7F
-          7F00BFBFBF0000FF00007F00007F0000007F7F7F7F7F7FBFBFBFBFBFBFBFBFBF
-          BFBFBF00007F00007F0000FF00007F00007FBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-          BFBFBFBFBFBFBF0000FF00007F00007F0000007F7F7F7F7F7F00BFBFBF0000FF
-          00007F00007F0000007F7F7F7F7F7F7F7F7FBFBFBFBFBFBF00007F00007F0000
-          FF00007F00007FBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF00
-          00FF00007F00007F0000007F7F7FBFBFBF00BFBFBF0000FF00007F00007F0000
-          007F7F7F7F7F7F7F7F7FBFBFBF00007F00007F0000FF00007F00007FBFBFBFBF
-          BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000FF00007F00007F
-          0000007F7F7FBFBFBF00BFBFBFBFBFBF0000FF00007F00007F0000007F7F7F7F
-          7F7F00007F00007F0000FF00007F00007FBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-          BFBFBFBFBFBFBFBFBFBFBFBF0000FF00007F00007F0000007F7F7FBFBFBFBFBF
-          BF00BFBFBFBFBFBF0000FF0000FF00007F0000007F7F7F00007F00007F0000FF
-          00007F00007FBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-          BFBFBFBF00007F00007F00007F0000007F7F7FBFBFBFBFBFBF00BFBFBFBFBFBF
-          BFBFBF0000FF00007F00007F00007F00007F0000FF00007F00007FBFBFBFBFBF
-          BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF00007F00007F00
-          007F00007F7F7F7FBFBFBFBFBFBFBFBFBF00BFBFBFBFBFBFBFBFBF0000FF0000
-          FF00007F00007F0000FF00007F00007F7F7F7F7F7F7F7F7F7FBFBFBFBFBFBFBF
-          BFBFBFBFBFBFBFBFBFBFBF7F7F7F00007F00007F0000FF00007F000000BFBFBF
-          BFBFBFBFBFBFBFBFBF00BFBFBFBFBFBFBFBFBFBFBFBF0000FF0000FF00007F00
-          007F00007F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F
-          7F7F7F00007F00007F00007F00007F00007FBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-          BF00BFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000FF0000FF00007F00007F000000
-          0000007F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F00000000007F00007F0000
-          7F0000FF00007FBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF00BFBFBFBFBFBF
-          BFBFBFBFBFBFBFBFBFBFBFBF0000FF0000FF00007F00007F00007F0000000000
-          0000000000000000000000000000007F00007F00007F0000FF00007FBFBFBFBF
-          BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF00BFBFBFBFBFBFBFBFBFBFBFBFBFBF
-          BFBFBFBFBFBFBF0000FF0000FF0000FF00007F00007F00007F00007F00007F00
-          007F00007F00007F00007F0000FF0000FFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-          BFBFBFBFBFBFBFBFBF00BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-          BFBFBFBFBF0000FF0000FF00007F00007F00007F00007F00007F00007F0000FF
-          0000FFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-          BF00BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-          BFBFBF0000FF0000FF0000FF0000FF0000FF0000FFBFBFBFBFBFBFBFBFBFBFBF
-          BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF00}
-        ParentBiDiMode = False
-        ParentFont = False
-        TabOrder = 9
-        OnClick = btCancelaClick
-      end
-      object edValorTele: TDBEdit
-        Left = 104
-        Top = 59
-        Width = 93
-        Height = 24
-        DataField = 'VlrTele'
-        DataSource = DSPedWrk
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-        TabOrder = 1
-        OnEnter = edValorTeleEnter
-        OnExit = edValorTeleExit
-        OnKeyDown = edValorTeleKeyDown
-        OnKeyPress = edValorTeleKeyPress
-      end
-      object DBEdit1: TDBEdit
-        Left = 104
-        Top = 93
-        Width = 114
-        Height = 28
-        TabStop = False
-        DataField = 'ZC_Total'
-        DataSource = DSPedWrk
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -16
-        Font.Name = 'MS Sans Serif'
-        Font.Style = [fsBold]
-        ParentFont = False
-        ReadOnly = True
-        TabOrder = 2
-      end
-      object dbSubTotal: TDBEdit
-        Left = 104
-        Top = 25
-        Width = 93
-        Height = 24
-        TabStop = False
-        DataField = 'Total'
-        DataSource = DSPedWrk
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-        ReadOnly = True
-        TabOrder = 0
-      end
-      object dbVlrPago: TDBEdit
-        Left = 104
-        Top = 182
-        Width = 93
-        Height = 24
-        DataField = 'VlrPago'
-        DataSource = DSPedWrk
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-        TabOrder = 4
-        OnKeyDown = dbVlrPagoKeyDown
-        OnKeyPress = dbVlrPagoKeyPress
-      end
-      object dbTroco: TDBEdit
-        Left = 104
-        Top = 212
-        Width = 93
-        Height = 24
-        TabStop = False
-        DataField = 'ZC_Troco'
-        DataSource = DSPedWrk
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-        ReadOnly = True
-        TabOrder = 5
-      end
-      object dbLkMeioPgto: TDBLookupComboBox
-        Left = 104
-        Top = 137
-        Width = 133
-        Height = 24
-        DataField = 'MeioPgto'
-        DataSource = DSPedWrk
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        KeyField = 'CodMP'
-        ListField = 'DescrMP'
-        ListSource = SDSMeiosPgto
-        ParentFont = False
-        TabOrder = 3
-        OnExit = dbLkMeioPgtoExit
-        OnKeyDown = dbLkMeioPgtoKeyDown
-        OnKeyPress = dbLkMeioPgtoKeyPress
-      end
-      object btAcrescenta: TBitBtn
-        Left = 82
-        Top = 311
-        Width = 157
-        Height = 43
-        Anchors = [akLeft, akBottom]
-        BiDiMode = bdLeftToRight
-        Caption = 'Acrescentar '#237'tem'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        Glyph.Data = {
-          76040000424D7604000000000000760000002800000040000000200000000100
-          0400000000000004000000000000000000001000000000000000000000000000
-          8000008000000080800080000000800080008080000080808000C0C0C0000000
-          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00BBBBBBBBBBBB
-          BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
-          BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBFFFFFFBBBBBBBBBBBBBBBBBBBBBBBB
-          B777777BBBBBBBBBBBBBBBBBBBBBBBBBB888888FBBBBBBBBBBBBBBBBBBBBBBBB
-          B799997BBBBBBBBBBBBBBBBBBBBBBBBBB877778FBBBBBBBBBBBBBBBBBBBBBBBB
-          B799997BBBBBBBBBBBBBBBBBBBBBBBBBB877778FBBBBBBBBBBBBBBBBBBBBBBBB
-          B799997BBBBBBBBBBBBBBBBBBBBBBBBBB877778FBBBBBBBBBBBBBBBBBBBBBBBB
-          B799997BBBBBBBBBBBBBBBBBBBBBBBBBB877778FBBBBBBBBBBBBBBBBBBBBBBBB
-          B799997BBBBBBBBBBBBBBBBBBBBBBBBBB877778FBBBBBBBBBBBBBBBBBBBBBBBB
-          B799997BBBBBBBBBBBBBBBBBBBBBBBBBB877778FBBBBBBBBBBBBBBBBBBBBBBBB
-          B799997BBBBBBBBBBBBBBBBBBBBBBBBBB877778FBBBBBBBBBBBBBBBBBBBBBBBB
-          B799997BBBBBBBBBBBBBBBBBBBBBBBBBB877778FBBBBBBBBBBBBBBBBBBBBBBBB
-          B799997BBBBBBBBBBBBBBBBBBBBBBBBBB877778FBBBBBBBBBBBBBBBBBBBBBBBB
-          B799997BBBBBBBBBBBBBBBBFFFFFFFFFF877778FFFFFFFFFFFFBBB7777777777
-          779999777777777777BBBB8888888888887777888888888888FBBB7999999999
-          999999999999999997BBBB8777777777777777777777777778FBBB7999999999
-          999999999999999997BBBB8777777777777777777777777778FBBB7999999999
-          999999999999999997BBBB8777777777777777777777777778FBBB7999999999
-          999999999999999997BBBB8777777777777777777777777778FBBB7777777777
-          779999777777777777BBBB8888888888887777888888888888BBBBBBBBBBBBBB
-          B799997BBBBBBBBBBBBBBBBBBBBBBBBBB877778FBBBBBBBBBBBBBBBBBBBBBBBB
-          B799997BBBBBBBBBBBBBBBBBBBBBBBBBB877778FBBBBBBBBBBBBBBBBBBBBBBBB
-          B799997BBBBBBBBBBBBBBBBBBBBBBBBBB877778FBBBBBBBBBBBBBBBBBBBBBBBB
-          B799997BBBBBBBBBBBBBBBBBBBBBBBBBB877778FBBBBBBBBBBBBBBBBBBBBBBBB
-          B799997BBBBBBBBBBBBBBBBBBBBBBBBBB877778FBBBBBBBBBBBBBBBBBBBBBBBB
-          B799997BBBBBBBBBBBBBBBBBBBBBBBBBB877778FBBBBBBBBBBBBBBBBBBBBBBBB
-          B799997BBBBBBBBBBBBBBBBBBBBBBBBBB877778FBBBBBBBBBBBBBBBBBBBBBBBB
-          B799997BBBBBBBBBBBBBBBBBBBBBBBBBB877778FBBBBBBBBBBBBBBBBBBBBBBBB
-          B799997BBBBBBBBBBBBBBBBBBBBBBBBBB877778FBBBBBBBBBBBBBBBBBBBBBBBB
-          B799997BBBBBBBBBBBBBBBBBBBBBBBBBB877778FBBBBBBBBBBBBBBBBBBBBBBBB
-          B777777BBBBBBBBBBBBBBBBBBBBBBBBBB888888BBBBBBBBBBBBBBBBBBBBBBBBB
-          BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
-          BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB}
-        NumGlyphs = 2
-        ParentBiDiMode = False
-        ParentFont = False
-        TabOrder = 7
-        TabStop = False
-        Visible = False
-        OnClick = btAcrescentaClick
-      end
-      object dbLkEntrega: TDBLookupComboBox
-        Left = 104
-        Top = 252
-        Width = 133
-        Height = 24
-        DataField = 'Entrega'
-        DataSource = DSPedWrk
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        KeyField = 'Cod'
-        ListField = 'Descr'
-        ListSource = SDSEntrega
-        ParentFont = False
-        TabOrder = 6
-        OnExit = dbLkEntregaExit
-        OnKeyDown = dbLkEntregaKeyDown
-        OnKeyPress = dbLkEntregaKeyPress
-      end
-    end
-    object PanNovoLcto: TPanel
-      Left = 649
-      Top = 272
-      Width = 289
-      Height = 73
-      BevelKind = bkFlat
-      Color = clWhite
-      ParentBackground = False
-      TabOrder = 3
-      Visible = False
-      object LabIncluirLcto: TLabel
-        Left = 1
-        Top = 1
-        Width = 283
-        Height = 16
-        Align = alTop
-        Alignment = taCenter
-        Caption = 'Incluir lan'#231'amento ?'
-        Color = clMoneyGreen
-        ParentColor = False
-        Transparent = False
-        ExplicitWidth = 117
-      end
-      object btSim: TBitBtn
-        Left = 16
-        Top = 23
-        Width = 121
-        Height = 37
-        Caption = '&Sim'
-        Default = True
-        Glyph.Data = {
-          76010000424D7601000000000000760000002800000020000000100000000100
-          04000000000000010000120B0000120B00001000000000000000000000000000
-          8000008000000080800080000000800080008080000080808000C0C0C0000000
-          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00555555555555
-          55555555555555555555555550055555555555555FF55555555555555C005555
-          5555555557FF555555555555CCC0555555555555777F555555555555CCC00555
-          55555555777FF5555555555CCCCC0555555555577777F555555555CCC0CC0055
-          555555777777FF5555555CCC05CCC0555555577775777F555555CC05555CC005
-          5555777555577FF555555555555CCC0555555555555777F5555555555555CC00
-          55555555555577FF5555555555555CC0055555555555577FF5555555555555CC
-          0055555555555577FF5555555555555CC0005555555555577FFF555555555555
-          5CC0555555555555577F55555555555555555555555555555555}
-        NumGlyphs = 2
-        TabOrder = 0
-        OnClick = btSimClick
-      end
-      object btNao: TBitBtn
-        Left = 148
-        Top = 23
-        Width = 121
-        Height = 37
-        Cancel = True
-        Caption = '&N'#227'o'
-        Glyph.Data = {
-          76010000424D7601000000000000760000002800000020000000100000000100
-          04000000000000010000130B0000130B00001000000000000000000000000000
-          80000080000000808000800000008000800080800000C0C0C000808080000000
-          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
-          3333333333FFFFF3333333333999993333333333F88888FFF333333999999999
-          33333338888FF388FF3333993333339993333388F33333388FF3399993333339
-          993338888F33333388F3393999333333993338F888F3333338FF993399933333
-          399388F3888F3333388F993339993333399388F33888F333388F993333999333
-          399388F333888F33388F993333399933399388F333388FF3388F993333339993
-          399388F33333888FF883399333333999393338FF33333888F8F3399933333399
-          9933388FF3333388883333999333333993333388FFF33FF88333333999999999
-          3333333888FFF888333333333999993333333333388888333333}
-        NumGlyphs = 2
-        TabOrder = 1
-        OnClick = btNaoClick
-      end
-    end
-    object PanAlteraExclue: TPanel
-      Left = 303
-      Top = 272
-      Width = 343
-      Height = 73
-      BevelKind = bkFlat
-      Color = clYellow
-      ParentBackground = False
-      TabOrder = 4
-      Visible = False
-      object Label8: TLabel
-        Left = 1
-        Top = 1
-        Width = 337
-        Height = 16
-        Align = alTop
-        Alignment = taCenter
-        Caption = 'Alterar ou Excluir lan'#231'amento?'
-        Color = clMoneyGreen
-        ParentColor = False
-        Transparent = False
-        ExplicitWidth = 179
-      end
-      object btAlteraLcto: TBitBtn
-        Left = 16
-        Top = 23
-        Width = 95
-        Height = 37
-        Caption = '&Alterar'
-        Default = True
-        Glyph.Data = {
-          76010000424D7601000000000000760000002800000020000000100000000100
-          04000000000000010000120B0000120B00001000000000000000000000000000
-          800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
-          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333000000
-          000033333377777777773333330FFFFFFFF03FF3FF7FF33F3FF700300000FF0F
-          00F077F777773F737737E00BFBFB0FFFFFF07773333F7F3333F7E0BFBF000FFF
-          F0F077F3337773F3F737E0FBFBFBF0F00FF077F3333FF7F77F37E0BFBF00000B
-          0FF077F3337777737337E0FBFBFBFBF0FFF077F33FFFFFF73337E0BF0000000F
-          FFF077FF777777733FF7000BFB00B0FF00F07773FF77373377373330000B0FFF
-          FFF03337777373333FF7333330B0FFFF00003333373733FF777733330B0FF00F
-          0FF03333737F37737F373330B00FFFFF0F033337F77F33337F733309030FFFFF
-          00333377737FFFFF773333303300000003333337337777777333}
-        NumGlyphs = 2
-        TabOrder = 0
-        OnClick = btAlteraLctoClick
-      end
-      object btExclueLcto: TBitBtn
-        Left = 124
-        Top = 23
-        Width = 95
-        Height = 37
-        Cancel = True
-        Caption = '&Excluir'
-        Glyph.Data = {
-          F6000000424DF600000000000000760000002800000010000000100000000100
-          0400000000008000000000000000000000001000000000000000000000000000
-          80000080000000808000800000008000800080800000C0C0C000808080000000
-          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00555555555555
-          55558888888585599955555555555550305555555550055BB0555555550FB000
-          0055555550FB0BF0F05555550FBFBF0FB05555550BFBF0FB005555500FBFBFB0
-          B055550E0BFBFB00B05550EEE0BFB0B0B055000EEE0BFBF0B0550000EEE00000
-          B05500000E055550705550000055555505555500055555550555}
-        TabOrder = 1
-        OnClick = btExclueLctoClick
-      end
-      object btIgnora: TBitBtn
-        Left = 232
-        Top = 23
-        Width = 95
-        Height = 37
-        Cancel = True
-        Caption = '&Ignorar'
-        Glyph.Data = {
-          76010000424D7601000000000000760000002800000020000000100000000100
-          04000000000000010000130B0000130B00001000000000000000000000000000
-          80000080000000808000800000008000800080800000C0C0C000808080000000
-          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
-          3333333333FFFFF3333333333999993333333333F88888FFF333333999999999
-          33333338888FF388FF3333993333339993333388F33333388FF3399993333339
-          993338888F33333388F3393999333333993338F888F3333338FF993399933333
-          399388F3888F3333388F993339993333399388F33888F333388F993333999333
-          399388F333888F33388F993333399933399388F333388FF3388F993333339993
-          399388F33333888FF883399333333999393338FF33333888F8F3399933333399
-          9933388FF3333388883333999333333993333388FFF33FF88333333999999999
-          3333333888FFF888333333333999993333333333388888333333}
-        NumGlyphs = 2
-        TabOrder = 2
-        OnClick = btIgnoraClick
-      end
-    end
-  end
   object Timer1: TTimer
     Enabled = False
     Interval = 60000
@@ -1806,8 +517,8 @@ object FSTEPrincipal: TFSTEPrincipal
         DataType = ftUnknown
         ParamType = ptUnknown
       end>
-    Left = 132
-    Top = 111
+    Left = 25
+    Top = 57
     object ClientesSeq: TIntegerField
       FieldName = 'Seq'
     end
@@ -1840,20 +551,20 @@ object FSTEPrincipal: TFSTEPrincipal
   end
   object DSClientes: TDataSource
     DataSet = Clientes
-    Left = 172
-    Top = 107
+    Left = 89
+    Top = 57
   end
   object DSProdutos: TDataSource
     DataSet = Produtos
-    Left = 172
-    Top = 164
+    Left = 89
+    Top = 112
   end
   object Produtos: TClientDataSet
     Aggregates = <>
     Params = <>
     BeforePost = ProdutosBeforePost
-    Left = 124
-    Top = 164
+    Left = 25
+    Top = 112
     object ProdutosSeq: TIntegerField
       FieldName = 'Seq'
     end
@@ -1884,8 +595,8 @@ object FSTEPrincipal: TFSTEPrincipal
     Aggregates = <>
     Params = <>
     OnCalcFields = PedidosCalcFields
-    Left = 248
-    Top = 85
+    Left = 168
+    Top = 57
     object PedidosNro: TIntegerField
       FieldName = 'Nro'
     end
@@ -1974,14 +685,14 @@ object FSTEPrincipal: TFSTEPrincipal
   end
   object DSPedidos: TDataSource
     DataSet = Pedidos
-    Left = 284
-    Top = 85
+    Left = 216
+    Top = 57
   end
   object PedLctos: TClientDataSet
     Aggregates = <>
     Params = <>
-    Left = 240
-    Top = 139
+    Left = 168
+    Top = 113
     object PedLctosPedNro: TIntegerField
       FieldName = 'PedNro'
     end
@@ -2016,15 +727,15 @@ object FSTEPrincipal: TFSTEPrincipal
     end
   end
   object DSPedLcto: TDataSource
-    Left = 284
-    Top = 139
+    Left = 216
+    Top = 112
   end
   object PedWrk: TClientDataSet
     Aggregates = <>
     Params = <>
     OnCalcFields = PedWrkCalcFields
-    Left = 164
-    Top = 221
+    Left = 168
+    Top = 170
     object PedWrkNro: TIntegerField
       FieldName = 'Nro'
     end
@@ -2120,8 +831,8 @@ object FSTEPrincipal: TFSTEPrincipal
   object LctWrk: TClientDataSet
     Aggregates = <>
     Params = <>
-    Left = 164
-    Top = 275
+    Left = 168
+    Top = 227
     object LctWrkPedNro: TIntegerField
       FieldName = 'PedNro'
     end
@@ -2156,24 +867,24 @@ object FSTEPrincipal: TFSTEPrincipal
   end
   object DSPedWrk: TDataSource
     DataSet = PedWrk
-    Left = 209
-    Top = 222
+    Left = 216
+    Top = 171
   end
   object DSLctWrk: TDataSource
     DataSet = LctWrk
-    Left = 209
-    Top = 274
+    Left = 216
+    Top = 227
   end
   object SDSMeiosPgto: TDataSource
     DataSet = DSMeiosPgto
-    Left = 221
-    Top = 333
+    Left = 89
+    Top = 170
   end
   object DSMeiosPgto: TClientDataSet
     Aggregates = <>
     Params = <>
-    Left = 161
-    Top = 333
+    Left = 25
+    Top = 170
     object DSMeiosPgtoCodMP: TIntegerField
       FieldName = 'CodMP'
     end
@@ -2184,14 +895,14 @@ object FSTEPrincipal: TFSTEPrincipal
   end
   object SDSTipos: TDataSource
     DataSet = DSTipos
-    Left = 249
-    Top = 389
+    Left = 89
+    Top = 227
   end
   object DSTipos: TClientDataSet
     Aggregates = <>
     Params = <>
-    Left = 197
-    Top = 389
+    Left = 25
+    Top = 227
     object DSTiposCodTp: TSmallintField
       FieldName = 'CodTp'
     end
@@ -2203,8 +914,8 @@ object FSTEPrincipal: TFSTEPrincipal
   object DSEntrega: TClientDataSet
     Aggregates = <>
     Params = <>
-    Left = 197
-    Top = 449
+    Left = 25
+    Top = 285
     object DSEntregaCod: TSmallintField
       FieldName = 'Cod'
     end
@@ -2215,7 +926,7 @@ object FSTEPrincipal: TFSTEPrincipal
   end
   object SDSEntrega: TDataSource
     DataSet = DSEntrega
-    Left = 245
-    Top = 449
+    Left = 89
+    Top = 285
   end
 end

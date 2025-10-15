@@ -31,6 +31,8 @@ type
     { Private declarations }
   public
     { Public declarations }
+    lCancReat: Boolean;
+
   end;
 
 var
@@ -77,9 +79,11 @@ begin
     end;
     wMsg := wMsg + '|' + FSTEPrincipal.PedidosNro.AsString +
                    '|' + FSTEPrincipal.PedidosNome.AsString +
-                   '|' + FloatToStrF(FSTEPrincipal.PedidosTotal.AsCurrency,ffNumber,15,2);
+                   '|' + FloatToStrF(FSTEPrincipal.PedidosTotal.AsCurrency,ffNumber,15,2) +
+                   '|' + edMotivo.Text;
+    GravaLog(FSTEPrincipal.wLogFile,  nOpeLog, 'Sys', 'Sistema', wMsg);
+    FSTECancelaReativa.lCancReat := True;
   end;
-  GravaLog(FSTEPrincipal.wLogFile,  nOpeLog, 'Sys', 'Sistema', wMsg);
   FSTECancelaReativa.Close;
 
 end;

@@ -184,6 +184,14 @@
             <Form>FSTECancelaReativa</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="..\UsoGeral\uEdicaoTexto.pas">
+            <Form>FuEdicaoTexto</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="STELctoPedido.pas">
+            <Form>FSTELctoPedido</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

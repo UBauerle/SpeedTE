@@ -9,6 +9,9 @@ uses
   Vcl.ComCtrls, Vcl.Grids, Vcl.DBGrids, Datasnap.Provider, MidasLib, System.UITypes;
   Function CarregaPedidos(pmtPeds:String; pmtLcts:String; pmtDiaAtual:Boolean; pmtExibe:Boolean=True): Boolean;
   Procedure ObtemCamposArqTexto(pmtLinha:String; pmtResult:TStringList; pmtMinimo:Integer);
+  Function ValidaEntrega: Boolean;
+  Procedure AtualizaCliente;
+  Function SalvaDados(pmtInfo:Integer; pmtFecha:Boolean): Boolean;
 
 type
   TFSTEPrincipal = class(TForm)
@@ -57,19 +60,6 @@ type
     PedLctosValor: TCurrencyField;
     PedLctosTotal: TCurrencyField;
     DSPedLcto: TDataSource;
-    PanPedido: TPanel;
-    gbCliente: TGroupBox;
-    Label1: TLabel;
-    Label2: TLabel;
-    Label3: TLabel;
-    Label4: TLabel;
-    Label5: TLabel;
-    dbFone: TDBEdit;
-    dbNome: TDBEdit;
-    dbEnder: TDBEdit;
-    dbBairro: TDBEdit;
-    dbProx: TDBEdit;
-    gbLanctos: TGroupBox;
     Image1: TImage;
     Image2: TImage;
     PedWrk: TClientDataSet;
@@ -89,48 +79,21 @@ type
     LctWrkTotal: TCurrencyField;
     DSPedWrk: TDataSource;
     DSLctWrk: TDataSource;
-    gbTotaliz: TGroupBox;
-    btFinaliza: TBitBtn;
-    btCancela: TBitBtn;
-    Label7: TLabel;
-    LabTele: TLabel;
-    Label9: TLabel;
     PedidosVlrTele: TCurrencyField;
     PedidosMeioPgto: TSmallintField;
     PedidosVlrPago: TCurrencyField;
     PedWrkVlrTele: TCurrencyField;
     PedWrkMeioPgto: TSmallintField;
     PedWrkVlrPago: TCurrencyField;
-    dbQtd: TDBEdit;
-    dbUnit: TDBEdit;
-    dbObs1: TDBEdit;
-    Label10: TLabel;
-    Label11: TLabel;
-    Label12: TLabel;
-    Label13: TLabel;
-    btConfirmaProd: TBitBtn;
-    RETexto: TRichEdit;
     LabAbort: TLabel;
-    edValorTele: TDBEdit;
-    DBEdit1: TDBEdit;
-    dbSubTotal: TDBEdit;
     PedWrkZC_Total: TCurrencyField;
-    dbVlrPago: TDBEdit;
-    dbTroco: TDBEdit;
-    Label16: TLabel;
-    Label17: TLabel;
     PedWrkZC_Troco: TCurrencyField;
-    dbTotal: TDBEdit;
-    Label6: TLabel;
     PedidosTurno: TStringField;
     PedWrkTurno: TStringField;
-    dbProdCombo: TDBComboBox;
     SDSMeiosPgto: TDataSource;
     DSMeiosPgto: TClientDataSet;
     DSMeiosPgtoCodMP: TIntegerField;
     DSMeiosPgtoDescrMP: TStringField;
-    dbLkMeioPgto: TDBLookupComboBox;
-    Label15: TLabel;
     ProdutosTipo: TSmallintField;
     ClientesDtCompra: TDateField;
     SDSTipos: TDataSource;
@@ -142,23 +105,9 @@ type
     PedLctosObs2: TStringField;
     LctWrkObs1: TStringField;
     LctWrkObs2: TStringField;
-    dbObs2: TDBEdit;
-    MemLcto: TMemo;
-    LabAltExc: TLabel;
-    PanNovoLcto: TPanel;
-    LabIncluirLcto: TLabel;
-    btSim: TBitBtn;
-    btNao: TBitBtn;
-    btAcrescenta: TBitBtn;
-    PanAlteraExclue: TPanel;
-    Label8: TLabel;
-    btAlteraLcto: TBitBtn;
-    btExclueLcto: TBitBtn;
-    btIgnora: TBitBtn;
     btConsultar: TBitBtn;
     PedidosZC_Total: TCurrencyField;
     PedidosZC_MPgto: TStringField;
-    dbMeioPagto: TDBText;
     PedWrkZC_Turno: TStringField;
     PedWrkZC_MPagto: TStringField;
     PedidosZC_FoneNome: TStringField;
@@ -167,20 +116,15 @@ type
     PedWrkEntrega: TSmallintField;
     PedWrkCPF_CNPJ: TStringField;
     PedidosCPF_CNPJ: TStringField;
-    LabCPF_CNPJ: TLabel;
-    dbCPF_CNPJ: TDBEdit;
     DSEntrega: TClientDataSet;
     SDSEntrega: TDataSource;
     DSEntregaCod: TSmallintField;
     DSEntregaDescr: TStringField;
-    LabEntrega: TLabel;
-    dbLkEntrega: TDBLookupComboBox;
     PedidosZC_Entrega: TStringField;
     PedidosData: TDateTimeField;
     PedWrkData: TDateTimeField;
     PedWrkZC_TurnoNro: TStringField;
     PedWrkZC_DataHora: TStringField;
-    btConfCliente: TBitBtn;
     PedidosZC_MPLst: TStringField;
     procedure FormActivate(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -189,73 +133,15 @@ type
     procedure btProdutosClick(Sender: TObject);
     procedure btClientesClick(Sender: TObject);
     procedure rgTurnoExit(Sender: TObject);
-    procedure dbFoneExit(Sender: TObject);
     procedure btAbrirPedidoClick(Sender: TObject);
     procedure ProdutosBeforePost(DataSet: TDataSet);
-    procedure btCancelaClick(Sender: TObject);
-    procedure btFinalizaClick(Sender: TObject);
-    procedure gbClienteExit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure LabAbortClick(Sender: TObject);
-    procedure dbQtdExit(Sender: TObject);
-    procedure dbUnitExit(Sender: TObject);
-    procedure btConfirmaProdClick(Sender: TObject);
     procedure PedWrkCalcFields(DataSet: TDataSet);
-    procedure btSimClick(Sender: TObject);
-    procedure btNaoClick(Sender: TObject);
-    procedure edValorTeleEnter(Sender: TObject);
-    procedure edValorTeleExit(Sender: TObject);
-    procedure dbProdComboExit(Sender: TObject);
-    procedure dbLkMeioPgtoExit(Sender: TObject);
     procedure FormResize(Sender: TObject);
-    procedure RETextoDblClick(Sender: TObject);
-    procedure dbFoneKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure dbFoneKeyPress(Sender: TObject; var Key: Char);
-    procedure dbNomeKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure dbEnderKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure dbBairroKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure dbProxKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure dbNomeKeyPress(Sender: TObject; var Key: Char);
-    procedure dbEnderKeyPress(Sender: TObject; var Key: Char);
-    procedure dbBairroKeyPress(Sender: TObject; var Key: Char);
-    procedure dbProxKeyPress(Sender: TObject; var Key: Char);
-    procedure dbProdComboKeyPress(Sender: TObject; var Key: Char);
-    procedure dbQtdKeyPress(Sender: TObject; var Key: Char);
-    procedure dbObs1KeyPress(Sender: TObject; var Key: Char);
-    procedure dbObs2KeyPress(Sender: TObject; var Key: Char);
-    procedure dbUnitKeyPress(Sender: TObject; var Key: Char);
-    procedure edValorTeleKeyPress(Sender: TObject; var Key: Char);
-    procedure dbLkMeioPgtoKeyPress(Sender: TObject; var Key: Char);
-    procedure dbVlrPagoKeyPress(Sender: TObject; var Key: Char);
-    procedure dbProdComboKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure dbObs1KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure dbObs2KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure dbUnitKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure edValorTeleKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure dbLkMeioPgtoKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure dbVlrPagoKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure dbQtdKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure dbObs1Change(Sender: TObject);
-    procedure dbObs2Change(Sender: TObject);
-    procedure gbTotalizEnter(Sender: TObject);
-    procedure gbTotalizExit(Sender: TObject);
-    procedure btAcrescentaClick(Sender: TObject);
-    procedure btAlteraLctoClick(Sender: TObject);
-    procedure btExclueLctoClick(Sender: TObject);
-    procedure btIgnoraClick(Sender: TObject);
     procedure btConsultarClick(Sender: TObject);
     procedure PedidosCalcFields(DataSet: TDataSet);
-    procedure dbCPF_CNPJExit(Sender: TObject);
-    procedure dbCPF_CNPJKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure dbCPF_CNPJKeyPress(Sender: TObject; var Key: Char);
-    procedure dbLkEntregaKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure dbLkEntregaKeyPress(Sender: TObject; var Key: Char);
-    procedure dbLkEntregaExit(Sender: TObject);
-    procedure dbFoneDblClick(Sender: TObject);
-    procedure dbObs1Exit(Sender: TObject);
     procedure Image2MouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
-    procedure gbClienteEnter(Sender: TObject);
-    procedure btConfClienteClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -272,14 +158,14 @@ type
     tbClie,tbOldClie,tbProd,tbPeds,tbLcts: String;
     tbAllPeds,tbAllLcts: String;
     cadClientes,cadProdutos: String;
-    LogoInit,LogoImpres: String;
+    LogoInit,LogoImpres,ImgCancel,ImgNormal: String;
     tmpProds: String;
     idPrinter: String;
     tmMax,margEsq,margDir,margTop,margBot,copias,copInterno,tempEspera: Integer;
     mdDtHr: Integer;
     loPedido,loInterno: Integer;
     linPedFixa,linIntFixa,lValorUnit: Boolean;
-    lPreview,lDialog,lPrevCons,lImpInterno,lLctSV,lExCarga,lImpTurno: Boolean;
+    lPreview,lDialog,lPrevCons,lImpInterno,lLctSemValor,lExCarga,lImpTurno: Boolean;
     pixelHor,altExtra: Integer;
     keyUsuar: String;
     ddCheck: Integer;
@@ -295,16 +181,16 @@ var
   lTeclaDown: Boolean;
   fTime: Boolean;
   nroPed: Integer;
-  //xInfo: array[0..19] of String;
   qtdLctos: Integer;
-  lUtilizar: Boolean;
+  //lUtilizar: Boolean;
+  lSysValido: Boolean;
 
 implementation
 
 {$R *.dfm}
 
 uses uGenericas, STEProdutos, STEClientes, STEImpressao, STEConsTurno,
-  STEConsCliente, STEConfigurar;
+  STEConsCliente, STEConfigurar, STELctoPedido;
 
 Procedure ObtemCamposArqTexto(pmtLinha:String; pmtResult:TStringList; pmtMinimo:Integer);
 var xLinha: String;
@@ -318,6 +204,8 @@ begin
     xLinha := Copy(xLinha,np+1,Length(xLinha)-nP);
     nP := Pos('|',xLinha);
   end;
+  if pmtMinimo < 16 then
+    pmtMinimo := 16;
   while pmtResult.Count < pmtMinimo do
     pmtResult.Add('0');
 
@@ -1132,64 +1020,6 @@ begin
 end;
 
 
-Procedure CarregaProdsCombo;
-begin
-  with FSTEPrincipal do
-  begin
-    dbProdCombo.Items.Clear;
-    Produtos.IndexName := 'Alfabetica';
-    Produtos.First;
-    while not Produtos.Eof do
-    begin
-      dbProdCombo.Items.Add(ProdutosDescr.AsString);
-      Produtos.Next;
-    end;
-
-  end;
-
-end;
-
-Procedure SolicitaInclusao(pVisual:Boolean);
-begin
-  with FSTEPrincipal do
-  begin
-    if pVisual then
-    begin
-      PanNovoLcto.Top := gbLanctos.Height - (PanNovoLcto.Height + 36);
-      PanNovoLcto.Left := 350;
-      PanNovoLcto.Visible := True;
-      btSim.SetFocus;
-    end
-    else
-      btSimClick(nil);
-  end;
-end;
-
-
-Procedure InclueLancamento;
-var nSeq: Integer;
-begin
-  with FSTEPrincipal do
-  begin
-    LctWrk.Last;
-    nSeq := LctWrkLcto.AsInteger + 1;
-    LctWrk.Append;
-    LctWrkPedNro.AsInteger := PedWrkNro.AsInteger;
-    LctWrkLcto.AsInteger := nSeq;
-    LctWrkQuant.AsInteger := 1;
-    LctWrkProduto.Clear;
-    LctWrkObs1.Clear;
-    LctWrkObs2.Clear;
-    LctWrkValor.Clear;
-    LctWrkTotal.Clear;
-    lLancando := True;                    // lançando
-    lExclusao := False;                   // Não excluindo
-    dbProdCombo.SetFocus;
-  end;
-
-end;
-
-
 Procedure AtualizaCliente;
 begin
   with FSTEPrincipal do
@@ -1269,84 +1099,13 @@ end;
 
 procedure TFSTEPrincipal.btAbrirPedidoClick(Sender: TObject);
 begin
-  Pedidos.Last;
-  nroPed := PedidosNro.AsInteger + 1;
-  //
-  PanPedido.Align := alClient;
-  PanPedido.Visible := True;
-  btAbrirPedido.Enabled := False;
-  btProdutos.Enabled := False;
-  btClientes.Enabled := False;
-  btConsultar.Enabled := False;
-  PedWrk.Active := True;
-  PedWrk.EmptyDataSet;
-  PedWrk.Append;
-  PedWrkNro.AsInteger := nroPed;
-  PedWrkFone.AsString := '';
-  case mpPadrao of               // Index
-    0:PedWrkMeioPgto.AsInteger := 1;     // Reais
-    1:PedWrkMeioPgto.AsInteger := 3;     // C.Crédito
-    2:PedWrkMeioPgto.AsInteger := 4;     // C.Débito
-    3:PedWrkMeioPgto.AsInteger := 17;    // PIX
-    4:PedWrkMeioPgto.AsInteger := 99;    // Outros
-  end;
-  PedWrkEntrega.AsInteger := 0;              //0-Tele 1-Retira 2-Cons.local
-  if rgTurno.ItemIndex = 0 then
-    PedWrkTurno.AsString := 'D'
-  else
-    PedWrkTurno.AsString := 'N';
-  PedWrkData.AsDateTime := Now;     //DateOf(Date);
-  LctWrk.Active := True;
-  LctWrk.EmptyDataSet;
-  RETexto.Lines.Clear;
-  MemLcto.Lines.Clear;
-  LabAltExc.Visible := False;
-  btAcrescenta.Visible := False;
-
-  CarregaProdsCombo;
-  FSTEPrincipal.FormResize(nil);
-  qtdLctos := 0;
-  btConfCliente.Visible := False;
-  dbFone.SetFocus;
-
-end;
-
-procedure TFSTEPrincipal.btAcrescentaClick(Sender: TObject);
-begin
-  btSimClick(nil);
-
-end;
-
-procedure TFSTEPrincipal.btAlteraLctoClick(Sender: TObject);
-begin
-  Try
-    LctWrk.Edit;
-    dbProdCombo.SetFocus;
-  Except
-    MessageDlg('Não foi possível editar o lançamento',mtError,[mbOk],0);
-  End;
-  PanAlteraExclue.Visible := False;
-
-end;
-
-procedure TFSTEPrincipal.btIgnoraClick(Sender: TObject);
-begin
-  PanAlteraExclue.Visible := False;
-
-end;
-
-procedure TFSTEPrincipal.btCancelaClick(Sender: TObject);
-begin
-  btAbrirPedido.Enabled := True;
-  btProdutos.Enabled := True;
-  btClientes.Enabled := True;
-  btConsultar.Enabled := True;
-  {
-  PedWrk.EmptyDataSet;
-  LctWrk.EmptyDataSet;
-  }
-  btAbrirPedido.SetFocus;
-  PanPedido.Visible := False;
+  FSTEPrincipal.Hide;
+  if not LctWrk.Active then
+    LctWrk.Active := True;
+  if not PedWrk.Active then
+    PedWrk.Active := True;
+  FSTELctoPedido.ShowModal;
+  FSTEPrincipal.Visible := True;
 
 end;
 
@@ -1365,232 +1124,15 @@ begin
 
 end;
 
-procedure TFSTEPrincipal.btFinalizaClick(Sender: TObject);
-var sqLct: Integer;
-//    usaLct: Boolean;
-begin
-  if PedWrkZC_Troco.AsCurrency < 0 then
-  begin
-    MessageDlg('Valor pago insuficiente' + #13#13 +
-               'Verifique "Pagamento" e/ou o "Vlr.pago" e reinforme',
-               mtError,[mbOk],0);
-    dbLkMeioPgto.SetFocus;
-    Exit;
-  end;
-  //
-  if PedWrkZC_Total.AsCurrency > 0 then
-  begin
-    Try
-      PedWrkData.AsDateTime := Now;
-    Except
-    End;
-    Pedidos.Append;
-    PedidosNro.AsInteger := PedWrkNro.AsInteger;
-    PedidosFone.AsString := PedWrkFone.AsString;
-    PedidosNome.AsString := PedWrkNome.AsString;
-    PedidosEndereco.AsString := PedWrkEndereco.AsString;
-    PedidosBairro.AsString := PedWrkBairro.AsString;
-    PedidosRefer.AsString := PedWrkRefer.AsString;
-    PedidosTotal.AsCurrency := PedWrkTotal.AsCurrency;
-    PedidosVlrTele.AsCurrency := PedWrkVlrTele.AsCurrency;
-    PedidosMeioPgto.AsInteger := PedWrkMeioPgto.AsInteger;
-    PedidosVlrPago.AsCurrency := PedWrkVlrPago.AsCurrency;
-    PedidosTurno.AsString := PedWrkTurno.AsString;
-    PedidosData.AsDateTime := PedWrkData.AsDateTime;
-    PedidosCPF_CNPJ.AsString := PedWrkCPF_CNPJ.AsString;
-    PedidosEntrega.AsInteger := PedWrkEntrega.AsInteger;
-    //PedidosHora.AsDateTime :=
-    Pedidos.Post;
-    //
-   {  ---- Retirado em 30/09
-    sqLct := 0;
-    LctWrk.First;
-    while not LctWrk.Eof do
-    begin
-      if LctWrkTotal.AsCurrency > 0 then
-        usaLct := True
-      else
-        usaLct := lLctSV;
-      if usaLct then
-      begin
-        sqLct := sqLct + 1;
-        LctWrk.Edit;
-        LctWrkPedNro.AsInteger := PedWrkNro.AsInteger;
-        LctWrkLcto.AsInteger := sqLct;
-        LctWrk.Post;
-      end
-      else
-        LctWrk.Delete;
-      LctWrk.Next;
-    end;
-    ----- }
-    //
-    // nro.lançamento:   Alterado em 30/09/2025
-    sqLct := 0;          // 30/09
-    LctWrk.First;
-    while not LctWrk.Eof do
-    begin
-      if LctWrkProduto.AsString = '' then
-        LctWrk.Delete
-      else begin
-        sqLct := sqLct + 1;     // 30/09
-        PedLctos.Append;
-        PedLctosPedNro.AsInteger := LctWrkPedNro.AsInteger;
-        PedLctosLcto.AsInteger := sqLct;       // 30/09 .... LctWrkLcto.AsInteger;
-        PedLctosQuant.AsInteger := LctWrkQuant.AsInteger;
-        PedLctosProduto.AsString := LctWrkProduto.AsString;
-        PedLctosObs1.AsString := LctWrkObs1.AsString;
-        PedLctosObs2.AsString := LctWrkObs2.AsString;
-        PedLctosValor.AsCurrency := LctWrkValor.AsCurrency;
-        PedLctosTotal.AsCurrency := LctWrkTotal.AsCurrency;
-        PedLctos.Post;
-        LctWrk.Next;
-      end;
-    end;
-    AtualizaCliente;
-    if FSTEPrincipal.loPedido = 0 then
-      ImprimePedido(FSTEPrincipal.lPreview, FSTEPrincipal.copias)    // Cliente/Endereço TOPO
-    else
-      ImprimePedidoRP(FSTEPrincipal.lPreview, FSTEPrincipal.copias);    // Cliente/Endereço Rodape
-
-    if FSTEPrincipal.lImpInterno then
-      if FSTEPrincipal.loInterno = 0 then
-        ImprimeInterno(FSTEPrincipal.lPreview, FSTEPrincipal.copInterno)   // Cliente/Endereço TOPO
-      else
-        ImprimeInternoRP(FSTEPrincipal.lPreview, FSTEPrincipal.copInterno);   // Cliente/Endereço Rodape
-
-    SalvaDados(4,False);
-  end;
-  btCancelaClick(nil);
-
-end;
-
-procedure TFSTEPrincipal.btConfClienteClick(Sender: TObject);
-begin
-  btConfCliente.Visible := False;
-  dbProdCombo.SetFocus;
-
-end;
-
-procedure TFSTEPrincipal.btConfirmaProdClick(Sender: TObject);
-var wValor: Currency;
-    xDescr,xQtd,xUnit,xTotal: String;
-begin
-  if lLancando then        // Lancando item
-    if (LctWrkTotal.AsCurrency = 0) and     // Valor ZERADO e
-       (not lLctSV) then                    // Não aceita item sem valor
-      if MessageDlg('Lançamento SEM VALOR' + #13#13 +
-                    LctWrkProduto.AsString + #13#13 +
-                    'Incluir no pedido/comanda?',
-                    mtConfirmation,[mbYes,mbNo],0,mbNo,['Sim','Não']) = mrNo then
-      begin
-        LctWrk.Delete;
-        SolicitaInclusao(True);
-        Exit;
-      end;
-  //
-  lLancando := False;
-  if not lExclusao then
-  begin
-    if LctWrkObs1.AsString = '' then
-      if LctWrkObs2.AsString <> '' then
-      begin
-        LctWrkObs1.AsString := LctWrkObs2.AsString;
-        LctWrkObs2.Clear;
-      end;
-    LctWrk.Post;
-  end;
-//   Linha de 60 caracteres
-// Qt Descrição                                   Unit    Total
-// 123456789.123456789.123456789.123456789.1234567    1234
-// 00 123456789.123456789.123456789.123456789. 1234567 12345678
-// 123456789.123456789.123456789.123456789.123456789.123456789.
-// 1234.123456789.123456789.123456789.123456789.123456789.12345
-  RETexto.Lines.Clear;
-  RETexto.SelAttributes.Color := clNavy;
-  RETexto.SelAttributes.Underline := True;
-  RETexto.SelAttributes.Bold := True;
-  RETexto.Lines.Add(stringCompleta('Qtd Descrição','D',' ',47) + 'Unit    Total.');
-  MemLcto.Lines.Clear;
-  MemLcto.Lines.Add('0');
-  //
-  LctWrk.First;
-  wValor := 0;
-  while not LctWrk.Eof do
-  begin
-    if LctWrkProduto.AsString = '' then
-      LctWrk.Delete
-    else begin
-      wValor := wValor + LctWrkTotal.AsCurrency;
-      xQtd := stringCompleta(LctWrkQuant.AsString,'E',' ',2);
-      xDescr := stringCompleta(LctWrkProduto.AsString,'D',' ',40);
-      xUnit := stringCompleta(FloatToStrF(LctWrkValor.AsCurrency,ffNumber,15,2),'E',' ',7);
-      xTotal := stringCompleta(FloatToStrF(LctWrkTotal.AsCurrency,ffNumber,15,2),'E',' ',8);
-      if (LctWrkObs1.AsString = '') and (LctWrkObs2.AsString = '') then
-        RETexto.SelAttributes.Underline := True;
-      RETexto.Lines.Add(xQtd + ' ' + xDescr + ' ' + xUnit + ' ' + xTotal + '.');
-      MemLcto.Lines.Add(LctWrkLcto.AsString);
-      if LctWrkObs1.AsString <> '' then
-      begin
-        RETexto.SelAttributes.Color := clBlue;
-        if LctWrkObs2.AsString = '' then
-          RETexto.SelAttributes.Underline := True;
-        RETexto.lines.Add('     ' + StringCompleta(LctWrkObs1.AsString,'D',' ',55) + '.');
-        MemLcto.Lines.Add(LctWrkLcto.AsString);
-        if LctWrkObs2.AsString <> '' then
-        begin
-          RETexto.SelAttributes.Color := clBlue;
-          RETexto.SelAttributes.Underline := True;
-          RETexto.lines.Add('     ' + StringCompleta(LctWrkObs2.AsString,'D',' ',55) + '.');
-          MemLcto.Lines.Add(LctWrkLcto.AsString);
-        end;
-      end;
-      LctWrk.Next;
-    end;
-  end;
-  PedWrkTotal.AsCurrency := wValor;
-  LabALtExc.Visible := False;
-  if LctWrk.RecordCount > 0 then
-    LabAltExc.Visible := True;
-  Application.ProcessMessages;
-  if not lExclusao then
-    SolicitaInclusao(True);
-
-end;
-
-procedure TFSTEPrincipal.btExclueLctoClick(Sender: TObject);
-begin
-  Try
-    LctWrk.Delete;
-  Except
-    MessageDlg('Não foi possível excluir o lançamento',mtError,[mbOk],0);
-  End;
-  PanAlteraExclue.Visible := False;
-  btConfirmaProdClick(nil);
-
-end;
-
 procedure TFSTEPrincipal.btFinalizarClick(Sender: TObject);
 begin
-  if lUtilizar then
+  if lSysValido then
   begin
     if Pedidos.State = dsEdit then
       Pedidos.Cancel;
     FSTEPrincipal.Close;
   end
   else Application.Terminate;
-
-end;
-
-procedure TFSTEPrincipal.btNaoClick(Sender: TObject);
-begin
-  PanNovoLcto.Visible := False;
-  if LctWrk.RecordCount = 0 then
-  begin
-    btCancelaClick(nil);
-    Exit;
-  end;
-  edValorTele.SetFocus;
 
 end;
 
@@ -1616,6 +1158,7 @@ begin
   //
   SalvaDados(4,True);
   ConsultaPedidos;
+  FSTEConsTurno.lAtivo := False;
   //
   Pedidos.Active := False;
   PedLctos.Active := False;
@@ -1637,429 +1180,11 @@ begin
 
 end;
 
-procedure TFSTEPrincipal.btSimClick(Sender: TObject);
-begin
-  PanNovoLcto.Visible := False;
-  InclueLancamento;
-
-end;
-
-procedure TFSTEPrincipal.dbBairroKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-begin
-  if Key = Vk_Return then
-     SelectNext((Sender as TwinControl),True,True);
-
-end;
-
-procedure TFSTEPrincipal.dbBairroKeyPress(Sender: TObject; var Key: Char);
-begin
-  if Key = #13 then
-    Key := #00;
-
-end;
-
-procedure TFSTEPrincipal.dbCPF_CNPJExit(Sender: TObject);
-begin
-  if not ValidaCNPJ_CPF(FSTEPrincipal.PedWrkCPF_CNPJ.AsString) then
-  begin
-    MessageDlg('CPF / CNPJ inválido, reinforme',mtError,[mbOk],0);
-    dbCPF_CNPJ.SetFocus;
-  end;
-  if PedWrkCPF_CNPJ.AsString = '' then
-      PedWrkCPF_CNPJ.EditMask := ''
-  else if Length(Trim(PedWrkCPF_CNPJ.AsString)) > 11 then
-          PedWrkCPF_CNPJ.EditMask := '00\.000\.000/0000-00;0; '
-       else
-          PedwrkCPF_CNPJ.EditMask := '000\.000\.000-00;0; ';
-
-end;
-
-procedure TFSTEPrincipal.dbCPF_CNPJKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-begin
-  if Key = Vk_Return then
-     SelectNext((Sender as TwinControl),True,True);
-
-end;
-
-procedure TFSTEPrincipal.dbCPF_CNPJKeyPress(Sender: TObject; var Key: Char);
-begin
-  if Key = #13 then
-    Key := #00;
-
-end;
-
-procedure TFSTEPrincipal.dbEnderKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-begin
-  if Key = Vk_Return then
-     SelectNext((Sender as TwinControl),True,True);
-
-end;
-
-procedure TFSTEPrincipal.dbEnderKeyPress(Sender: TObject; var Key: Char);
-begin
-  if Key = #13 then
-    Key := #00;
-
-end;
-
-procedure TFSTEPrincipal.dbFoneDblClick(Sender: TObject);
-var xFone: String;
-begin
-  if PesquisaClientes(xFone) then
-  begin
-    PedWrkFone.AsString := xFone;
-    //dbFone.Text := xFone; ...
-    dbFoneExit(nil);
-  end
-  else dbFone.Text := '';
-
-end;
-
-procedure TFSTEPrincipal.dbFoneExit(Sender: TObject);
-var xFone: String;
-begin
-  lCadastrado := False;
-  xFone := dbFone.Text;
-  if xFone = '' then
-  begin         // Forçando a saída do pedido
-    PedWrkFone.AsString := '11111';
-    dbNome.SetFocus;
-    dbProdCombo.SetFocus;
-    PanNovoLcto.Visible := False;
-    btCancelaClick(nil);
-    qtdLctos := 1;
-    Exit;
-  end;
-
-  if Clientes.IndexName <> 'Fone' then
-  begin
-    Clientes.IndexName := 'Fone';
-    Clientes.First;
-  end;
-  if Clientes.FindKey([xFone]) then
-  begin
-    PedWrkNome.AsString := ClientesNome.AsString;
-    PedWrkEndereco.AsString := ClientesEndereco.AsString;
-    PedWrkBairro.AsString := ClientesBairro.AsString;
-    PedWrkRefer.AsString := ClientesRefer.AsString;
-    PedWrkCPF_CNPJ.AsString := Trim(ClientesCPF_CNPJ.AsString);
-    if Length(Trim(PedWrkCPF_CNPJ.AsString)) > 11 then
-      PedWrkCPF_CNPJ.EditMask := '00\.000\.000/0000-00;0; '
-    else
-      PedwrkCPF_CNPJ.EditMask := '000\.000\.000-00;0; ';
-    lCadastrado := True;
-    btConfCliente.Visible := True;
-    btConfCliente.SetFocus;
-    // dbProdCombo.SetFocus;
-  end
-  else dbNome.SetFocus;
-
-end;
-
-procedure TFSTEPrincipal.dbFoneKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-begin
-  if Key = vK_F2 then
-  begin
-    dbFoneDblClick(nil);
-    Exit;
-  end;
-  if Key = Vk_Return then
-     SelectNext((Sender as TwinControl),True,True);
-
-end;
-
-procedure TFSTEPrincipal.dbFoneKeyPress(Sender: TObject; var Key: Char);
-begin
-  if Key = #13 then
-    Key := #00;
-
-end;
-
-
-procedure TFSTEPrincipal.dbLkEntregaExit(Sender: TObject);
-begin
-  if not ValidaEntrega then
-    edValorTele.SetFocus;
-
-end;
-
-procedure TFSTEPrincipal.dbLkEntregaKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-begin
-  if Key = Vk_Return then
-     SelectNext((Sender as TwinControl),True,True);
-
-end;
-
-procedure TFSTEPrincipal.dbLkEntregaKeyPress(Sender: TObject; var Key: Char);
-begin
-  if Key = #13 then
-    Key := #00;
-
-end;
-
-procedure TFSTEPrincipal.dbLkMeioPgtoExit(Sender: TObject);
-begin
-  if PedWrkMeioPgto.AsInteger = 1 then        // Dinheiro
-    dbVlrPago.SetFocus
-  else
-    PedWrkVlrPago.AsCurrency := PedWrkZC_Total.AsCurrency;
-  //  btFinaliza.SetFocus;
-
-end;
-
-procedure TFSTEPrincipal.dbLkMeioPgtoKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if Key = Vk_Return then
-     SelectNext((Sender as TwinControl),True,True);
-
-end;
-
-procedure TFSTEPrincipal.dbLkMeioPgtoKeyPress(Sender: TObject; var Key: Char);
-begin
-  if Key = #13 then
-    Key := #00;
-
-end;
-
-procedure TFSTEPrincipal.dbNomeKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if Key = Vk_Return then
-    SelectNext((Sender as TwinControl),True,True);
-
-end;
-
-procedure TFSTEPrincipal.dbNomeKeyPress(Sender: TObject; var Key: Char);
-begin
-  if Key = #13 then
-    Key := #00;
-
-end;
-
-procedure TFSTEPrincipal.dbObs1Change(Sender: TObject);
-begin
-  if Length(Trim(dbObs1.Text)) = 45 then
-     SelectNext((Sender as TwinControl),True,True);
-
-end;
-
-procedure TFSTEPrincipal.dbObs1Exit(Sender: TObject);
-begin
-  if dbObs1.Text = '' then
-    dbUnit.SetFocus;
-
-end;
-
-procedure TFSTEPrincipal.dbObs1KeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if Key = Vk_Return then
-     SelectNext((Sender as TwinControl),True,True);
-
-end;
-
-procedure TFSTEPrincipal.dbObs1KeyPress(Sender: TObject; var Key: Char);
-begin
-  if Key = #13 then
-    Key := #00;
-
-end;
-
-procedure TFSTEPrincipal.dbObs2Change(Sender: TObject);
-begin
-  if Length(Trim(dbObs2.Text)) = 45 then
-     SelectNext((Sender as TwinControl),True,True);
-
-end;
-
-procedure TFSTEPrincipal.dbObs2KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-begin
-  if Key = Vk_Return then
-     SelectNext((Sender as TwinControl),True,True);
-
-end;
-
-procedure TFSTEPrincipal.dbObs2KeyPress(Sender: TObject; var Key: Char);
-begin
-  if Key = #13 then
-    Key := #00;
-
-end;
-
-procedure TFSTEPrincipal.dbProdComboExit(Sender: TObject);
-var xKey: String;
-begin
-  if dbProdCombo.Text = '' then
-  begin
-    LctWrk.Delete;
-    edValorTele.SetFocus;
-    Exit;
-  end;
-  xKey := LctWrkProduto.AsString;
-  Produtos.FindNearest([xKey]);
-  if Pos(xKey,ProdutosDescr.AsString) > 0 then
-  begin
-    LctWrkValor.AsCurrency := ProdutosValor.AsCurrency;
-    dbQtd.SetFocus;
-    Exit;
-  end;
-  MessageDlg('Produto não localizado, reinforme',mtError,[mbOk],0);
-  dbProdCombo.SetFocus;
-
-end;
-
-procedure TFSTEPrincipal.dbProdComboKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if Key = Vk_Return then
-     SelectNext((Sender as TwinControl),True,True);
-
-end;
-
-procedure TFSTEPrincipal.dbProdComboKeyPress(Sender: TObject; var Key: Char);
-begin
-  if Key = #13 then
-    Key := #00;
-
-end;
-
-procedure TFSTEPrincipal.dbProxKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if Key = Vk_Return then
-     SelectNext((Sender as TwinControl),True,True);
-
-end;
-
-procedure TFSTEPrincipal.dbProxKeyPress(Sender: TObject; var Key: Char);
-begin
-  if Key = #13 then
-    Key := #00;
-
-end;
-
-procedure TFSTEPrincipal.dbQtdExit(Sender: TObject);
-begin
-  if LctWrkQuant.AsInteger < 1 then
-  begin
-    MessageDlg('Quantidade não pode ser menor que 1, reinforme',mtError,[mbOk],0);
-    dbQtd.SetFocus;
-  end;
-  LctWrkTotal.AsCurrency := LctWrkValor.AsCurrency * LctWrkQuant.AsInteger;
-
-end;
-
-procedure TFSTEPrincipal.dbQtdKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if Key = Vk_Return then
-     SelectNext((Sender as TwinControl),True,True);
-
-end;
-
-procedure TFSTEPrincipal.dbQtdKeyPress(Sender: TObject; var Key: Char);
-begin
-  if Key = #13 then
-    Key := #00;
-
-end;
-
-procedure TFSTEPrincipal.dbUnitExit(Sender: TObject);
-begin
-  if (LctWrk.State = dsEdit) or (LctWrk.State = dsInsert) then
-    LctWrkTotal.AsCurrency := LctWrkValor.AsCurrency * LctWrkQuant.AsInteger;
-  btConfirmaProd.SetFocus;
-
-end;
-
-procedure TFSTEPrincipal.dbUnitKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if Key = Vk_Return then
-     SelectNext((Sender as TwinControl),True,True);
-
-end;
-
-procedure TFSTEPrincipal.dbUnitKeyPress(Sender: TObject; var Key: Char);
-begin
-  if Key = #13 then
-    Key := #00;
-
-end;
-
-procedure TFSTEPrincipal.dbVlrPagoKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if Key = Vk_Return then
-     SelectNext((Sender as TwinControl),True,True);
-
-end;
-
-procedure TFSTEPrincipal.dbVlrPagoKeyPress(Sender: TObject; var Key: Char);
-begin
-  if Key = #13 then
-    Key := #00;
-
-end;
-
-procedure TFSTEPrincipal.edValorTeleEnter(Sender: TObject);
-begin
-  if FSTEPrincipal.LctWrk.RecordCount = 0 then
-  begin
-    btCancelaClick(nil);
-    Exit;
-  end;
-
-  if (FSTEPrincipal.PedWrkTotal.AsCurrency = 0) and
-     (FSTEPrincipal.PedWrk.RecordCount = 0) then
-  begin
-    if MessageDlg('Informe:'+ #13#13 +
-                  '     Alterar/informar dados do cliente, ou' + #13 +
-                  '     Cancelar pedido',
-                  mtConfirmation,[mbYes,mbNo],0,mbYes,
-                  ['Alterar/informar dados','Cancelar pedido']) = mrYes then
-      dbNome.SetFocus
-    else
-      btCancelaClick(nil);
-    Exit;
-  end;
-  LabTele.Caption := '---> Tele:';
-  LabTele.Font.Style := [fsBold];
-
-
-end;
-
-
-procedure TFSTEPrincipal.edValorTeleExit(Sender: TObject);
-begin
-  LabTele.Caption := 'Tele:';
-  LabTele.Font.Style := [];
-  //  dbLkMeioPgto.SetFocus;
-
-end;
-
-procedure TFSTEPrincipal.edValorTeleKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if Key = Vk_Return then
-     SelectNext((Sender as TwinControl),True,True);
-
-end;
-
-procedure TFSTEPrincipal.edValorTeleKeyPress(Sender: TObject; var Key: Char);
-begin
-  if Key = #13 then
-    Key := #00;
-
-end;
-
 procedure TFSTEPrincipal.FormActivate(Sender: TObject);
 begin
   if not fTime then
     Exit;
   fTime := False;
-//
   btAbrirPedido.Enabled := False;
   btConsultar.Enabled := False;
   btProdutos.Enabled := False;
@@ -2069,7 +1194,6 @@ begin
   Configuracao;
   gbCargaSalva.Visible := True;
   LabIdent.Caption := FSTEPrincipal.idUsuario;
-  LabIncluirLcto.Caption := FSTEPrincipal.txtIncluir;
   Timer1Timer(nil);
   Timer1.Enabled := True;
   FGen.lSalvaForm := FSTEPrincipal.lSalvaForm;
@@ -2079,27 +1203,19 @@ begin
   if FileExists(LogoImpres) then
     Image2.Picture.LoadFromFile(LogoImpres);
   Form_Define(FSTEPrincipal);
-  PanPedido.Visible := False;
 
-  lUtilizar := True;
+  lSysValido := True;
   if not DefineVerificaValidade(keyUsuar) then
-    lUtilizar := False        // Halt(0);
+    lSysValido := False
   else if not CarregaDados then
        begin
          MessageDlg('Falha na carga de dados',mtError,[mbOk],0);
-         lUtilizar := False;
+         lSysValido := False;
        end;
 
-  gbLanctos.Align := alLeft;
-  gbTotaliz.Align := alClient;
-  LabCPF_CNPJ.Visible := FSTEPrincipal.lInfCPF;
-  dbCPF_CNPJ.Visible := FSTEPrincipal.lInfCPF;
-  LabEntrega.Visible := FSTEPrincipal.lMdEntrega;
-  dbLkEntrega.Visible := FSTEPrincipal.lMdEntrega;
   LabAbort.Visible := FSTEPrincipal.lDesenv;
-  dbMeioPagto.Visible := FSTEPrincipal.lDesenv;
   btConsultar.Visible := FSTEPrincipal.lConsTurno;
-  if lUtilizar then
+  if lSysValido then
   begin
     btProdutos.Caption := 'Produtos' + #13 + '(' + IntToStr(FSTEPrincipal.Produtos.RecordCount) + ')';
     btClientes.Caption := 'Clientes' + #13 + '(' + IntToStr(FSTEPrincipal.Clientes.RecordCount) + ')';
@@ -2108,10 +1224,10 @@ begin
     btProdutos.Caption := 'Produtos' + #13 + '(..)';
     btClientes.Caption := 'Clientes' + #13 + '(..)';
   end;
-  btAbrirPedido.Enabled := lUtilizar;   // True;
-  btConsultar.Enabled := lUtilizar;     // True;
-  btProdutos.Enabled := lUtilizar;      // True;
-  btClientes.Enabled := lUtilizar;      // True;
+  btAbrirPedido.Enabled := lSysValido;
+  btConsultar.Enabled := lSysValido;
+  btProdutos.Enabled := lSysValido;
+  btClientes.Enabled := lSysValido;
   btFinalizar.Enabled := True;
 
 end;
@@ -2127,9 +1243,9 @@ end;
 procedure TFSTEPrincipal.FormCreate(Sender: TObject);
 begin
   fTime := True;
-  FSTEPrincipal.Width := 1240;
-  FSTEPrincipal.Height := 640;
-  FSTEPrincipal.wLogFile := ChangeFileExt(Application.ExeName,'.Log');
+  Width := 1240;
+  Height := 640;
+  wLogFile := ChangeFileExt(Application.ExeName,'.Log');
 
 end;
 
@@ -2139,37 +1255,6 @@ begin
     FSTEPrincipal.Width := 1240;
   if FSTEPrincipal.Height < 640 then
     FSTEPrincipal.Height := 640;
-  btFinaliza.Left := btCancela.Left - 40;
-  btFinaliza.Top := btCancela.Top - (btFinaliza.Height + 6);
-  btAcrescenta.Left := btFinaliza.Left - 40;
-  btAcrescenta.Top := btCancela.Top - (btFinaliza.Height + btAcrescenta.Height + 12);
-
-end;
-
-procedure TFSTEPrincipal.gbClienteEnter(Sender: TObject);
-begin
-  // showMessage('Entrando....');
-
-end;
-
-procedure TFSTEPrincipal.gbClienteExit(Sender: TObject);
-begin
-  if qtdLctos = 0 then
-    SolicitaInclusao(lPrItemSN)
-  else
-    SolicitaInclusao(False);
-
-end;
-
-procedure TFSTEPrincipal.gbTotalizEnter(Sender: TObject);
-begin
-  btAcrescenta.Visible := True;
-
-end;
-
-procedure TFSTEPrincipal.gbTotalizExit(Sender: TObject);
-begin
-  btAcrescenta.Visible := False;
 
 end;
 
@@ -2263,26 +1348,6 @@ end;
 procedure TFSTEPrincipal.ProdutosBeforePost(DataSet: TDataSet);
 begin
   ProdutosDescr.AsString := AnsiUpperCase(ProdutosDescr.AsString);
-
-end;
-
-procedure TFSTEPrincipal.RETextoDblClick(Sender: TObject);
-var nLin,nLcto: Integer;
-begin
-  nLin := RE_ObterLinhaAtual(RETexto);
-  nLcto := StrToIntDef(Trim(MemLcto.Lines[nlin]),0);
-  //ShowMessage('DBlClick na linha:' + IntToStr(nLin) + '   Lcto='+ IntToStr(nLcto));
-  if nLcto = 0 then
-    Exit;
-  if not LctWrk.FindKey([PedWrkNro.AsInteger,nLcto]) then
-  begin
-    MessageDlg('Lançamento não encontrado',mtError,[mbOk],0);
-    Exit;
-  end;
-  PanAlteraExclue.Top := gbLanctos.Height - (PanNovoLcto.Height + 36);
-  PanAlteraExclue.Left := 290;
-  PanAlteraExclue.Visible := True;
-  btIgnora.SetFocus;
 
 end;
 

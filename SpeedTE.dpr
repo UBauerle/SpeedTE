@@ -15,7 +15,9 @@ uses
   STEConsCliente in 'STEConsCliente.pas' {FSTEConsCliente},
   STEConfigurar in 'STEConfigurar.pas' {FSTEConfigurar},
   uProcessos in '..\UsoGeral\uProcessos.pas',
-  STECancelaReativa in 'STECancelaReativa.pas' {FSTECancelaReativa};
+  STECancelaReativa in 'STECancelaReativa.pas' {FSTECancelaReativa},
+  uEdicaoTexto in '..\UsoGeral\uEdicaoTexto.pas' {FuEdicaoTexto},
+  STELctoPedido in 'STELctoPedido.pas' {FSTELctoPedido};
 
 var
   wExePath,wExeName: String;
@@ -47,6 +49,8 @@ begin
   Application.CreateForm(TFSTEConsCliente, FSTEConsCliente);
   Application.CreateForm(TFSTEConfigurar, FSTEConfigurar);
   Application.CreateForm(TFSTECancelaReativa, FSTECancelaReativa);
+  Application.CreateForm(TFuEdicaoTexto, FuEdicaoTexto);
+  Application.CreateForm(TFSTELctoPedido, FSTELctoPedido);
   Application.Run;
 
 end.

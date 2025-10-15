@@ -21,8 +21,6 @@ object FSTECancelaReativa: TFSTECancelaReativa
     Height = 55
     Align = alBottom
     TabOrder = 0
-    ExplicitTop = 186
-    ExplicitWidth = 532
     object btConfirma: TBitBtn
       Left = 20
       Top = 8
@@ -132,7 +130,6 @@ object FSTECancelaReativa: TFSTECancelaReativa
     Font.Style = [fsBold]
     ParentFont = False
     TabOrder = 1
-    ExplicitWidth = 532
   end
   object PanWrk: TPanel
     Left = 0
@@ -141,8 +138,6 @@ object FSTECancelaReativa: TFSTECancelaReativa
     Height = 176
     Align = alClient
     TabOrder = 2
-    ExplicitWidth = 532
-    ExplicitHeight = 157
     object Label1: TLabel
       Left = 39
       Top = 16

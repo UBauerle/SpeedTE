@@ -362,7 +362,7 @@ object FSTEClientes: TFSTEClientes
       Top = 6
       Width = 33
       Height = 29
-      Hint = 'Incluir produto'
+      Hint = 'Incluir cliente'
       Anchors = [akTop, akRight]
       Glyph.Data = {
         76060000424D7606000000000000360400002800000018000000180000000100
@@ -427,7 +427,7 @@ object FSTEClientes: TFSTEClientes
       Top = 5
       Width = 33
       Height = 29
-      Hint = 'Excluir produto'
+      Hint = 'Excluir cliente'
       Anchors = [akTop, akRight]
       Glyph.Data = {
         76060000424D7606000000000000360400002800000018000000180000000100
@@ -578,7 +578,7 @@ object FSTEClientes: TFSTEClientes
       TabOrder = 4
     end
     object cbOrdem: TComboBox
-      Left = 284
+      Left = 280
       Top = 16
       Width = 157
       Height = 24

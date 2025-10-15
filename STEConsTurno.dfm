@@ -44,7 +44,7 @@ object FSTEConsTurno: TFSTEConsTurno
       Left = 1
       Top = 21
       Width = 827
-      Height = 279
+      Height = 270
       Align = alClient
       DataSource = FSTEPrincipal.DSPedidos
       DrawingStyle = gdsClassic
@@ -418,7 +418,7 @@ object FSTEConsTurno: TFSTEConsTurno
         OnClick = btInternoClick
       end
       object btCancelar: TBitBtn
-        Left = 440
+        Left = 438
         Top = 6
         Width = 88
         Height = 43
@@ -539,16 +539,19 @@ object FSTEConsTurno: TFSTEConsTurno
     end
     object PanFechamento: TPanel
       Left = 1
-      Top = 300
+      Top = 291
       Width = 827
-      Height = 83
+      Height = 92
       Align = alBottom
       TabOrder = 3
+      DesignSize = (
+        827
+        92)
       object gbTotais: TGroupBox
         Left = 1
         Top = 1
         Width = 196
-        Height = 81
+        Height = 90
         Align = alLeft
         Caption = 'Totais do turno'
         Font.Charset = DEFAULT_CHARSET
@@ -558,11 +561,15 @@ object FSTEConsTurno: TFSTEConsTurno
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 0
+        ExplicitLeft = 4
+        ExplicitHeight = 118
         object LabTotProd: TLabel
           Left = 50
           Top = 20
-          Width = 72
+          Width = 92
           Height = 16
+          Alignment = taRightJustify
+          AutoSize = False
           Caption = 'LabTotProd'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -573,9 +580,11 @@ object FSTEConsTurno: TFSTEConsTurno
         end
         object LabTele: TLabel
           Left = 50
-          Top = 40
-          Width = 51
+          Top = 36
+          Width = 92
           Height = 16
+          Alignment = taRightJustify
+          AutoSize = False
           Caption = 'LabTele'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -586,9 +595,11 @@ object FSTEConsTurno: TFSTEConsTurno
         end
         object LabTotGeral: TLabel
           Left = 50
-          Top = 60
-          Width = 76
+          Top = 52
+          Width = 92
           Height = 16
+          Alignment = taRightJustify
+          AutoSize = False
           Caption = 'LabTotGeral'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -613,7 +624,7 @@ object FSTEConsTurno: TFSTEConsTurno
         end
         object Label3: TLabel
           Left = 16
-          Top = 40
+          Top = 36
           Width = 31
           Height = 16
           Alignment = taRightJustify
@@ -626,12 +637,39 @@ object FSTEConsTurno: TFSTEConsTurno
           ParentFont = False
         end
         object Label4: TLabel
-          Left = 13
-          Top = 62
+          Left = 10
+          Top = 52
           Width = 34
           Height = 16
           Alignment = taRightJustify
           Caption = 'Total:'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+        end
+        object Label15: TLabel
+          Left = 23
+          Top = 68
+          Width = 24
+          Height = 16
+          Alignment = taRightJustify
+          Caption = 'Qtd:'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+        end
+        object LabQtdValid: TLabel
+          Left = 50
+          Top = 68
+          Width = 75
+          Height = 16
+          Caption = 'LabQtdValid'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -13
@@ -644,7 +682,7 @@ object FSTEConsTurno: TFSTEConsTurno
         Left = 197
         Top = 1
         Width = 352
-        Height = 81
+        Height = 90
         Align = alLeft
         Caption = 'Totais p/ meio de pagamento'
         Font.Charset = DEFAULT_CHARSET
@@ -654,6 +692,7 @@ object FSTEConsTurno: TFSTEConsTurno
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 1
+        ExplicitHeight = 81
         object Label5: TLabel
           Left = 17
           Top = 20
@@ -669,7 +708,7 @@ object FSTEConsTurno: TFSTEConsTurno
         end
         object Label6: TLabel
           Left = 12
-          Top = 40
+          Top = 36
           Width = 58
           Height = 16
           Caption = 'C.Cr'#233'dito:'
@@ -682,7 +721,7 @@ object FSTEConsTurno: TFSTEConsTurno
         end
         object Label7: TLabel
           Left = 15
-          Top = 60
+          Top = 52
           Width = 55
           Height = 16
           Caption = 'C.D'#233'bito:'
@@ -708,7 +747,7 @@ object FSTEConsTurno: TFSTEConsTurno
         end
         object Label9: TLabel
           Left = 196
-          Top = 40
+          Top = 36
           Width = 42
           Height = 16
           Caption = 'Outros:'
@@ -722,8 +761,10 @@ object FSTEConsTurno: TFSTEConsTurno
         object LabDinheiro: TLabel
           Left = 72
           Top = 20
-          Width = 73
+          Width = 92
           Height = 16
+          Alignment = taRightJustify
+          AutoSize = False
           Caption = 'LabDinheiro'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -734,9 +775,11 @@ object FSTEConsTurno: TFSTEConsTurno
         end
         object LabCCred: TLabel
           Left = 72
-          Top = 40
-          Width = 61
+          Top = 36
+          Width = 92
           Height = 16
+          Alignment = taRightJustify
+          AutoSize = False
           Caption = 'LabCCred'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -747,9 +790,11 @@ object FSTEConsTurno: TFSTEConsTurno
         end
         object LabCDeb: TLabel
           Left = 72
-          Top = 60
-          Width = 58
+          Top = 52
+          Width = 92
           Height = 16
+          Alignment = taRightJustify
+          AutoSize = False
           Caption = 'LabCDeb'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -761,8 +806,10 @@ object FSTEConsTurno: TFSTEConsTurno
         object LabPIX: TLabel
           Left = 240
           Top = 20
-          Width = 43
+          Width = 92
           Height = 16
+          Alignment = taRightJustify
+          AutoSize = False
           Caption = 'LabPIX'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -773,10 +820,105 @@ object FSTEConsTurno: TFSTEConsTurno
         end
         object LabOutros: TLabel
           Left = 240
-          Top = 40
-          Width = 62
+          Top = 36
+          Width = 92
           Height = 16
+          Alignment = taRightJustify
+          AutoSize = False
           Caption = 'LabOutros'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+        end
+      end
+      object btLogOcorr: TBitBtn
+        Left = 716
+        Top = 33
+        Width = 103
+        Height = 49
+        Anchors = [akRight, akBottom]
+        Caption = 'Log ocorrencias'
+        Glyph.Data = {
+          76010000424D7601000000000000760000002800000020000000100000000100
+          04000000000000010000120B0000120B00001000000000000000000000000000
+          800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+          333333333333333333333333333333333333333333FFFFF3333333333CCCCC33
+          33333FFFF77777FFFFFFCCCCCC808CCCCCC377777737F777777F008888070888
+          8003773FFF7773FFF77F0F0770F7F0770F037F777737F777737F70FFFFF7FFFF
+          F07373F3FFF7F3FFF37F70F000F7F000F07337F77737F777373330FFFFF7FFFF
+          F03337FF3FF7F3FF37F3370F00F7F00F0733373F7737F77337F3370FFFF7FFFF
+          0733337F33373F337333330FFF030FFF03333373FF7373FF7333333000333000
+          3333333777333777333333333333333333333333333333333333333333333333
+          3333333333333333333333333333333333333333333333333333}
+        NumGlyphs = 2
+        TabOrder = 2
+        OnClick = btLogOcorrClick
+        ExplicitTop = 24
+      end
+      object GroupBox1: TGroupBox
+        Left = 549
+        Top = 1
+        Width = 161
+        Height = 90
+        Align = alLeft
+        Caption = 'Cancelamentos'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 3
+        ExplicitHeight = 81
+        object Label14: TLabel
+          Left = 19
+          Top = 20
+          Width = 24
+          Height = 16
+          Caption = 'Qtd:'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+        end
+        object LabQtdCancel: TLabel
+          Left = 46
+          Top = 20
+          Width = 86
+          Height = 16
+          Caption = 'LabQtdCancel'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+        end
+        object Label16: TLabel
+          Left = 8
+          Top = 36
+          Width = 35
+          Height = 16
+          Caption = 'Valor:'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+        end
+        object LabVlrCancel: TLabel
+          Left = 46
+          Top = 36
+          Width = 81
+          Height = 16
+          Caption = 'LabVlrCancel'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -13
@@ -952,7 +1094,7 @@ object FSTEConsTurno: TFSTEConsTurno
     object Label1: TLabel
       Left = 1
       Top = 1
-      Width = 177
+      Width = 149
       Height = 20
       Align = alTop
       Alignment = taCenter
@@ -966,7 +1108,6 @@ object FSTEConsTurno: TFSTEConsTurno
       ParentColor = False
       ParentFont = False
       Transparent = False
-      ExplicitWidth = 149
     end
     object GridTurnos: TDBGrid
       Left = 1
@@ -1041,7 +1182,7 @@ object FSTEConsTurno: TFSTEConsTurno
         TabOrder = 0
       end
       object edTurno: TDBEdit
-        Left = 104
+        Left = 100
         Top = 29
         Width = 69
         Height = 21
