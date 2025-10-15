@@ -47,7 +47,7 @@ object FSTEPrincipal: TFSTEPrincipal
     TabOrder = 0
     object LabIdent: TLabel
       Left = 12
-      Top = 13
+      Top = 10
       Width = 73
       Height = 20
       Caption = 'LabIdent'

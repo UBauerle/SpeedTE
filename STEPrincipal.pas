@@ -182,15 +182,15 @@ var
   fTime: Boolean;
   nroPed: Integer;
   qtdLctos: Integer;
-  //lUtilizar: Boolean;
   lSysValido: Boolean;
 
 implementation
 
 {$R *.dfm}
 
-uses uGenericas, STEProdutos, STEClientes, STEImpressao, STEConsTurno,
-  STEConsCliente, STEConfigurar, STELctoPedido;
+uses uGenericas, uVersaoPgm, STEProdutos, STEClientes, STEImpressao, STEConsTurno,
+     STEConsCliente, STEConfigurar, STELctoPedido;
+
 
 Procedure ObtemCamposArqTexto(pmtLinha:String; pmtResult:TStringList; pmtMinimo:Integer);
 var xLinha: String;
@@ -1243,6 +1243,7 @@ end;
 procedure TFSTEPrincipal.FormCreate(Sender: TObject);
 begin
   fTime := True;
+  Self.Caption := 'SpeedTE - ' + GetApplicationVersion;
   Width := 1240;
   Height := 640;
   wLogFile := ChangeFileExt(Application.ExeName,'.Log');

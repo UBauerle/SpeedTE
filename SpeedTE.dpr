@@ -17,7 +17,8 @@ uses
   uProcessos in '..\UsoGeral\uProcessos.pas',
   STECancelaReativa in 'STECancelaReativa.pas' {FSTECancelaReativa},
   uEdicaoTexto in '..\UsoGeral\uEdicaoTexto.pas' {FuEdicaoTexto},
-  STELctoPedido in 'STELctoPedido.pas' {FSTELctoPedido};
+  STELctoPedido in 'STELctoPedido.pas' {FSTELctoPedido},
+  uVersaoPgm in '..\UsoGeral\uVersaoPgm.pas';
 
 var
   wExePath,wExeName: String;
