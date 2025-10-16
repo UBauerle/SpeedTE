@@ -578,7 +578,7 @@ object FSTEClientes: TFSTEClientes
       TabOrder = 4
     end
     object cbOrdem: TComboBox
-      Left = 280
+      Left = 284
       Top = 16
       Width = 157
       Height = 24

@@ -39,6 +39,7 @@ object FSTELctoPedido: TFSTELctoPedido
       Alignment = taRightJustify
       ParentColor = True
       TabOrder = 0
+      ExplicitLeft = 892
       object Label18: TLabel
         Left = 1
         Top = 1
@@ -57,254 +58,13 @@ object FSTELctoPedido: TFSTELctoPedido
         Transparent = False
         ExplicitWidth = 103
       end
-      object Label7: TLabel
-        Left = 61
-        Top = 40
-        Width = 56
-        Height = 16
-        Alignment = taRightJustify
-        Caption = 'Sub-total:'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-      end
-      object LabTele: TLabel
-        Left = 86
-        Top = 70
-        Width = 31
-        Height = 16
-        Alignment = taRightJustify
-        Caption = 'Tele:'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-      end
-      object Label9: TLabel
-        Left = 76
-        Top = 110
-        Width = 41
-        Height = 16
-        Alignment = taRightJustify
-        Caption = 'Total:'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = [fsBold]
-        ParentFont = False
-      end
-      object Label15: TLabel
-        Left = 44
-        Top = 152
-        Width = 73
-        Height = 16
-        Alignment = taRightJustify
-        Caption = 'Pagamento:'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-      end
-      object dbMeioPagto: TDBText
-        Left = 185
-        Top = 176
-        Width = 63
-        Height = 13
-        Alignment = taRightJustify
-        AutoSize = True
-        DataField = 'MeioPgto'
-        DataSource = FSTEPrincipal.DSPedWrk
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-      end
-      object Label16: TLabel
-        Left = 62
-        Top = 200
-        Width = 55
-        Height = 16
-        Caption = 'Vlr.Pago:'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-      end
-      object Label17: TLabel
-        Left = 78
-        Top = 230
-        Width = 39
-        Height = 16
-        Caption = 'Troco:'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-      end
-      object LabEntrega: TLabel
-        Left = 67
-        Top = 272
-        Width = 50
-        Height = 16
-        Alignment = taRightJustify
-        Caption = 'Entrega:'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-      end
-      object dbSubTotal: TDBEdit
-        Left = 120
-        Top = 36
-        Width = 93
-        Height = 24
-        TabStop = False
-        DataField = 'Total'
-        DataSource = FSTEPrincipal.DSPedWrk
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-        ReadOnly = True
-        TabOrder = 0
-      end
-      object edValorTele: TDBEdit
-        Left = 120
-        Top = 66
-        Width = 93
-        Height = 24
-        DataField = 'VlrTele'
-        DataSource = FSTEPrincipal.DSPedWrk
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-        TabOrder = 1
-        OnEnter = edValorTeleEnter
-        OnExit = edValorTeleExit
-        OnKeyDown = edValorTeleKeyDown
-        OnKeyPress = edValorTeleKeyPress
-      end
-      object DBEdit1: TDBEdit
-        Left = 120
-        Top = 104
-        Width = 112
-        Height = 28
-        TabStop = False
-        DataField = 'ZC_Total'
-        DataSource = FSTEPrincipal.DSPedWrk
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -16
-        Font.Name = 'MS Sans Serif'
-        Font.Style = [fsBold]
-        ParentFont = False
-        ReadOnly = True
-        TabOrder = 2
-      end
-      object dbLkMeioPgto: TDBLookupComboBox
-        Left = 120
-        Top = 148
-        Width = 133
-        Height = 24
-        DataField = 'MeioPgto'
-        DataSource = FSTEPrincipal.DSPedWrk
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        KeyField = 'CodMP'
-        ListField = 'DescrMP'
-        ListSource = FSTEPrincipal.SDSMeiosPgto
-        ParentFont = False
-        TabOrder = 3
-        OnExit = dbLkMeioPgtoExit
-        OnKeyDown = dbLkMeioPgtoKeyDown
-        OnKeyPress = dbLkMeioPgtoKeyPress
-      end
-      object dbVlrPago: TDBEdit
-        Left = 123
-        Top = 196
-        Width = 93
-        Height = 24
-        DataField = 'VlrPago'
-        DataSource = FSTEPrincipal.DSPedWrk
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-        TabOrder = 4
-        OnKeyDown = dbVlrPagoKeyDown
-        OnKeyPress = dbVlrPagoKeyPress
-      end
-      object dbTroco: TDBEdit
-        Left = 123
-        Top = 226
-        Width = 93
-        Height = 24
-        TabStop = False
-        DataField = 'ZC_Troco'
-        DataSource = FSTEPrincipal.DSPedWrk
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-        ReadOnly = True
-        TabOrder = 5
-      end
-      object dbLkEntrega: TDBLookupComboBox
-        Left = 123
-        Top = 266
-        Width = 133
-        Height = 24
-        DataField = 'Entrega'
-        DataSource = FSTEPrincipal.DSPedWrk
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        KeyField = 'Cod'
-        ListField = 'Descr'
-        ListSource = FSTEPrincipal.SDSEntrega
-        ParentFont = False
-        TabOrder = 6
-        OnExit = dbLkEntregaExit
-        OnKeyDown = dbLkEntregaKeyDown
-        OnKeyPress = dbLkEntregaKeyPress
-      end
       object btAcrescenta: TBitBtn
         Left = 112
-        Top = 362
+        Top = 412
         Width = 157
         Height = 43
         BiDiMode = bdLeftToRight
-        Caption = 'Acrescentar '#237'tem'
+        Caption = '&Acrescentar '#237'tem'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -13
@@ -350,14 +110,13 @@ object FSTELctoPedido: TFSTELctoPedido
         NumGlyphs = 2
         ParentBiDiMode = False
         ParentFont = False
-        TabOrder = 7
+        TabOrder = 2
         TabStop = False
-        Visible = False
         OnClick = btAcrescentaClick
       end
       object btFinaliza: TBitBtn
         Left = 112
-        Top = 412
+        Top = 362
         Width = 157
         Height = 43
         BiDiMode = bdLeftToRight
@@ -468,7 +227,7 @@ object FSTELctoPedido: TFSTELctoPedido
           FFFFFFFFFFFFFFFFFF00000000007F0000FFFFFFFFFFFFFFFFFF}
         ParentBiDiMode = False
         ParentFont = False
-        TabOrder = 8
+        TabOrder = 1
         OnClick = btFinalizaClick
       end
       object btCancela: TBitBtn
@@ -565,16 +324,327 @@ object FSTELctoPedido: TFSTELctoPedido
           BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF00}
         ParentBiDiMode = False
         ParentFont = False
-        TabOrder = 9
+        TabOrder = 3
         OnClick = btCancelaClick
       end
       object btDdCliente: TBitBtn
-        Left = 6
-        Top = 462
+        Left = 5
+        Top = 412
         Width = 100
-        Height = 42
+        Height = 92
         Caption = 'btDdCliente'
-        TabOrder = 10
+        Glyph.Data = {
+          F6060000424DF606000000000000360000002800000018000000180000000100
+          180000000000C0060000120B0000120B00000000000000000000FF00FFFF00FF
+          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
+          00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+          FFFF00FFFF00FFFF00FFAA4B14AE4B13AE4B13AE4B13AE4B13AE4B13AE4B13AE
+          4B13AE4B13AE4B13AE4B13AE4B13AE4B13AE4B13AE4C17AA4B14FF00FFFF00FF
+          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFAA4B14AA4B15AE4A10C85118E75E
+          40F5634CF96650F96B53FA765AFB785EF96E58FC6551F7664FDB5C3FB14D1BAD
+          4B15AA4B14FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFAA4B14AA4B14
+          AF4A11CE5320E96042F46751FA775BFB8765FB8863FB967BFBB4A9F88575F75F
+          48EC6148C75736AD4C16AA4B14FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
+          00FFAA4B14AA4B14B34B16D55526ED6447F97E5FFC906CFC8B66FA7B59FBAB9A
+          FEFDFFFAC2B8F4664DE25A3EC05530AB4D1CAA4B14FF00FFFF00FFFF00FFFF00
+          FFFF00FFFF00FFFF00FFFF00FFAA4B14B64D1BDC592DF57556FE8F6DFC8D68FC
+          805CFC886BFDD3CBFFFFFFFFDCD4FB8369DF5E3EB8502AAB4D1CAA4B14FF00FF
+          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFAA4B14B44F21D85D35FD82
+          62FF9471FF8961FF8763FFBDADFFFEFDFFFFFFFFDCD4FF9578EC7451B9542BA9
+          4A19AA4B14FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+          B24F1FCD6138E7764EFA8A5CF37E58D88673CFC8C7D8E4E6E9ECE9F9C1B1FE8E
+          6DF98864C35F35AB4A16FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
+          00FFFF00FFFF00FFFF00FFD2653CCE6138994D3C7B465C4948763F53884C5A87
+          6C718FA36E67DC6E44E17447B85423FF00FFFF00FFFF00FFFF00FFFF00FFFF00
+          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF121A7402278C00
+          299300228B001D85001D7F1F2265794149FF00FFFF00FFFF00FF000000000000
+          000000000000000000FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF222A
+          6B063BBC0C44B21344AD1446AD1242AC0A3AA8012E9C152A86FF00FFFF00FFFF
+          00FF000415FF00FF033DFFFF00FF010929FF00FFFF00FFFF00FFFF00FFFF00FF
+          FF00FF030A190938931C5ED01B51B61A51B61A52B71B50B61B50B4184FB50739
+          A800259CFF00FFFF00FF000B37033CFFFF00FF033DFF022096FF00FFFF00FFFF
+          00FFFF00FFFF00FFFF00FF0717321C56B91F62D21B57BC1B5AC31C5BC41D5CC5
+          1D5BC31E5FC71C58C0153A9CFF00FFFF00FF000A32FF00FFFF00FFFF00FF0338
+          F7FF00FFFF00FFFF00FFFF00FFFF00FF0303050D2B592675EE2271E7226DDD20
+          69D61F65CF2067D22066D1216AD5216BD6194EB5FF00FFFF00FF00000200030C
+          000000000208021D850338FEFF00FFFF00FFFF00FFFF00FF0102050E305A2B86
+          FE2B83F62573DA2471D8226DD61A52B7226BD32575DF2675DF1E5BC1FF00FFFF
+          00FFFF00FFFF00FFFF00FFFF00FFFF00FF0231E60336FFFF00FFFF00FFFF00FF
+          03020305101C123967143A6912345C2368BA1A52B72A7CE21A52B72B84EC2B7F
+          E51E55B7FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
+          00FFFF00FFFF00FF09090A12120F0B090A000205112D4A3291E136A4FF3091F8
+          3191F6349DFE2F91F4194DACFF00FFFF00FF0000000000000000000000000000
+          00FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF33312F3C3D3B13110D021E382B
+          8CDD3DB4FF39AAFF3BAFFF39ABFF276ED2FF00FFFF00FFFF00FF000415FF00FF
+          033DFFFF00FF010929FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF35312F6062
+          617574723D3E410D243D14487D2267A62471B4195899152E75FF00FFFF00FFFF
+          00FF000B37033CFFFF00FF033DFF022096FF00FFFF00FFFF00FFFF00FFFF00FF
+          FF00FFFF00FF535251727373848381736E69484340181A1B080606141213FF00
+          FFFF00FFFF00FFFF00FF000A32FF00FFFF00FFFF00FF0338F7FF00FFFF00FFFF
+          00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF86868590908F7D7B7A555556
+          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF00000200030C000000000208021D
+          850338FEFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
+          00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+          FF00FFFF00FFFF00FF0231E60336FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
+          00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
+        Layout = blGlyphTop
+        TabOrder = 4
+        OnClick = btDdClienteClick
+      end
+      object PanTotalizTop: TPanel
+        Left = 1
+        Top = 21
+        Width = 274
+        Height = 329
+        Align = alTop
+        ParentColor = True
+        TabOrder = 0
+        ExplicitLeft = 5
+        ExplicitTop = 25
+        object Label7: TLabel
+          Left = 61
+          Top = 40
+          Width = 56
+          Height = 16
+          Alignment = taRightJustify
+          Caption = 'Sub-total:'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+        end
+        object LabTele: TLabel
+          Left = 86
+          Top = 70
+          Width = 31
+          Height = 16
+          Alignment = taRightJustify
+          Caption = 'Tele:'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+        end
+        object Label9: TLabel
+          Left = 76
+          Top = 110
+          Width = 41
+          Height = 16
+          Alignment = taRightJustify
+          Caption = 'Total:'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label15: TLabel
+          Left = 44
+          Top = 152
+          Width = 73
+          Height = 16
+          Alignment = taRightJustify
+          Caption = 'Pagamento:'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+        end
+        object dbMeioPagto: TDBText
+          Left = 185
+          Top = 176
+          Width = 63
+          Height = 13
+          Alignment = taRightJustify
+          AutoSize = True
+          DataField = 'MeioPgto'
+          DataSource = FSTEPrincipal.DSPedWrk
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+        end
+        object Label16: TLabel
+          Left = 62
+          Top = 200
+          Width = 55
+          Height = 16
+          Caption = 'Vlr.Pago:'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+        end
+        object Label17: TLabel
+          Left = 78
+          Top = 230
+          Width = 39
+          Height = 16
+          Caption = 'Troco:'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+        end
+        object LabEntrega: TLabel
+          Left = 67
+          Top = 272
+          Width = 50
+          Height = 16
+          Alignment = taRightJustify
+          Caption = 'Entrega:'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+        end
+        object dbSubTotal: TDBEdit
+          Left = 120
+          Top = 36
+          Width = 93
+          Height = 24
+          TabStop = False
+          DataField = 'Total'
+          DataSource = FSTEPrincipal.DSPedWrk
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          ReadOnly = True
+          TabOrder = 0
+        end
+        object edValorTele: TDBEdit
+          Left = 120
+          Top = 66
+          Width = 93
+          Height = 24
+          DataField = 'VlrTele'
+          DataSource = FSTEPrincipal.DSPedWrk
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 1
+          OnEnter = edValorTeleEnter
+          OnExit = edValorTeleExit
+          OnKeyDown = edValorTeleKeyDown
+          OnKeyPress = edValorTeleKeyPress
+        end
+        object DBEdit1: TDBEdit
+          Left = 120
+          Top = 104
+          Width = 112
+          Height = 28
+          TabStop = False
+          DataField = 'ZC_Total'
+          DataSource = FSTEPrincipal.DSPedWrk
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -16
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ReadOnly = True
+          TabOrder = 2
+        end
+        object dbLkMeioPgto: TDBLookupComboBox
+          Left = 120
+          Top = 148
+          Width = 133
+          Height = 24
+          DataField = 'MeioPgto'
+          DataSource = FSTEPrincipal.DSPedWrk
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          KeyField = 'CodMP'
+          ListField = 'DescrMP'
+          ListSource = FSTEPrincipal.SDSMeiosPgto
+          ParentFont = False
+          TabOrder = 3
+          OnExit = dbLkMeioPgtoExit
+          OnKeyDown = dbLkMeioPgtoKeyDown
+          OnKeyPress = dbLkMeioPgtoKeyPress
+        end
+        object dbVlrPago: TDBEdit
+          Left = 120
+          Top = 196
+          Width = 93
+          Height = 24
+          DataField = 'VlrPago'
+          DataSource = FSTEPrincipal.DSPedWrk
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 4
+          OnKeyDown = dbVlrPagoKeyDown
+          OnKeyPress = dbVlrPagoKeyPress
+        end
+        object dbTroco: TDBEdit
+          Left = 120
+          Top = 226
+          Width = 93
+          Height = 24
+          TabStop = False
+          DataField = 'ZC_Troco'
+          DataSource = FSTEPrincipal.DSPedWrk
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          ReadOnly = True
+          TabOrder = 5
+        end
+        object dbLkEntrega: TDBLookupComboBox
+          Left = 120
+          Top = 266
+          Width = 133
+          Height = 24
+          DataField = 'Entrega'
+          DataSource = FSTEPrincipal.DSPedWrk
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          KeyField = 'Cod'
+          ListField = 'Descr'
+          ListSource = FSTEPrincipal.SDSEntrega
+          ParentFont = False
+          TabOrder = 6
+          OnExit = dbLkEntregaExit
+          OnKeyDown = dbLkEntregaKeyDown
+          OnKeyPress = dbLkEntregaKeyPress
+        end
       end
     end
     object PanIdCliente: TPanel
@@ -879,11 +949,11 @@ object FSTELctoPedido: TFSTELctoPedido
       end
       object btConfCliente: TBitBtn
         Left = 56
-        Top = 374
+        Top = 371
         Width = 261
         Height = 43
         Anchors = [akRight, akBottom]
-        Caption = 'Confirma dados do cliente'
+        Caption = 'Confirma &Dados do cliente'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -16

@@ -701,12 +701,12 @@ object FSTEConfigurar: TFSTEConfigurar
           TabOrder = 13
         end
         object gbCtle: TGroupBox
-          Left = 600
-          Top = 178
+          Left = 692
+          Top = 165
           Width = 129
           Height = 127
           Caption = 'Controle'
-          TabOrder = 17
+          TabOrder = 19
           OnMouseDown = gbCtleMouseDown
           object Label10: TLabel
             Left = 16
@@ -830,7 +830,7 @@ object FSTEConfigurar: TFSTEConfigurar
           Font.Style = []
           ParentColor = False
           ParentFont = False
-          TabOrder = 18
+          TabOrder = 17
         end
         object edImgCancel: TEdit
           Left = 152
@@ -859,6 +859,22 @@ object FSTEConfigurar: TFSTEConfigurar
           ParentFont = False
           TabOrder = 5
           Text = 'edImgNormal'
+        end
+        object cbSolCPF: TCheckBox
+          Left = 449
+          Top = 295
+          Width = 160
+          Height = 17
+          Caption = 'Solicita CPF'
+          Color = clBtnFace
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentColor = False
+          ParentFont = False
+          TabOrder = 18
         end
       end
     end

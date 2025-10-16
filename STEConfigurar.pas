@@ -124,6 +124,7 @@ type
     edImgCancel: TEdit;
     Label41: TLabel;
     edImgNormal: TEdit;
+    cbSolCPF: TCheckBox;
     procedure btSalvarClick(Sender: TObject);
     procedure btCancelarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -180,6 +181,7 @@ begin
     edTxtIncluir.Text := wIniFile.ReadString('Config', 'TextoIncluir',    'Incluir lançamento?');
     cbLctSV.Checked  := wIniFile.ReadBool   ('Config', 'LctoSemValor',    False);
     cbExCarga.Checked := wIniFile.ReadBool  ('Config', 'ExibeCarga',      False);
+    cbSolCPF.Checked := wIniFile.ReadBool   ('Config', 'SolicitaCPF',     False);
     cbPrItem.Checked := wIniFile.ReadBool   ('Config', 'PrimeiroItem',    False);
     cbCPF.Checked    := wIniFile.ReadBool   ('Config', 'CPFCliente',      False);
     cbEntrega.Checked := wIniFile.ReadBool  ('Config', 'Entrega',         False);
@@ -257,6 +259,7 @@ begin
     wIniFile.WriteString ('Config', 'TextoIncluir',   edTxtIncluir.Text);
     wIniFile.WriteBool   ('Config', 'LctoSemValor',   cbLctSV.Checked);
     wIniFile.WriteBool   ('Config', 'ExibeCarga',     cbExCarga.Checked);
+    wIniFile.WriteBool   ('Config', 'SolicitaCPF',    cbSolCPF.Checked);
     wIniFile.WriteBool   ('Config', 'CPFCliente',     cbCPF.Checked);
     wIniFile.WriteBool   ('Config', 'Entrega',        cbEntrega.Checked);
     wIniFile.WriteBool   ('Config', 'ValidaEntrega',  cbValida.Checked);
@@ -335,6 +338,7 @@ begin
     txtIncluir    := wIniFile.ReadString ('Config', 'TextoIncluir',   'Incluir lançamento?');
     lLctSemValor  := wIniFile.ReadBool   ('Config', 'LctoSemValor',   False);
     lExCarga      := wIniFile.ReadBool   ('Config', 'ExibeCarga',     False);
+    lSolCPF       := wIniFile.ReadBool   ('Config', 'SolicitaCPF',    False);
     lInfCPF       := wIniFile.ReadBool   ('Config', 'CPFCliente',     False);
     lMdEntrega    := wIniFile.ReadBool   ('Config', 'Entrega',        False);
     lValEntrega   := wIniFile.ReadBool   ('Config', 'ValidaEntrega',  False);
@@ -378,7 +382,7 @@ begin
     tbOldClie := pathDados + wIniFile.ReadString('Dados','OldClientes','OldClientes.DAT');
     tbProd    := pathDados + wIniFile.ReadString('Dados','Produtos','Produtos.DAT');
     lCargaXML := wIniFile.ReadBool('Dados','CargaXML',False);
-    nConsClie := wIniFile.ReadInteger('Dados',   'OrdemPesquisa', 2);  // 0-Seq 1-Fone 2-Nome 3-Ender 4-Nome/Ender
+    nIndexConsClie := wIniFile.ReadInteger('Dados',   'OrdemPesquisa', 2);  // 0-Seq 1-Fone 2-Nome 3-Ender 4-Nome/Ender
 
     tmpProds  := pathDados + 'Tmp_Prods.XML';
     DecodeTime(Time,Hr,Mi,Se,Ms);

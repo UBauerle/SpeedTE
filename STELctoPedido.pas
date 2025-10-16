@@ -39,21 +39,6 @@ type
     btConfCliente: TBitBtn;
     MemLcto: TMemo;
     Label18: TLabel;
-    Label7: TLabel;
-    dbSubTotal: TDBEdit;
-    LabTele: TLabel;
-    edValorTele: TDBEdit;
-    Label9: TLabel;
-    DBEdit1: TDBEdit;
-    Label15: TLabel;
-    dbLkMeioPgto: TDBLookupComboBox;
-    dbMeioPagto: TDBText;
-    Label16: TLabel;
-    dbVlrPago: TDBEdit;
-    dbTroco: TDBEdit;
-    Label17: TLabel;
-    LabEntrega: TLabel;
-    dbLkEntrega: TDBLookupComboBox;
     btAcrescenta: TBitBtn;
     btFinaliza: TBitBtn;
     btCancela: TBitBtn;
@@ -76,6 +61,22 @@ type
     btDdCliente: TBitBtn;
     PanDuploClick: TPanel;
     imgAponta: TImage;
+    PanTotalizTop: TPanel;
+    Label7: TLabel;
+    dbSubTotal: TDBEdit;
+    edValorTele: TDBEdit;
+    LabTele: TLabel;
+    Label9: TLabel;
+    DBEdit1: TDBEdit;
+    dbLkMeioPgto: TDBLookupComboBox;
+    Label15: TLabel;
+    dbMeioPagto: TDBText;
+    dbVlrPago: TDBEdit;
+    Label16: TLabel;
+    Label17: TLabel;
+    dbTroco: TDBEdit;
+    dbLkEntrega: TDBLookupComboBox;
+    LabEntrega: TLabel;
     procedure FormActivate(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure btCancelaClick(Sender: TObject);
@@ -143,6 +144,7 @@ type
       Shift: TShiftState);
     procedure edValorTeleKeyPress(Sender: TObject; var Key: Char);
     procedure dbFoneEnter(Sender: TObject);
+    procedure btDdClienteClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -275,6 +277,9 @@ begin
     lLancando := True;                    // lançando
     lExclusao := False;                   // Não excluindo
   end;
+  FSTELctoPedido.PanTotalizTop.Enabled := False;
+  FSTELctoPedido.PanItem.Enabled := True;
+  FSTELctoPedido.btConfirmaProd.Enabled := True;
   FSTELctoPedido.dbProdCombo.SetFocus;
 
 end;
@@ -292,11 +297,14 @@ procedure TFSTELctoPedido.btAlteraLctoClick(Sender: TObject);
 begin
   PanAlteraExclue.Visible := False;
   PanItem.Enabled := True;
+  btConfirmaProd.Enabled := True;
   Try
     FSTEPrincipal.LctWrk.Edit;
     dbProdCombo.SetFocus;
   Except
     MessageDlg('Não foi possível editar o lançamento',mtError,[mbOk],0);
+    PanItem.Enabled := False;
+    btConfirmaProd.Enabled := False;
   End;
 
 end;
@@ -311,11 +319,15 @@ end;
 
 procedure TFSTELctoPedido.btConfClienteClick(Sender: TObject);
 begin
-  PanItem.Enabled := True;
-  dbprodCombo.SetFocus;
-  btConfirmaProd.Enabled := True;
+  PanIdCliente.Enabled := False;
+  btConfCliente.Enabled := False;
+  btDdCliente.Enabled := True;
   if FSTEPrincipal.LctWrk.RecordCount = 0 then
-    InclueLancamento;
+    InclueLancamento
+  else begin
+     PanTotalizTop.Enabled := True;
+     edValorTele.SetFocus;
+  end;
 
 end;
 
@@ -349,6 +361,15 @@ begin
   MontaTextoPedido;
   Application.ProcessMessages;
   SolicitaInclusao(True);
+
+end;
+
+procedure TFSTELctoPedido.btDdClienteClick(Sender: TObject);
+begin
+  PanIdCliente.Enabled := True;
+  btConfCliente.Enabled := True;
+  PanTotalizTop.Enabled := False;
+  dbNome.SetFocus;
 
 end;
 
@@ -421,7 +442,7 @@ begin
     FSTEPrincipal.PedLctos.Post;
     FSTEPrincipal.LctWrk.Next;
   end;
-  AtualizaCliente;
+  AtualizaCliente(lCadastrado);
   if FSTEPrincipal.loPedido = 0 then
     ImprimePedido(FSTEPrincipal.lPreview, FSTEPrincipal.copias)    // Cliente/Endereço TOPO
   else
@@ -449,11 +470,14 @@ end;
 procedure TFSTELctoPedido.btNaoClick(Sender: TObject);
 begin
   PanNovoLcto.Visible := False;
+  btConfirmaProd.Enabled := False;
   if FSTEPrincipal.LctWrk.RecordCount = 0 then
   begin
     btCancelaClick(nil);
     Exit;
   end;
+  PanTotalizTop.Enabled := True;
+
   edValorTele.SetFocus;
 
 end;
@@ -720,6 +744,14 @@ begin
   if dbProdCombo.Text = '' then
   begin
     FSTEPrincipal.LctWrk.Delete;
+    if FSTEPrincipal.PedWrkTotal.AsCurrency = 0 then
+    begin
+      btCancelaClick(nil);
+      Exit;
+    end;
+    btConfirmaProd.Enabled := False;
+    PanItem.Enabled := False;
+    PanTotalizTop.Enabled := True;
     edValorTele.SetFocus;
     Exit;
   end;
@@ -768,12 +800,15 @@ end;
 
 procedure TFSTELctoPedido.dbQtdExit(Sender: TObject);
 begin
-  if FSTEPrincipal.LctWrkQuant.AsInteger < 1 then
+  if lLancando then
   begin
-    MessageDlg('Quantidade não pode ser menor que 1, reinforme',mtError,[mbOk],0);
-    dbQtd.SetFocus;
+    if FSTEPrincipal.LctWrkQuant.AsInteger < 1 then
+    begin
+      MessageDlg('Quantidade não pode ser menor que 1, reinforme',mtError,[mbOk],0);
+      dbQtd.SetFocus;
+    end;
+    FSTEPrincipal.LctWrkTotal.AsCurrency := FSTEPrincipal.LctWrkValor.AsCurrency * FSTEPrincipal.LctWrkQuant.AsInteger;
   end;
-  FSTEPrincipal.LctWrkTotal.AsCurrency := FSTEPrincipal.LctWrkValor.AsCurrency * FSTEPrincipal.LctWrkQuant.AsInteger;
 
 end;
 
@@ -832,22 +867,31 @@ end;
 
 procedure TFSTELctoPedido.edValorTeleEnter(Sender: TObject);
 begin
-  PanNovoLcto.Visible := False;
-  PanAlteraExclue.Visible := False;
+  if fTime then
+    Exit;
   if FSTEPrincipal.LctWrk.RecordCount = 0 then
   begin
     btCancelaClick(nil);
     Exit;
   end;
+  //
+  PanNovoLcto.Visible := False;
+  PanAlteraExclue.Visible := False;
+  btAcrescenta.Enabled := True;
+  btFinaliza.Enabled := True;
+  btDdCliente.Enabled := True;
   if (FSTEPrincipal.PedWrkTotal.AsCurrency = 0) and
-     (FSTEPrincipal.PedWrk.RecordCount = 0) then
+     (FSTEPrincipal.LctWrk.RecordCount = 0) then
   begin
     if MessageDlg('Informe:'+ #13#13 +
                   '     Alterar/informar dados do cliente, ou' + #13 +
                   '     Cancelar pedido',
                   mtConfirmation,[mbYes,mbNo],0,mbYes,
                   ['Alterar/informar dados','Cancelar pedido']) = mrYes then
-      dbNome.SetFocus
+    begin
+      PanIdCliente.Enabled := True;
+      dbNome.SetFocus;
+    end
     else
       btCancelaClick(nil);
     Exit;
@@ -931,10 +975,20 @@ begin
   FSTEPrincipal.LctWrk.Active := True;
   FSTEPrincipal.LctWrk.EmptyDataSet;
   //
+  LabCPF_CNPJ.Visible := FSTEPrincipal.lSolCPF;
+  dbCPF_CNPJ.Visible := FSTEPrincipal.lSolCPF;
   PanItem.Enabled := False;
   RETexto.Lines.Clear;
   MemLcto.Lines.Clear;
   qtdLctos := 0;
+  PanIdCliente.Enabled := True;
+  btConfCliente.Enabled := False;
+  PanItem.Enabled := False;
+  btConfirmaProd.Enabled := False;
+  PanTotalizTop.Enabled := False;
+  btAcrescenta.Enabled := False;
+  btDdCliente.Enabled := False;
+  btFinaliza.Enabled := False;
   dbFone.SetFocus;
 
 end;
@@ -942,21 +996,19 @@ end;
 procedure TFSTELctoPedido.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   fTime := True;
-  btConfCliente.Enabled := False;
-  btConfirmaProd.Enabled := False;
 
 end;
 
 procedure TFSTELctoPedido.FormCreate(Sender: TObject);
 begin
   fTime := True;
-  btConfCliente.Enabled := False;
-  btConfirmaProd.Enabled := False;
   RETexto.Align := alClient;
+  PanTotalizTop.BevelOuter := bvNone;
 
 end;
 
 procedure TFSTELctoPedido.FormResize(Sender: TObject);
+var xQbLinha: String;
 begin
   if Width < 1180 then
     Width := 1180;
@@ -968,15 +1020,21 @@ begin
   //
   btCancela.Left := PanTotalizacao.Width - (btCancela.Width + 6);
   btCancela.Top := PanTotalizacao.Height - (btCancela.Height + 32);
-  btFinaliza.Left := btCancela.Left - 20;
-  btFinaliza.Top := btCancela.Top - (btFinaliza.Height + 8);
-  btAcrescenta.Left := btFinaliza.Left - 20;
-  btAcrescenta.Top := btFinaliza.Top - (btAcrescenta.Height + 8);
+  btAcrescenta.Left := btCancela.Left - 20;
+  btAcrescenta.Top := btCancela.Top - (btAcrescenta.Height + 8);
+  btFinaliza.Left := btAcrescenta.Left - 20;
+  btFinaliza.Top := btAcrescenta.Top - (btFinaliza.Height + 8);
 
   btDdCliente.Left := 8;
-  btDdCliente.Top := btCancela.Top;
-  btDdCliente.Height := btCancela.Height;
-  btDdCliente.Width := PanTotalizacao.Width - (btAcrescenta.Width + 20);
+  btDdCliente.Top := btAcrescenta.Top;
+  btDdCliente.Height := (btAcrescenta.Height * 2) + 8;
+  btDdCliente.Width := btAcrescenta.Left - 16;
+  while (btDdCliente.Left + btDdCliente.Width) >= (btAcrescenta.Left - 6)
+    do btDdCliente.Width := btDdCliente.Width - 2;
+  xQbLinha := ' ';
+  if btDdCliente.Width < 120 then
+    xQbLinha := #13;
+  btDdCliente.Caption := 'Alterar &dados' + xQbLinha + 'do cliente';
 
 end;
 

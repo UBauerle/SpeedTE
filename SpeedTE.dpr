@@ -22,7 +22,6 @@ uses
 
 var
   wExePath,wExeName: String;
-  retProcess: Integer;
 
 {$R *.res}
 

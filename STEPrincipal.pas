@@ -10,7 +10,7 @@ uses
   Function CarregaPedidos(pmtPeds:String; pmtLcts:String; pmtDiaAtual:Boolean; pmtExibe:Boolean=True): Boolean;
   Procedure ObtemCamposArqTexto(pmtLinha:String; pmtResult:TStringList; pmtMinimo:Integer);
   Function ValidaEntrega: Boolean;
-  Procedure AtualizaCliente;
+  Procedure AtualizaCliente(pmtCadastrado:Boolean);
   Function SalvaDados(pmtInfo:Integer; pmtFecha:Boolean): Boolean;
 
 type
@@ -153,7 +153,7 @@ type
     lManutClientes,lConsTurno,lMdEntrega,lValEntrega: Boolean;
     mesesConsulta: Integer;
     pathSalvaForm,pathDados: String;
-    hrIniNoite,mpPadrao,nConsClie: Integer;
+    hrIniNoite,mpPadrao,nIndexConsClie: Integer;
     dtAtual: String;
     tbClie,tbOldClie,tbProd,tbPeds,tbLcts: String;
     tbAllPeds,tbAllLcts: String;
@@ -165,7 +165,7 @@ type
     mdDtHr: Integer;
     loPedido,loInterno: Integer;
     linPedFixa,linIntFixa,lValorUnit: Boolean;
-    lPreview,lDialog,lPrevCons,lImpInterno,lLctSemValor,lExCarga,lImpTurno: Boolean;
+    lPreview,lDialog,lPrevCons,lImpInterno,lLctSemValor,lExCarga,lImpTurno,lSolCPF: Boolean;
     pixelHor,altExtra: Integer;
     keyUsuar: String;
     ddCheck: Integer;
@@ -177,8 +177,7 @@ type
 var
   FSTEPrincipal: TFSTEPrincipal;
   wMsg: String;
-  lCadastrado,lLancando,lExclusao: Boolean;
-  lTeclaDown: Boolean;
+  lLancando,lExclusao: Boolean;
   fTime: Boolean;
   nroPed: Integer;
   qtdLctos: Integer;
@@ -1020,7 +1019,10 @@ begin
 end;
 
 
-Procedure AtualizaCliente;
+Procedure AtualizaCliente(pmtCadastrado:Boolean);
+var xLinha: String;
+    txtClientes: TextFile;
+    naL: Integer;
 begin
   with FSTEPrincipal do
   begin
@@ -1028,7 +1030,7 @@ begin
        (PedWrkNome.AsString = '') then
       Exit;
     //
-    if not lCadastrado then
+    if not pmtCadastrado then
     begin
       ultCliente := ultCliente + 1;
       Clientes.Append;
@@ -1039,8 +1041,18 @@ begin
       ClientesBairro.AsString := PedWrkBairro.AsString;
       ClientesRefer.asString := PedWrkRefer.AsString;
       ClientesCPF_CNPJ.AsString := PedWrkCPF_CNPJ.AsString;
+      ClientesDtCompra.AsDateTime := DateOf(Date);
       Clientes.Post;
       btClientes.Caption := 'Clientes' + #13 + '(' + IntToStr(FSTEPrincipal.Clientes.RecordCount) + ')';
+      //
+      xLinha := stringCompleta(ClientesChave.AsString,'D',' ',15) +
+                stringCompleta(ClientesNome.AsString,'D',' ',30) +
+                stringCompleta(ClientesEndereco.AsString,'D',' ',40) +
+                stringCompleta(ClientesBairro.AsString,'D',' ',20) +
+                stringCompleta(ClientesRefer.AsString,'D',' ',40) +
+                DateToStr(ClientesDtCompra.AsDateTime) +
+                stringCompleta(ClientesCPF_CNPJ.AsString,'E',' ',14);
+      AppendDAT(FSTEPrincipal.tbCLie, xLinha);
       Exit;
     end;
     //
@@ -1062,6 +1074,7 @@ begin
       ClientesCPF_CNPJ.AsString := PedWrkCPF_CNPJ.AsString;
     ClientesDtCompra.AsDateTime := DateOf(Date);
     Clientes.Post;
+    //
 
   end;
 

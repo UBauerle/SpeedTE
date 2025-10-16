@@ -49,7 +49,7 @@ var idxAnt: String;
 begin
   Result := False;
   idxAnt := FSTEPrincipal.Clientes.IndexName;
-  case FSTEPrincipal.nConsClie of
+  case FSTEPrincipal.nIndexConsClie of
     0:FSTEPrincipal.Clientes.IndexName := '';
     1:FSTEPrincipal.Clientes.IndexName := 'Fone';
     2:FSTEPrincipal.Clientes.IndexName := 'Alfabetica';
@@ -95,10 +95,9 @@ begin
       5:FSTEPrincipal.Clientes.IndexName := 'UltCompra';
     end;
     edLocaliz.Text := '';
+    edLocaliz.Enabled := True;
     if cbOrdem.ItemIndex = 0 then
-      edLocaliz.Enabled := False
-    else
-      edLocaliz.Enabled := True;
+      edLocaliz.Enabled := False;
     LabLocaliz.Enabled := edLocaliz.Enabled;
     Clientes.First;
   end;
@@ -137,7 +136,8 @@ begin
   Form_Define(FSTEConsCliente);
   FormResize(nil);
   LabNRegs.Caption := IntToStr(FSTEPrincipal.Clientes.RecordCount) + ' clientes cadastrados';
-  cbOrdem.ItemIndex := FSTEPrincipal.nConsClie;
+  cbOrdem.ItemIndex := FSTEPrincipal.nIndexConsClie;
+  cbOrdemChange(nil);
   edLocaliz.Text := '';
 
 end;
