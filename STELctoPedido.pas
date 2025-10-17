@@ -145,6 +145,7 @@ type
     procedure edValorTeleKeyPress(Sender: TObject; var Key: Char);
     procedure dbFoneEnter(Sender: TObject);
     procedure btDdClienteClick(Sender: TObject);
+    procedure dbProxExit(Sender: TObject);
   private
     { Private declarations }
   public
@@ -780,6 +781,17 @@ procedure TFSTELctoPedido.dbProdComboKeyPress(Sender: TObject; var Key: Char);
 begin
   if Key = #13 then
     Key := #00;
+
+end;
+
+procedure TFSTELctoPedido.dbProxExit(Sender: TObject);
+begin
+  if dbCPF_CNPJ.Visible then
+    dbCPF_CNPJ.SetFocus
+  else begin
+    btConfCliente.Enabled := True;
+    btConfCliente.SetFocus;
+  end;
 
 end;
 

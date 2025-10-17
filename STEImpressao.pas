@@ -304,7 +304,7 @@ begin
     RLEndereco.Caption := FSTEPrincipal.PedWrkEndereco.AsString;
     RLBairro.Caption := FSTEPrincipal.PedWrkBairro.AsString;
     RLRefer.Caption := FSTEPrincipal.PedWrkRefer.AsString;
-    RLFoneClie.Caption := ' ' + EditaFone('',FSTEPrincipal.PedWrkFone.AsString,True);
+    RLFoneClie.Caption := ' ' + EditaFone('',FSTEPrincipal.PedWrkFone.AsString);
     RLImgFoneClie.Left := RLFoneClie.Left - RLImgFoneClie.Width;
     RLEntrega.Visible := FSTEPrincipal.lMdEntrega;
     case FSTEPrincipal.PedWrkEntrega.AsInteger of
@@ -452,7 +452,7 @@ begin
     RLBairroRP.Caption := FSTEPrincipal.PedWrkBairro.AsString;
     RLReferRP.Caption := FSTEPrincipal.PedWrkRefer.AsString;
     //RLFone.Caption := 'Fone: ' + EditaFone('',FSTEPrincipal.PedWrkFone.AsString,True);
-    RLFoneClieRP.Caption := ' ' + EditaFone('',FSTEPrincipal.PedWrkFone.AsString,True);
+    RLFoneClieRP.Caption := ' ' + EditaFone('',FSTEPrincipal.PedWrkFone.AsString);
     RLImgFoneClieRP.Left := RLFoneClieRP.Left - RLImgFoneClieRP.Width;
     RLEntregaRP.Visible := FSTEPrincipal.lMdEntrega;
     case FSTEPrincipal.PedWrkEntrega.AsInteger of
@@ -568,7 +568,7 @@ begin
     RLEnderInt.Caption := FSTEPrincipal.PedWrkEndereco.AsString;
     RLBairroInt.Caption := FSTEPrincipal.PedWrkBairro.AsString;
     RLReferInt.Caption := FSTEPrincipal.PedWrkRefer.AsString;
-    RLFoneInt.Caption := EditaFone('',FSTEPrincipal.PedWrkFone.AsString,True);
+    RLFoneInt.Caption := EditaFone('',FSTEPrincipal.PedWrkFone.AsString);
     //RLEntregaInt.Visible := FSTEPrincipal.lMdEntrega;  Sempre visível
     case FSTEPrincipal.PedWrkEntrega.AsInteger of
       0:RLEntregaInt.Caption := 'Tele-entrega';
@@ -662,7 +662,7 @@ begin
     RLEnderIntRP.Caption := FSTEPrincipal.PedWrkEndereco.AsString;
     RLBairroIntRP.Caption := FSTEPrincipal.PedWrkBairro.AsString;
     RLReferIntRP.Caption := FSTEPrincipal.PedWrkRefer.AsString;
-    RLFoneIntRP.Caption := EditaFone('',FSTEPrincipal.PedWrkFone.AsString,True);
+    RLFoneIntRP.Caption := EditaFone('',FSTEPrincipal.PedWrkFone.AsString);
     case FSTEPrincipal.PedWrkEntrega.AsInteger of
       0:RLEntregaIntRP.Caption := 'Tele-entrega';
       1:RLEntregaIntRP.Caption := 'Retira';

@@ -39,7 +39,6 @@ object FSTELctoPedido: TFSTELctoPedido
       Alignment = taRightJustify
       ParentColor = True
       TabOrder = 0
-      ExplicitLeft = 892
       object Label18: TLabel
         Left = 1
         Top = 1
@@ -402,8 +401,6 @@ object FSTELctoPedido: TFSTELctoPedido
         Align = alTop
         ParentColor = True
         TabOrder = 0
-        ExplicitLeft = 5
-        ExplicitTop = 25
         object Label7: TLabel
           Left = 61
           Top = 40
@@ -926,6 +923,7 @@ object FSTELctoPedido: TFSTELctoPedido
         Font.Style = []
         ParentFont = False
         TabOrder = 4
+        OnExit = dbProxExit
         OnKeyDown = dbProxKeyDown
         OnKeyPress = dbProxKeyPress
       end
