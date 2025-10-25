@@ -125,6 +125,7 @@ type
     Label41: TLabel;
     edImgNormal: TEdit;
     cbSolCPF: TCheckBox;
+    rgFinPed: TRadioGroup;
     procedure btSalvarClick(Sender: TObject);
     procedure btCancelarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -189,6 +190,7 @@ begin
     edChave.Text     := wIniFile.ReadString ('Config', 'ChaveUsuario',    'Aa');
     cbDias.Text      := wIniFile.ReadString ('Config', 'CheckDias',       '15');
     cbDesenv.Checked := wIniFile.ReadBool   ('Config', 'Desenv',          False);
+    rgFinPed.ItemIndex := wIniFile.ReadInteger('Config', 'FinalPedido',   1);
     //
     edPrinter.Text   := wIniFile.ReadString('Pedidos', 'Impressora',      'Elgin');
     edTamMax.Text    := wIniFile.ReadString('Pedidos', 'TamanhoMax',      '300');
@@ -251,6 +253,7 @@ begin
     wIniFile.WriteString ('Config', 'ImgCancelado',   edImgCancel.Text);
     wIniFile.WriteString ('Config', 'ImgNormal',      edImgNormal.Text);
     wIniFile.WriteBool   ('Config', 'Desenv',         cbDesenv.Checked);
+    wIniFile.WriteInteger('Config', 'FinalPedido',    rgFinPed.ItemIndex);
     wIniFile.WriteInteger('Config', 'PixelHorizontal',StrToIntDef(cbPixel.Text,4));
     wIniFile.WriteBool   ('Config', 'PrimeiroItem',   cbPrItem.Checked);
     wIniFile.WriteInteger('Config', 'MeioPagtoPadrao',cbPgto.ItemIndex);
@@ -344,6 +347,7 @@ begin
     lValEntrega   := wIniFile.ReadBool   ('Config', 'ValidaEntrega',  False);
     if not lMdEntrega then
       lValEntrega := False;
+    finalPedido   := wIniFile.ReadInteger('Config', 'FinalPedido',    1);
 
     idPrinter     := wIniFile.ReadString ('Pedidos', 'Impressora',     'Elgin');
     tmMax         := wIniFile.ReadInteger('Pedidos', 'TamanhoMax',     300);

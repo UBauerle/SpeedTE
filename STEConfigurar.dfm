@@ -319,6 +319,7 @@ object FSTEConfigurar: TFSTEConfigurar
         Font.Style = []
         ParentFont = False
         TabOrder = 0
+        ExplicitTop = -2
         object Label14: TLabel
           Left = 79
           Top = 49
@@ -706,7 +707,7 @@ object FSTEConfigurar: TFSTEConfigurar
           Width = 129
           Height = 127
           Caption = 'Controle'
-          TabOrder = 19
+          TabOrder = 20
           OnMouseDown = gbCtleMouseDown
           object Label10: TLabel
             Left = 16
@@ -876,6 +877,17 @@ object FSTEConfigurar: TFSTEConfigurar
           ParentFont = False
           TabOrder = 18
         end
+        object rgFinPed: TRadioGroup
+          Left = 615
+          Top = 16
+          Width = 206
+          Height = 80
+          Caption = 'Ao finalizar pedido'
+          Items.Strings = (
+            'Retorna para tela inicial'
+            'Abre novo pedido')
+          TabOrder = 19
+        end
       end
     end
     object TSPedido: TTabSheet
@@ -894,6 +906,7 @@ object FSTEConfigurar: TFSTEConfigurar
         Font.Style = []
         ParentFont = False
         TabOrder = 0
+        ExplicitTop = -2
         object Label19: TLabel
           Left = 106
           Top = 16

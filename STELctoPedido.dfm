@@ -230,8 +230,8 @@ object FSTELctoPedido: TFSTELctoPedido
         OnClick = btFinalizaClick
       end
       object btCancela: TBitBtn
-        Left = 112
-        Top = 462
+        Left = 111
+        Top = 461
         Width = 157
         Height = 43
         BiDiMode = bdLeftToRight

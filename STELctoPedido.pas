@@ -159,6 +159,7 @@ var
   nroPed,qtdLctos: Integer;
   xFone: String;
   lCadastrado: Boolean;
+  lForcaFechamento: Boolean;
 
 implementation
 
@@ -312,8 +313,20 @@ end;
 
 procedure TFSTELctoPedido.btCancelaClick(Sender: TObject);
 begin
+  lLancando := False;
   FSTEPrincipal.LctWrk.Active := False;
   FSTEPrincipal.PedWrk.Active := False;
+  if lForcaFechamento then
+  begin
+    Close;
+    Exit;
+  end;
+  if FSTEPrincipal.finalPedido = 1 then
+  begin
+    fTime := True;
+    FSTELctoPedido.FormActivate(nil);
+    Exit;
+  end;
   Close;
 
 end;
@@ -457,6 +470,13 @@ begin
   SalvaDados(4,False);
   FSTEPrincipal.LctWrk.Active := False;
   FSTEPrincipal.PedWrk.Active := False;
+  //
+  if FSTEPrincipal.finalPedido = 1 then
+  begin
+    fTime := True;
+    FSTELctoPedido.FormActivate(nil);
+    Exit;
+  end;
   Close;
 
 end;
@@ -570,6 +590,7 @@ procedure TFSTELctoPedido.dbFoneEnter(Sender: TObject);
 begin
   imgAponta.Visible := True;
   LabFone.Font.Style := [fsBold];
+  lForcaFechamento := False;
 
 end;
 
@@ -580,6 +601,7 @@ begin
   lCadastrado := False;
   if dbFone.Text = '' then
   begin
+    lForcaFechamento := True;
     btCancelaClick(nil);
     Exit;
   end;

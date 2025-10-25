@@ -326,12 +326,12 @@ object FSTEPrincipal: TFSTEPrincipal
       TabOrder = 2
       OnClick = btClientesClick
     end
-    object btAbrirPedido: TBitBtn
+    object btPedidos: TBitBtn
       Left = 12
       Top = 6
       Width = 157
       Height = 43
-      Caption = 'Novo &pedido'
+      Caption = '&Pedidos'
       Default = True
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
@@ -433,7 +433,7 @@ object FSTEPrincipal: TFSTEPrincipal
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
       TabOrder = 0
-      OnClick = btAbrirPedidoClick
+      OnClick = btPedidosClick
     end
     object btConsultar: TBitBtn
       Left = 296

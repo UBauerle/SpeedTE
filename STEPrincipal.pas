@@ -29,7 +29,7 @@ type
     btClientes: TBitBtn;
     gbCargaSalva: TGroupBox;
     Gauge1: TGauge;
-    btAbrirPedido: TBitBtn;
+    btPedidos: TBitBtn;
     Clientes: TClientDataSet;
     ClientesSeq: TIntegerField;
     ClientesChave: TStringField;
@@ -133,7 +133,7 @@ type
     procedure btProdutosClick(Sender: TObject);
     procedure btClientesClick(Sender: TObject);
     procedure rgTurnoExit(Sender: TObject);
-    procedure btAbrirPedidoClick(Sender: TObject);
+    procedure btPedidosClick(Sender: TObject);
     procedure ProdutosBeforePost(DataSet: TDataSet);
     procedure FormCreate(Sender: TObject);
     procedure LabAbortClick(Sender: TObject);
@@ -163,7 +163,7 @@ type
     idPrinter: String;
     tmMax,margEsq,margDir,margTop,margBot,copias,copInterno,tempEspera: Integer;
     mdDtHr: Integer;
-    loPedido,loInterno: Integer;
+    loPedido,loInterno,finalPedido: Integer;
     linPedFixa,linIntFixa,lValorUnit: Boolean;
     lPreview,lDialog,lPrevCons,lImpInterno,lLctSemValor,lExCarga,lImpTurno,lSolCPF: Boolean;
     pixelHor,altExtra: Integer;
@@ -1110,7 +1110,7 @@ begin
 
 end;
 
-procedure TFSTEPrincipal.btAbrirPedidoClick(Sender: TObject);
+procedure TFSTEPrincipal.btPedidosClick(Sender: TObject);
 begin
   FSTEPrincipal.Hide;
   if not LctWrk.Active then
@@ -1198,7 +1198,7 @@ begin
   if not fTime then
     Exit;
   fTime := False;
-  btAbrirPedido.Enabled := False;
+  btPedidos.Enabled := False;
   btConsultar.Enabled := False;
   btProdutos.Enabled := False;
   btClientes.Enabled := False;
@@ -1237,11 +1237,15 @@ begin
     btProdutos.Caption := 'Produtos' + #13 + '(..)';
     btClientes.Caption := 'Clientes' + #13 + '(..)';
   end;
-  btAbrirPedido.Enabled := lSysValido;
+  btPedidos.Enabled := lSysValido;
   btConsultar.Enabled := lSysValido;
   btProdutos.Enabled := lSysValido;
   btClientes.Enabled := lSysValido;
   btFinalizar.Enabled := True;
+  if lSysValido then
+    btPedidos.SetFocus
+  else
+    btFinalizar.SetFocus;
 
 end;
 
