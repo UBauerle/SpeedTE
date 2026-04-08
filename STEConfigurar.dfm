@@ -2,7 +2,7 @@ object FSTEConfigurar: TFSTEConfigurar
   Left = 0
   Top = 0
   Caption = 'Configura'#231#227'o do sistema'
-  ClientHeight = 413
+  ClientHeight = 473
   ClientWidth = 873
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -18,7 +18,7 @@ object FSTEConfigurar: TFSTEConfigurar
     Left = 0
     Top = 0
     Width = 873
-    Height = 357
+    Height = 417
     ActivePage = TSConfiguracao
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
@@ -28,6 +28,7 @@ object FSTEConfigurar: TFSTEConfigurar
     Font.Style = [fsBold]
     ParentFont = False
     TabOrder = 0
+    ExplicitHeight = 357
     object TSUsuario: TTabSheet
       Caption = 'Usu'#225'rio'
       Font.Charset = DEFAULT_CHARSET
@@ -40,7 +41,7 @@ object FSTEConfigurar: TFSTEConfigurar
         Left = 0
         Top = 0
         Width = 865
-        Height = 322
+        Height = 382
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -49,6 +50,7 @@ object FSTEConfigurar: TFSTEConfigurar
         Font.Style = []
         ParentFont = False
         TabOrder = 0
+        ExplicitHeight = 322
         object Label1: TLabel
           Left = 24
           Top = 20
@@ -310,7 +312,7 @@ object FSTEConfigurar: TFSTEConfigurar
         Left = 0
         Top = 0
         Width = 865
-        Height = 322
+        Height = 382
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -319,7 +321,7 @@ object FSTEConfigurar: TFSTEConfigurar
         Font.Style = []
         ParentFont = False
         TabOrder = 0
-        ExplicitTop = -2
+        ExplicitHeight = 322
         object Label14: TLabel
           Left = 79
           Top = 49
@@ -369,8 +371,8 @@ object FSTEConfigurar: TFSTEConfigurar
           ParentFont = False
         end
         object Label17: TLabel
-          Left = 396
-          Top = 169
+          Left = 376
+          Top = 168
           Width = 86
           Height = 16
           Alignment = taRightJustify
@@ -385,8 +387,8 @@ object FSTEConfigurar: TFSTEConfigurar
           ParentFont = False
         end
         object Label16: TLabel
-          Left = 222
-          Top = 169
+          Left = 218
+          Top = 168
           Width = 92
           Height = 16
           Alignment = taRightJustify
@@ -401,7 +403,7 @@ object FSTEConfigurar: TFSTEConfigurar
           ParentFont = False
         end
         object Label13: TLabel
-          Left = 84
+          Left = 80
           Top = 168
           Width = 66
           Height = 16
@@ -569,7 +571,7 @@ object FSTEConfigurar: TFSTEConfigurar
           TabOrder = 9
         end
         object cbPgto: TComboBox
-          Left = 484
+          Left = 464
           Top = 165
           Width = 125
           Height = 24
@@ -589,7 +591,7 @@ object FSTEConfigurar: TFSTEConfigurar
             'Outro (99)')
         end
         object cbPixel: TComboBox
-          Left = 316
+          Left = 312
           Top = 165
           Width = 47
           Height = 24
@@ -702,16 +704,16 @@ object FSTEConfigurar: TFSTEConfigurar
           TabOrder = 13
         end
         object gbCtle: TGroupBox
-          Left = 692
-          Top = 165
-          Width = 129
-          Height = 127
+          Left = 12
+          Top = 318
+          Width = 501
+          Height = 47
           Caption = 'Controle'
-          TabOrder = 20
+          TabOrder = 21
           OnMouseDown = gbCtleMouseDown
           object Label10: TLabel
             Left = 16
-            Top = 32
+            Top = 24
             Width = 42
             Height = 16
             Caption = 'Chave:'
@@ -725,8 +727,8 @@ object FSTEConfigurar: TFSTEConfigurar
             ParentFont = False
           end
           object Label11: TLabel
-            Left = 27
-            Top = 62
+            Left = 103
+            Top = 24
             Width = 31
             Height = 16
             Caption = 'Dias:'
@@ -741,7 +743,7 @@ object FSTEConfigurar: TFSTEConfigurar
           end
           object edChave: TEdit
             Left = 60
-            Top = 28
+            Top = 20
             Width = 33
             Height = 24
             Font.Charset = DEFAULT_CHARSET
@@ -754,8 +756,8 @@ object FSTEConfigurar: TFSTEConfigurar
             Text = 'edChave'
           end
           object cbDias: TComboBox
-            Left = 60
-            Top = 58
+            Left = 136
+            Top = 20
             Width = 48
             Height = 24
             Font.Charset = DEFAULT_CHARSET
@@ -771,8 +773,8 @@ object FSTEConfigurar: TFSTEConfigurar
               '30')
           end
           object cbDesenv: TCheckBox
-            Left = 35
-            Top = 96
+            Left = 200
+            Top = 23
             Width = 77
             Height = 17
             Caption = 'Desenv'
@@ -878,15 +880,40 @@ object FSTEConfigurar: TFSTEConfigurar
           TabOrder = 18
         end
         object rgFinPed: TRadioGroup
-          Left = 615
+          Left = 604
           Top = 16
-          Width = 206
-          Height = 80
+          Width = 249
+          Height = 72
           Caption = 'Ao finalizar pedido'
           Items.Strings = (
             'Retorna para tela inicial'
             'Abre novo pedido')
           TabOrder = 19
+        end
+        object rgExProd: TRadioGroup
+          Left = 604
+          Top = 94
+          Width = 249
+          Height = 115
+          Caption = 'Expandir produtos quando'
+          Items.Strings = (
+            'Acessar o campo (onEnter)'
+            'Uma tecla '#233' pressionada (onKeyDown)'
+            'Click de mouse (onClick)'
+            'N'#227'o utilizado')
+          TabOrder = 20
+        end
+        object rgAtlzCliente: TRadioGroup
+          Left = 604
+          Top = 215
+          Width = 249
+          Height = 97
+          Caption = 'Atualizar cliente com dados do pedido'
+          Items.Strings = (
+            'Nunca atualizar'
+            'Sempre que houver diferen'#231'as'
+            'Questionar qdo houver diferen'#231'as')
+          TabOrder = 22
         end
       end
     end
@@ -897,7 +924,7 @@ object FSTEConfigurar: TFSTEConfigurar
         Left = 0
         Top = 0
         Width = 865
-        Height = 322
+        Height = 382
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -906,7 +933,7 @@ object FSTEConfigurar: TFSTEConfigurar
         Font.Style = []
         ParentFont = False
         TabOrder = 0
-        ExplicitTop = -2
+        ExplicitHeight = 322
         object Label19: TLabel
           Left = 106
           Top = 16
@@ -1224,7 +1251,7 @@ object FSTEConfigurar: TFSTEConfigurar
         Left = 0
         Top = 0
         Width = 865
-        Height = 322
+        Height = 382
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -1233,6 +1260,7 @@ object FSTEConfigurar: TFSTEConfigurar
         Font.Style = []
         ParentFont = False
         TabOrder = 0
+        ExplicitHeight = 322
         object Label30: TLabel
           Left = 99
           Top = 24
@@ -1333,11 +1361,12 @@ object FSTEConfigurar: TFSTEConfigurar
   end
   object Panel1: TPanel
     Left = 0
-    Top = 357
+    Top = 417
     Width = 873
     Height = 56
     Align = alBottom
     TabOrder = 1
+    ExplicitTop = 357
     object btSalvar: TBitBtn
       Left = 192
       Top = 6

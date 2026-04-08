@@ -163,7 +163,7 @@ type
     idPrinter: String;
     tmMax,margEsq,margDir,margTop,margBot,copias,copInterno,tempEspera: Integer;
     mdDtHr: Integer;
-    loPedido,loInterno,finalPedido: Integer;
+    loPedido,loInterno,finalPedido,expanProds,atlzClientes: Integer;
     linPedFixa,linIntFixa,lValorUnit: Boolean;
     lPreview,lDialog,lPrevCons,lImpInterno,lLctSemValor,lExCarga,lImpTurno,lSolCPF: Boolean;
     pixelHor,altExtra: Integer;
@@ -1023,6 +1023,7 @@ Procedure AtualizaCliente(pmtCadastrado:Boolean);
 var xLinha: String;
     txtClientes: TextFile;
     naL: Integer;
+    lDifDados: Boolean;
 begin
   with FSTEPrincipal do
   begin
@@ -1062,16 +1063,36 @@ begin
       Except
         Exit;
       End;
-    if ClientesNome.AsString <> PedWrkNome.AsString then
-      ClientesNome.AsString := PedWrkNome.AsString;
-    if ClientesEndereco.AsString <> PedWrkEndereco.AsString then
-      ClientesEndereco.AsString := PedWrkEndereco.AsString;
-    if ClientesBairro.AsString <> PedWrkBairro.AsString then
-      ClientesBairro.AsString := PedWrkBairro.AsString;
-    if ClientesRefer.AsString <> PedWrkRefer.AsString then
-      ClientesRefer.AsString := PedWrkRefer.AsString;
-    if ClientesCPF_CNPJ.AsString <> PedWrkCPF_CNPJ.AsString then
-      ClientesCPF_CNPJ.AsString := PedWrkCPF_CNPJ.AsString;
+    //
+    lDifDados := False;
+    if (ClientesNome.AsString <> PedWrkNome.AsString) or
+       (ClientesEndereco.AsString <> PedWrkEndereco.AsString) or
+       (ClientesBairro.AsString <> PedWrkBairro.AsString) or
+       (ClientesRefer.AsString <> PedWrkRefer.AsString) or
+       (ClientesCPF_CNPJ.AsString <> PedWrkCPF_CNPJ.AsString) then
+    begin
+      case FSTEPrincipal.atlzClientes of
+        0:lDifDados := False;            // Nunca atualiza pelo pedido
+        1:lDifDados := True;             // Sempre atualiza pelo pedido
+        2:if MessageDlg('Atualizar os dados do cliente ?',mtConfirmation,
+                        [mbYes,mbNo],0,mbNo,['Sim','Não']) = mrYes then
+            lDifDados := True;
+      end;
+    end;
+
+    if lDifDados then
+    begin
+      if ClientesNome.AsString <> PedWrkNome.AsString then
+        ClientesNome.AsString := PedWrkNome.AsString;
+      if ClientesEndereco.AsString <> PedWrkEndereco.AsString then
+        ClientesEndereco.AsString := PedWrkEndereco.AsString;
+      if ClientesBairro.AsString <> PedWrkBairro.AsString then
+        ClientesBairro.AsString := PedWrkBairro.AsString;
+      if ClientesRefer.AsString <> PedWrkRefer.AsString then
+        ClientesRefer.AsString := PedWrkRefer.AsString;
+      if ClientesCPF_CNPJ.AsString <> PedWrkCPF_CNPJ.AsString then
+        ClientesCPF_CNPJ.AsString := PedWrkCPF_CNPJ.AsString;
+    end;
     ClientesDtCompra.AsDateTime := DateOf(Date);
     Clientes.Post;
     //

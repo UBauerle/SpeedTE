@@ -146,6 +146,8 @@ type
     procedure dbFoneEnter(Sender: TObject);
     procedure btDdClienteClick(Sender: TObject);
     procedure dbProxExit(Sender: TObject);
+    procedure dbProdComboEnter(Sender: TObject);
+    procedure dbProdComboClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -761,6 +763,20 @@ begin
 
 end;
 
+procedure TFSTELctoPedido.dbProdComboClick(Sender: TObject);
+begin
+  if FSTEPrincipal.expanProds = 2 then
+    SendMessage(dbProdCombo.Handle, CB_SHOWDROPDOWN, 1, 0);
+
+end;
+
+procedure TFSTELctoPedido.dbProdComboEnter(Sender: TObject);
+begin
+  if FSTEPrincipal.expanProds = 0 then
+    SendMessage(dbProdCombo.Handle, CB_SHOWDROPDOWN, 1, 0);
+
+end;
+
 procedure TFSTELctoPedido.dbProdComboExit(Sender: TObject);
 var xKey: String;
 begin
@@ -791,11 +807,15 @@ begin
 
 end;
 
-procedure TFSTELctoPedido.dbProdComboKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
+procedure TFSTELctoPedido.dbProdComboKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if Key = Vk_Return then
-     SelectNext((Sender as TwinControl),True,True);
+  begin
+    SelectNext((Sender as TwinControl),True,True);
+    Exit;
+  end;
+  if FSTEPrincipal.expanProds = 1 then
+    SendMessage(dbProdCombo.Handle, CB_SHOWDROPDOWN, 1, 0);
 
 end;
 

@@ -126,6 +126,8 @@ type
     edImgNormal: TEdit;
     cbSolCPF: TCheckBox;
     rgFinPed: TRadioGroup;
+    rgExProd: TRadioGroup;
+    rgAtlzCliente: TRadioGroup;
     procedure btSalvarClick(Sender: TObject);
     procedure btCancelarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -191,6 +193,8 @@ begin
     cbDias.Text      := wIniFile.ReadString ('Config', 'CheckDias',       '15');
     cbDesenv.Checked := wIniFile.ReadBool   ('Config', 'Desenv',          False);
     rgFinPed.ItemIndex := wIniFile.ReadInteger('Config', 'FinalPedido',   1);
+    rgExProd.ItemIndex := wIniFile.ReadInteger('Config', 'ExpanProd',     0);
+    rgAtlzCliente.ItemIndex := wIniFile.ReadInteger('Config','AtlzCliente', 2);
     //
     edPrinter.Text   := wIniFile.ReadString('Pedidos', 'Impressora',      'Elgin');
     edTamMax.Text    := wIniFile.ReadString('Pedidos', 'TamanhoMax',      '300');
@@ -254,6 +258,8 @@ begin
     wIniFile.WriteString ('Config', 'ImgNormal',      edImgNormal.Text);
     wIniFile.WriteBool   ('Config', 'Desenv',         cbDesenv.Checked);
     wIniFile.WriteInteger('Config', 'FinalPedido',    rgFinPed.ItemIndex);
+    wIniFile.WriteInteger('Config', 'ExpanProd',      rgExProd.ItemIndex);
+    wIniFile.WriteInteger('Config', 'AtlzCliente',    rgAtlzCliente.ItemIndex);
     wIniFile.WriteInteger('Config', 'PixelHorizontal',StrToIntDef(cbPixel.Text,4));
     wIniFile.WriteBool   ('Config', 'PrimeiroItem',   cbPrItem.Checked);
     wIniFile.WriteInteger('Config', 'MeioPagtoPadrao',cbPgto.ItemIndex);
@@ -348,6 +354,8 @@ begin
     if not lMdEntrega then
       lValEntrega := False;
     finalPedido   := wIniFile.ReadInteger('Config', 'FinalPedido',    1);
+    expanProds    := wIniFile.ReadInteger('Config', 'ExpanProd',      0);      // 0-OnEnter 1-OnKeyDown  2-OnClick
+    atlzClientes  := wIniFile.ReadInteger('Config', 'AtlzClientes',   2);      // 0-Nunca  1-Qdo há diferenças  2-Questiona
 
     idPrinter     := wIniFile.ReadString ('Pedidos', 'Impressora',     'Elgin');
     tmMax         := wIniFile.ReadInteger('Pedidos', 'TamanhoMax',     300);

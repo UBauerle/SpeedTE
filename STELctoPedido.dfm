@@ -652,6 +652,7 @@ object FSTELctoPedido: TFSTELctoPedido
       Align = alLeft
       ParentColor = True
       TabOrder = 3
+      ExplicitTop = 0
       DesignSize = (
         330
         519)
@@ -1131,6 +1132,8 @@ object FSTELctoPedido: TFSTELctoPedido
           Font.Style = []
           ParentFont = False
           TabOrder = 0
+          OnClick = dbProdComboClick
+          OnEnter = dbProdComboEnter
           OnExit = dbProdComboExit
           OnKeyDown = dbProdComboKeyDown
           OnKeyPress = dbProdComboKeyPress
