@@ -1,0 +1,17 @@
+- Qtd vias impressão pedido....	Ok
+- Reimpressão pedido ..........	Ok
+- Alterar lançamentos .........	Ok
+- Pesq. por nome
+- Pesq. por endereço
+
+- Fechamento p/ turno .........	Ok
+- Fechamento de vários turnos
+
+- Segurança/Validade........... Ok
+  ChaveUsuario=Ef
+  1a.Letra (conversão para MAIÚSCULA)... A..Z (2020 + nr. da letra no alfabeto, 1 a 26)
+  2a.Letra (conversão para Minúscula)... a..l (nr. da letra no alfabeto, 1 a 12) 
+  Validade:  AA=2020+Letra  MM=letra  (Ultimo dia da data formada por AA,MM)
+
+
+ 
